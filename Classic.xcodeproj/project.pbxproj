@@ -13,6 +13,8 @@
 		657A8D3D2506AE4B006B2BD0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 657A8D3B2506AE4B006B2BD0 /* Main.storyboard */; };
 		657A8D3F2506AE4E006B2BD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 657A8D3E2506AE4E006B2BD0 /* Assets.xcassets */; };
 		657A8D422506AE4E006B2BD0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 657A8D402506AE4E006B2BD0 /* LaunchScreen.storyboard */; };
+		657A8D4C2506B0C0006B2BD0 /* SwiftLibModbus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A8D4B2506B0C0006B2BD0 /* SwiftLibModbus.swift */; };
+		657A8D502506B160006B2BD0 /* libmodbus in Resources */ = {isa = PBXBuildFile; fileRef = 657A8D4F2506B160006B2BD0 /* libmodbus */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,9 @@
 		657A8D3E2506AE4E006B2BD0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		657A8D412506AE4E006B2BD0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		657A8D432506AE4E006B2BD0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		657A8D4B2506B0C0006B2BD0 /* SwiftLibModbus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftLibModbus.swift; sourceTree = "<group>"; };
+		657A8D4E2506B13F006B2BD0 /* SwiftLibModbus-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftLibModbus-Bridging-Header.h"; sourceTree = "<group>"; };
+		657A8D4F2506B160006B2BD0 /* libmodbus */ = {isa = PBXFileReference; lastKnownFileType = folder; path = libmodbus; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +61,9 @@
 		657A8D342506AE4B006B2BD0 /* Classic */ = {
 			isa = PBXGroup;
 			children = (
+				657A8D4F2506B160006B2BD0 /* libmodbus */,
+				657A8D4B2506B0C0006B2BD0 /* SwiftLibModbus.swift */,
+				657A8D4E2506B13F006B2BD0 /* SwiftLibModbus-Bridging-Header.h */,
 				657A8D352506AE4B006B2BD0 /* AppDelegate.swift */,
 				657A8D372506AE4B006B2BD0 /* SceneDelegate.swift */,
 				657A8D392506AE4B006B2BD0 /* ViewController.swift */,
@@ -127,6 +135,7 @@
 			files = (
 				657A8D422506AE4E006B2BD0 /* LaunchScreen.storyboard in Resources */,
 				657A8D3F2506AE4E006B2BD0 /* Assets.xcassets in Resources */,
+				657A8D502506B160006B2BD0 /* libmodbus in Resources */,
 				657A8D3D2506AE4B006B2BD0 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -139,6 +148,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				657A8D3A2506AE4B006B2BD0 /* ViewController.swift in Sources */,
+				657A8D4C2506B0C0006B2BD0 /* SwiftLibModbus.swift in Sources */,
 				657A8D362506AE4B006B2BD0 /* AppDelegate.swift in Sources */,
 				657A8D382506AE4B006B2BD0 /* SceneDelegate.swift in Sources */,
 			);
