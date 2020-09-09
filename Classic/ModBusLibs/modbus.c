@@ -167,8 +167,8 @@ static unsigned int compute_response_length_from_request(modbus_t *ctx, uint8_t 
 /* Sends a request/response */
 static int send_msg(modbus_t *ctx, uint8_t *msg, int msg_length)
 {
-    int rc;
-    int i;
+    long rc;
+    long i;
 
     msg_length = ctx->backend->send_msg_pre(msg, msg_length);
 
@@ -327,7 +327,7 @@ static int compute_data_length_after_meta(modbus_t *ctx, uint8_t *msg,
 
 int _modbus_receive_msg(modbus_t *ctx, uint8_t *msg, msg_type_t msg_type)
 {
-    int rc;
+    long rc;
     fd_set rset;
     struct timeval tv;
     struct timeval *p_tv;
