@@ -858,7 +858,7 @@ modbus_t* modbus_new_tcp_pi(const char *node, const char *service)
 {
     modbus_t *ctx;
     modbus_tcp_pi_t *ctx_tcp_pi;
-    size_t dest_size;
+    size_t dest_size = 0;
     size_t ret_size;
 
     ctx = (modbus_t *)malloc(sizeof(modbus_t));

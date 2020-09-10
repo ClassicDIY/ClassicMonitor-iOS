@@ -153,7 +153,8 @@ class SwiftLibModbus: NSObject {
     
     func writeRegister(address: Int32, value: Int32, success: @escaping () -> Void, failure: @escaping (NSError) -> Void) {
         modbusQueue?.async {
-            if modbus_write_register(self.mb!, address, value) >= 0 {
+            //MARK: se cambió el valor a Uint16 por la nuevas librerías
+            if modbus_write_register(self.mb!, address, UInt16(value)) >= 0 {
                 DispatchQueue.main.async {
                     success()
                 }

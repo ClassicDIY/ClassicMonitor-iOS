@@ -41,18 +41,25 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        configureGaugeViews()
-        getChargerConnectValues()
-        // Create a timer to update value for gauge view
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        createTimer()
+        super.viewWillAppear(animated)
+        if kDebugLog{ print("viewWillAppear") }
+        configureGaugeViews()
+        getChargerConnectValues()
+        connectToDevice()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if kDebugLog{ print("viewWillDisappear") }
+        disconnectFromDevice()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        cancelTimer()
-        swiftLibModbus.disconnect()
+        super.viewDidDisappear(animated)
+        if kDebugLog{ print("viewDidDisappear") }
     }
     
     override var preferredStatusBarStyle : UIStatusBarStyle {
@@ -90,6 +97,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     
     func createTimer() {
         // 1
+        isConnected.toggle()
         if timer == nil {
             // 2
             timer = Timer.scheduledTimer(timeInterval: 1.0,
@@ -100,7 +108,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         }
     }
     
-    func cancelTimer() {
+    func ivalidateTimer() {
         timer?.invalidate()
         timer = nil
     }
@@ -235,15 +243,32 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         return UIColor(red: 11.0/255, green: 150.0/255, blue: 246.0/255, alpha: 1)
     }
     
-    @IBAction func connect(_ sender: Any) {        
-        swiftLibModbus.connect(
-            success: { () -> Void in
-                if kDebugLog { print("Conectado") }
-        },
-            failure: { (error: NSError) -> Void in
-                //Handle error
-                if kDebugLog { print("error 1 \(error)") }
-        })
+    @IBAction func connect(_ sender: Any) {
+        connectToDevice()
+    }
+    
+    func connectToDevice() {
+        if (!isConnected) {
+            swiftLibModbus.connect(
+                success: { () -> Void in
+                    if kDebugLog { print("Conectado") }
+                    self.createTimer()
+            },
+                failure: { (error: NSError) -> Void in
+                    //Handle error
+                    self.isConnected.toggle()
+                    if kDebugLog { print("error 1 \(error)") }
+            })
+        } else {
+            if kDebugLog { print("Is already connected and getting data") }
+        }
+    }
+    
+    func disconnectFromDevice() {
+        if kDebugLog { print("Disconnect") }
+        ivalidateTimer()
+        self.swiftLibModbus.disconnect()
+        isConnected.toggle()
     }
     
     //MARK: From ModbusTask.java del app de Android
@@ -322,6 +347,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         },
                                          failure:  { (error: NSError) -> Void in
                                             //Handle error
+                                            self.isConnected.toggle()
                                             print("error 2.1 \(error)")
         })
     }
@@ -341,13 +367,13 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         },
                                          failure:  { (error: NSError) -> Void in
                                             //Handle error
+                                            self.isConnected.toggle()
                                             if kDebugLog { print("Error Getting Network Data \(error)") }
         })
     }
     
     @IBAction func disconnects(_ sender: Any) {
-        if kDebugLog { print("Disconnect") }
-        self.swiftLibModbus.disconnect()
+        disconnectFromDevice()
     }
 }
 
