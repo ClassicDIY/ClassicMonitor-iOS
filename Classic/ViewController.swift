@@ -5,6 +5,8 @@
 //  Created by Urayoan Miranda on 9/7/20.
 //  Copyright © 2020 Urayoan Miranda. All rights reserved.
 //
+//MARK: Timer example
+//https://www.raywenderlich.com/113835-ios-timer-tutorial
 
 import UIKit
 
@@ -26,19 +28,32 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     
     var isConnected: Bool = false
     var timeDelta: Double = 10.0/24 //MARK: For the timer to read
+    var timer: Timer?     = nil
+    var swiftLibModbus    = SwiftLibModbus(ipAddress: classicURL, port: classicPort, device: 1)
     
-    let swiftLibModbus = SwiftLibModbus(ipAddress: classicURL, port: classicPort, device: 1)
+    //MARK: To store and retrieve connect values
+    let defaults          = UserDefaults.standard
+    struct defaultsKeys {
+        static let keyOne = "classicURL"
+        static let keyTwo = "classicPort"
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         configureGaugeViews()
+        getChargerConnectValues()
         // Create a timer to update value for gauge view
-        Timer.scheduledTimer(timeInterval: timeDelta,
-                             target: self,
-                             selector: #selector(readValues),
-                             userInfo: nil,
-                             repeats: true)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        swiftLibModbus    = SwiftLibModbus(ipAddress: classicURL, port: classicPort, device: 1)
+        createTimer()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        cancelTimer()
+        swiftLibModbus.disconnect()
     }
     
     override var preferredStatusBarStyle : UIStatusBarStyle {
@@ -72,6 +87,44 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         gaugeInputView.setNeedsDisplay()
         
         return .lightContent
+    }
+    
+    func createTimer() {
+        // 1
+        if timer == nil {
+            // 2
+            timer = Timer.scheduledTimer(timeInterval: 1.0,
+                                         target: self,
+                                         selector: #selector(readValues),
+                                         userInfo: nil,
+                                         repeats: true)
+        }
+    }
+    
+    func cancelTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+    
+    func setChargerConnectValues() {
+        defaults.set(classicURL, forKey: defaultsKeys.keyOne)
+        defaults.set(classicPort, forKey: defaultsKeys.keyTwo)
+    }
+    
+    func getChargerConnectValues() {
+        //defaults.set(nil, forKey: defaultsKeys.keyOne)
+        //defaults.set(nil, forKey: defaultsKeys.keyTwo)
+
+        if let stringOne = defaults.string(forKey: defaultsKeys.keyOne) {
+            print("String ONE: \(stringOne)") // Some String Value
+        } else {
+            defaults.set(classicURL, forKey: defaultsKeys.keyOne)
+        }
+        if let stringTwo = defaults.string(forKey: defaultsKeys.keyTwo) {
+            print("String TWO: \(stringTwo)") // Another String Value
+        } else {
+            defaults.set(classicPort, forKey: defaultsKeys.keyTwo)
+        }
     }
     
     func configureGaugeViews() {
@@ -247,7 +300,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
                                             let dispavgVbatt = Double(truncating: array[14] as! NSNumber) / 10
                                             if kDebugLog { print("Battery Volts: \(dispavgVbatt) V") }
                                             self.gaugeBatteryVoltsView.value = dispavgVbatt
-
+                                            
                                             
                                             let dispavgVpv = Double(truncating: array[15] as! NSNumber) / 10
                                             if kDebugLog { print("Battery Volts: \(dispavgVpv) V") }

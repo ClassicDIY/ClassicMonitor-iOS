@@ -397,7 +397,7 @@ static void _modbus_tcp_close(modbus_t *ctx)
     close(ctx->s);
 }
 
-static int _modbus_tcp_flush(modbus_t *ctx)
+static long _modbus_tcp_flush(modbus_t *ctx)
 {
     long rc;
     long rc_sum = 0;

@@ -14,13 +14,13 @@
 		657A8D3A2506AE4B006B2BD0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A8D392506AE4B006B2BD0 /* ViewController.swift */; };
 		657A8D3D2506AE4B006B2BD0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 657A8D3B2506AE4B006B2BD0 /* Main.storyboard */; };
 		657A8D3F2506AE4E006B2BD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 657A8D3E2506AE4E006B2BD0 /* Assets.xcassets */; };
-		657A8D422506AE4E006B2BD0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 657A8D402506AE4E006B2BD0 /* LaunchScreen.storyboard */; };
 		657A8D552506B27E006B2BD0 /* modbus-data.c in Sources */ = {isa = PBXBuildFile; fileRef = 657A8D542506B27E006B2BD0 /* modbus-data.c */; };
 		657A8D602506B292006B2BD0 /* modbus.c in Sources */ = {isa = PBXBuildFile; fileRef = 657A8D592506B292006B2BD0 /* modbus.c */; };
 		657A8D612506B292006B2BD0 /* modbus-tcp.c in Sources */ = {isa = PBXBuildFile; fileRef = 657A8D5D2506B292006B2BD0 /* modbus-tcp.c */; };
 		657A8D622506B292006B2BD0 /* modbus-rtu.c in Sources */ = {isa = PBXBuildFile; fileRef = 657A8D5E2506B292006B2BD0 /* modbus-rtu.c */; };
 		657A8D642506B2B0006B2BD0 /* SwiftLibModbus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A8D632506B2B0006B2BD0 /* SwiftLibModbus.swift */; };
 		658199592509166C00BAB8C7 /* ClassicMonitor-Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658199582509166C00BAB8C7 /* ClassicMonitor-Settings.swift */; };
+		65B44D412509ACEE0079A3C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65B44D402509ACEE0079A3C8 /* LaunchScreen.storyboard */; };
 		A4F78B4298D572731A394381 /* Pods_Classic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA99D76AF696B0065EA3DE99 /* Pods_Classic.framework */; };
 /* End PBXBuildFile section */
 
@@ -35,7 +35,6 @@
 		657A8D392506AE4B006B2BD0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		657A8D3C2506AE4B006B2BD0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		657A8D3E2506AE4E006B2BD0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		657A8D412506AE4E006B2BD0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		657A8D432506AE4E006B2BD0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		657A8D522506B271006B2BD0 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		657A8D532506B27D006B2BD0 /* Classic-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Classic-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -52,6 +51,7 @@
 		657A8D5F2506B292006B2BD0 /* modbus-version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-version.h"; sourceTree = "<group>"; };
 		657A8D632506B2B0006B2BD0 /* SwiftLibModbus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftLibModbus.swift; sourceTree = "<group>"; };
 		658199582509166C00BAB8C7 /* ClassicMonitor-Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClassicMonitor-Settings.swift"; sourceTree = "<group>"; };
+		65B44D402509ACEE0079A3C8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DA99D76AF696B0065EA3DE99 /* Pods_Classic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Classic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF6CFEDBAC207EAB6F59AD3B /* Pods-Classic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Classic.release.xcconfig"; path = "Target Support Files/Pods-Classic/Pods-Classic.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -116,7 +116,7 @@
 				657A8D392506AE4B006B2BD0 /* ViewController.swift */,
 				657A8D3B2506AE4B006B2BD0 /* Main.storyboard */,
 				657A8D3E2506AE4E006B2BD0 /* Assets.xcassets */,
-				657A8D402506AE4E006B2BD0 /* LaunchScreen.storyboard */,
+				65B44D402509ACEE0079A3C8 /* LaunchScreen.storyboard */,
 				657A8D432506AE4E006B2BD0 /* Info.plist */,
 				658199582509166C00BAB8C7 /* ClassicMonitor-Settings.swift */,
 			);
@@ -211,7 +211,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				657A8D422506AE4E006B2BD0 /* LaunchScreen.storyboard in Resources */,
+				65B44D412509ACEE0079A3C8 /* LaunchScreen.storyboard in Resources */,
 				657A8D3F2506AE4E006B2BD0 /* Assets.xcassets in Resources */,
 				657A8D3D2506AE4B006B2BD0 /* Main.storyboard in Resources */,
 			);
@@ -272,14 +272,6 @@
 				657A8D3C2506AE4B006B2BD0 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		657A8D402506AE4E006B2BD0 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				657A8D412506AE4E006B2BD0 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
