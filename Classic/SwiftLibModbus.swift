@@ -43,6 +43,7 @@ class SwiftLibModbus: NSObject {
         if ret == -1 {
             var error = error
             error = self.buildNSError(errno: errno)
+            print("Connect With Error: \(error)")
             return false
         }
         return true
@@ -51,6 +52,7 @@ class SwiftLibModbus: NSObject {
     func connect(success: @escaping () -> Void, failure: @escaping (NSError) -> Void) {
         modbusQueue?.async {
             let ret = modbus_connect(self.mb!)
+            print("ERROR RET: \(ret)")
             if ret == -1 {
                 let error = self.buildNSError(errno: errno)
                 DispatchQueue.main.async {
@@ -58,6 +60,7 @@ class SwiftLibModbus: NSObject {
                 }
             } else {
                 DispatchQueue.main.async {
+                    print("ERROR RET2 \(ret)")
                     success()
                 }
             }

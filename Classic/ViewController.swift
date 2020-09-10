@@ -14,7 +14,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     
     @IBOutlet weak var gaugePowerView: GaugeView!
     @IBOutlet weak var gaugeEnergyView: GaugeViewFloat!
-    @IBOutlet weak var gaugeInputView: GaugeView!
+    @IBOutlet weak var gaugeInputView: GaugeViewFloat!
     @IBOutlet weak var gaugeBatteryAmpsView: GaugeViewFloat!
     @IBOutlet weak var gaugeBatteryVoltsView: GaugeViewFloat!
     
@@ -47,7 +47,6 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        swiftLibModbus    = SwiftLibModbus(ipAddress: classicURL, port: classicPort, device: 1)
         createTimer()
     }
     
@@ -236,7 +235,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         return UIColor(red: 11.0/255, green: 150.0/255, blue: 246.0/255, alpha: 1)
     }
     
-    @IBAction func connect(_ sender: Any) {
+    @IBAction func connect(_ sender: Any) {        
         swiftLibModbus.connect(
             success: { () -> Void in
                 if kDebugLog { print("Conectado") }
@@ -244,7 +243,6 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
             failure: { (error: NSError) -> Void in
                 //Handle error
                 if kDebugLog { print("error 1 \(error)") }
-                self.swiftLibModbus.disconnect()
         })
     }
     
@@ -321,13 +319,10 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
                                             
                                             let watts = Double(truncating: array[18] as! NSNumber)
                                             self.gaugePowerView.value = watts
-                                            
-                                            //self.swiftLibModbus.disconnect()
         },
                                          failure:  { (error: NSError) -> Void in
                                             //Handle error
                                             print("error 2.1 \(error)")
-                                            self.swiftLibModbus.disconnect()
         })
     }
     
@@ -347,7 +342,6 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
                                          failure:  { (error: NSError) -> Void in
                                             //Handle error
                                             if kDebugLog { print("Error Getting Network Data \(error)") }
-                                            self.swiftLibModbus.disconnect()
         })
     }
     

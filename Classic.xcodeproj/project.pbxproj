@@ -9,15 +9,16 @@
 /* Begin PBXBuildFile section */
 		650B930325088293002017BE /* GaugeViewFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650B930225088293002017BE /* GaugeViewFloat.swift */; };
 		650B9305250882B4002017BE /* GaugeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650B9304250882B4002017BE /* GaugeView.swift */; };
+		655CC3A8250A5A9200A0D6D0 /* modbus-tcp.c in Sources */ = {isa = PBXBuildFile; fileRef = 655CC39F250A5A9200A0D6D0 /* modbus-tcp.c */; };
+		655CC3A9250A5A9200A0D6D0 /* modbus-version.h.in in Resources */ = {isa = PBXBuildFile; fileRef = 655CC3A1250A5A9200A0D6D0 /* modbus-version.h.in */; };
+		655CC3AA250A5A9200A0D6D0 /* modbus-rtu.c in Sources */ = {isa = PBXBuildFile; fileRef = 655CC3A4250A5A9200A0D6D0 /* modbus-rtu.c */; };
+		655CC3AB250A5A9200A0D6D0 /* modbus-data.c in Sources */ = {isa = PBXBuildFile; fileRef = 655CC3A6250A5A9200A0D6D0 /* modbus-data.c */; };
+		655CC3AC250A5A9200A0D6D0 /* modbus.c in Sources */ = {isa = PBXBuildFile; fileRef = 655CC3A7250A5A9200A0D6D0 /* modbus.c */; };
 		657A8D362506AE4B006B2BD0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A8D352506AE4B006B2BD0 /* AppDelegate.swift */; };
 		657A8D382506AE4B006B2BD0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A8D372506AE4B006B2BD0 /* SceneDelegate.swift */; };
 		657A8D3A2506AE4B006B2BD0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A8D392506AE4B006B2BD0 /* ViewController.swift */; };
 		657A8D3D2506AE4B006B2BD0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 657A8D3B2506AE4B006B2BD0 /* Main.storyboard */; };
 		657A8D3F2506AE4E006B2BD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 657A8D3E2506AE4E006B2BD0 /* Assets.xcassets */; };
-		657A8D552506B27E006B2BD0 /* modbus-data.c in Sources */ = {isa = PBXBuildFile; fileRef = 657A8D542506B27E006B2BD0 /* modbus-data.c */; };
-		657A8D602506B292006B2BD0 /* modbus.c in Sources */ = {isa = PBXBuildFile; fileRef = 657A8D592506B292006B2BD0 /* modbus.c */; };
-		657A8D612506B292006B2BD0 /* modbus-tcp.c in Sources */ = {isa = PBXBuildFile; fileRef = 657A8D5D2506B292006B2BD0 /* modbus-tcp.c */; };
-		657A8D622506B292006B2BD0 /* modbus-rtu.c in Sources */ = {isa = PBXBuildFile; fileRef = 657A8D5E2506B292006B2BD0 /* modbus-rtu.c */; };
 		657A8D642506B2B0006B2BD0 /* SwiftLibModbus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A8D632506B2B0006B2BD0 /* SwiftLibModbus.swift */; };
 		658199592509166C00BAB8C7 /* ClassicMonitor-Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658199582509166C00BAB8C7 /* ClassicMonitor-Settings.swift */; };
 		65B44D412509ACEE0079A3C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65B44D402509ACEE0079A3C8 /* LaunchScreen.storyboard */; };
@@ -29,6 +30,17 @@
 		650B930225088293002017BE /* GaugeViewFloat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaugeViewFloat.swift; sourceTree = "<group>"; };
 		650B9304250882B4002017BE /* GaugeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaugeView.swift; sourceTree = "<group>"; };
 		655536892508597700B7DE1B /* Classic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Classic.entitlements; sourceTree = "<group>"; };
+		655CC39D250A5A9100A0D6D0 /* modbus-rtu-private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-rtu-private.h"; sourceTree = "<group>"; };
+		655CC39E250A5A9100A0D6D0 /* modbus-tcp-private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-tcp-private.h"; sourceTree = "<group>"; };
+		655CC39F250A5A9200A0D6D0 /* modbus-tcp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "modbus-tcp.c"; sourceTree = "<group>"; };
+		655CC3A0250A5A9200A0D6D0 /* modbus-tcp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-tcp.h"; sourceTree = "<group>"; };
+		655CC3A1250A5A9200A0D6D0 /* modbus-version.h.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "modbus-version.h.in"; sourceTree = "<group>"; };
+		655CC3A2250A5A9200A0D6D0 /* modbus-private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-private.h"; sourceTree = "<group>"; };
+		655CC3A3250A5A9200A0D6D0 /* modbus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = modbus.h; sourceTree = "<group>"; };
+		655CC3A4250A5A9200A0D6D0 /* modbus-rtu.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "modbus-rtu.c"; sourceTree = "<group>"; };
+		655CC3A5250A5A9200A0D6D0 /* modbus-rtu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-rtu.h"; sourceTree = "<group>"; };
+		655CC3A6250A5A9200A0D6D0 /* modbus-data.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "modbus-data.c"; sourceTree = "<group>"; };
+		655CC3A7250A5A9200A0D6D0 /* modbus.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = modbus.c; sourceTree = "<group>"; };
 		657A8D322506AE4B006B2BD0 /* Classic Monitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Classic Monitor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		657A8D352506AE4B006B2BD0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		657A8D372506AE4B006B2BD0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -38,16 +50,6 @@
 		657A8D432506AE4E006B2BD0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		657A8D522506B271006B2BD0 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		657A8D532506B27D006B2BD0 /* Classic-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Classic-Bridging-Header.h"; sourceTree = "<group>"; };
-		657A8D542506B27E006B2BD0 /* modbus-data.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "modbus-data.c"; sourceTree = "<group>"; };
-		657A8D562506B291006B2BD0 /* modbus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = modbus.h; sourceTree = "<group>"; };
-		657A8D572506B291006B2BD0 /* modbus-rtu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-rtu.h"; sourceTree = "<group>"; };
-		657A8D582506B291006B2BD0 /* modbus-rtu-private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-rtu-private.h"; sourceTree = "<group>"; };
-		657A8D592506B292006B2BD0 /* modbus.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = modbus.c; sourceTree = "<group>"; };
-		657A8D5A2506B292006B2BD0 /* modbus-tcp-private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-tcp-private.h"; sourceTree = "<group>"; };
-		657A8D5B2506B292006B2BD0 /* modbus-private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-private.h"; sourceTree = "<group>"; };
-		657A8D5C2506B292006B2BD0 /* modbus-tcp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-tcp.h"; sourceTree = "<group>"; };
-		657A8D5D2506B292006B2BD0 /* modbus-tcp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "modbus-tcp.c"; sourceTree = "<group>"; };
-		657A8D5E2506B292006B2BD0 /* modbus-rtu.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "modbus-rtu.c"; sourceTree = "<group>"; };
 		657A8D5F2506B292006B2BD0 /* modbus-version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-version.h"; sourceTree = "<group>"; };
 		657A8D632506B2B0006B2BD0 /* SwiftLibModbus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftLibModbus.swift; sourceTree = "<group>"; };
 		658199582509166C00BAB8C7 /* ClassicMonitor-Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClassicMonitor-Settings.swift"; sourceTree = "<group>"; };
@@ -127,18 +129,19 @@
 			isa = PBXGroup;
 			children = (
 				657A8D522506B271006B2BD0 /* config.h */,
-				657A8D542506B27E006B2BD0 /* modbus-data.c */,
 				657A8D532506B27D006B2BD0 /* Classic-Bridging-Header.h */,
-				657A8D5B2506B292006B2BD0 /* modbus-private.h */,
-				657A8D582506B291006B2BD0 /* modbus-rtu-private.h */,
-				657A8D5E2506B292006B2BD0 /* modbus-rtu.c */,
-				657A8D572506B291006B2BD0 /* modbus-rtu.h */,
-				657A8D5A2506B292006B2BD0 /* modbus-tcp-private.h */,
-				657A8D5D2506B292006B2BD0 /* modbus-tcp.c */,
-				657A8D5C2506B292006B2BD0 /* modbus-tcp.h */,
 				657A8D5F2506B292006B2BD0 /* modbus-version.h */,
-				657A8D592506B292006B2BD0 /* modbus.c */,
-				657A8D562506B291006B2BD0 /* modbus.h */,
+				655CC3A6250A5A9200A0D6D0 /* modbus-data.c */,
+				655CC3A2250A5A9200A0D6D0 /* modbus-private.h */,
+				655CC39D250A5A9100A0D6D0 /* modbus-rtu-private.h */,
+				655CC3A4250A5A9200A0D6D0 /* modbus-rtu.c */,
+				655CC3A5250A5A9200A0D6D0 /* modbus-rtu.h */,
+				655CC39E250A5A9100A0D6D0 /* modbus-tcp-private.h */,
+				655CC39F250A5A9200A0D6D0 /* modbus-tcp.c */,
+				655CC3A0250A5A9200A0D6D0 /* modbus-tcp.h */,
+				655CC3A1250A5A9200A0D6D0 /* modbus-version.h.in */,
+				655CC3A7250A5A9200A0D6D0 /* modbus.c */,
+				655CC3A3250A5A9200A0D6D0 /* modbus.h */,
 			);
 			path = ModBusLibs;
 			sourceTree = "<group>";
@@ -214,6 +217,7 @@
 				65B44D412509ACEE0079A3C8 /* LaunchScreen.storyboard in Resources */,
 				657A8D3F2506AE4E006B2BD0 /* Assets.xcassets in Resources */,
 				657A8D3D2506AE4B006B2BD0 /* Main.storyboard in Resources */,
+				655CC3A9250A5A9200A0D6D0 /* modbus-version.h.in in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,16 +254,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				650B9305250882B4002017BE /* GaugeView.swift in Sources */,
+				655CC3AB250A5A9200A0D6D0 /* modbus-data.c in Sources */,
 				657A8D3A2506AE4B006B2BD0 /* ViewController.swift in Sources */,
-				657A8D622506B292006B2BD0 /* modbus-rtu.c in Sources */,
+				655CC3AC250A5A9200A0D6D0 /* modbus.c in Sources */,
+				655CC3AA250A5A9200A0D6D0 /* modbus-rtu.c in Sources */,
 				658199592509166C00BAB8C7 /* ClassicMonitor-Settings.swift in Sources */,
+				655CC3A8250A5A9200A0D6D0 /* modbus-tcp.c in Sources */,
 				657A8D362506AE4B006B2BD0 /* AppDelegate.swift in Sources */,
 				650B930325088293002017BE /* GaugeViewFloat.swift in Sources */,
-				657A8D602506B292006B2BD0 /* modbus.c in Sources */,
 				657A8D382506AE4B006B2BD0 /* SceneDelegate.swift in Sources */,
 				657A8D642506B2B0006B2BD0 /* SwiftLibModbus.swift in Sources */,
-				657A8D552506B27E006B2BD0 /* modbus-data.c in Sources */,
-				657A8D612506B292006B2BD0 /* modbus-tcp.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
