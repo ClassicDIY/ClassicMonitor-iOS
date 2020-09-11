@@ -30,6 +30,7 @@ class SwiftLibModbus: NSObject {
     
     func setupTCP(ipAddress: NSString, port: Int32, device: Int32) -> Bool {
         self.ipAddress = ipAddress
+        print("IP Address: \(ipAddress)")
         mb = modbus_new_tcp(ipAddress.cString(using: String.Encoding.ascii.rawValue) , port)
         var modbusErrorRecoveryMode = modbus_error_recovery_mode(0)
         modbusErrorRecoveryMode = modbus_error_recovery_mode(rawValue: MODBUS_ERROR_RECOVERY_LINK.rawValue | MODBUS_ERROR_RECOVERY_PROTOCOL.rawValue)

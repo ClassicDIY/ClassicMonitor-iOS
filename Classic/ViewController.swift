@@ -7,6 +7,7 @@
 //
 //MARK: Timer example
 //https://www.raywenderlich.com/113835-ios-timer-tutorial
+//https://medium.com/@dkw5877/reachability-in-ios-172fc3709a37
 
 import UIKit
 
@@ -16,7 +17,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     @IBOutlet weak var gaugeEnergyView: GaugeViewFloat!
     @IBOutlet weak var gaugeInputView: GaugeViewFloat!
     @IBOutlet weak var gaugeBatteryAmpsView: GaugeViewFloat!
-    @IBOutlet weak var gaugeBatteryVoltsView: GaugeViewFloat!
+    @IBOutlet weak var gaugeBatteryVoltsView: GaugeView!
     
     @IBOutlet weak var powerLabel: UILabel!
     @IBOutlet weak var energyLabel: UILabel!
@@ -30,6 +31,8 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     var timeDelta: Double = 10.0/24 //MARK: For the timer to read
     var timer: Timer?     = nil
     var swiftLibModbus    = SwiftLibModbus(ipAddress: classicURL, port: classicPort, device: 1)
+
+    var reachability: Reachability?
     
     //MARK: To store and retrieve connect values
     let defaults          = UserDefaults.standard
@@ -38,23 +41,35 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         static let keyTwo = "classicPort"
     }
     
+    //init {
+    //}
+    
+    deinit {
+        stopNotifier()
+        swiftLibModbus.disconnect()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        configureGaugeViews()
+        getChargerConnectValues()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if kDebugLog{ print("viewWillAppear") }
-        configureGaugeViews()
-        getChargerConnectValues()
-        connectToDevice()
+        stopNotifier()
+        setupReachability(classicURL as String, useClosures: true)
+        startNotifier()
+        //connectToDevice()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if kDebugLog{ print("viewWillDisappear") }
         disconnectFromDevice()
+        stopNotifier()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -121,7 +136,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     func getChargerConnectValues() {
         //defaults.set(nil, forKey: defaultsKeys.keyOne)
         //defaults.set(nil, forKey: defaultsKeys.keyTwo)
-
+        
         if let stringOne = defaults.string(forKey: defaultsKeys.keyOne) {
             print("String ONE: \(stringOne)") // Some String Value
         } else {
@@ -131,6 +146,78 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
             print("String TWO: \(stringTwo)") // Another String Value
         } else {
             defaults.set(classicPort, forKey: defaultsKeys.keyTwo)
+        }
+    }
+    
+    func setupReachability(_ hostName: String?, useClosures: Bool) {
+        let reachability: Reachability?
+        if let hostName = hostName {
+            reachability = try? Reachability(hostname: hostName)
+        } else {
+            reachability = try? Reachability()
+        }
+        self.reachability = reachability
+        if kDebugLog { print("--- Set up with host name: \(String(describing: hostName))") }
+        
+        if useClosures {
+            reachability?.whenReachable = { reachability in
+                self.createTimer()
+            }
+            reachability?.whenUnreachable = { reachability in
+                self.ivalidateTimer()
+                self.swiftLibModbus.disconnect()
+            }
+        } else {
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(reachabilityChanged(_:)),
+                name: .reachabilityChanged,
+                object: reachability
+            )
+        }
+    }
+    
+    @objc func reachabilityChanged(_ note: Notification) {
+        let reachability = note.object as! Reachability
+        
+        if reachability.connection != .unavailable {
+            self.ivalidateTimer()
+            self.swiftLibModbus.disconnect()
+        } else {
+            self.createTimer()
+        }
+    }
+    
+    func startNotifier() {
+        if kDebugLog { print("--- start notifier") }
+        do {
+            try reachability?.startNotifier()
+        } catch {
+            if kDebugLog { print("Unable to start notifier") }
+            return
+        }
+    }
+    
+    func stopNotifier() {
+        reachability?.stopNotifier()
+        NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: nil)
+        reachability = nil
+    }
+    
+    @objc func reachabilityChanged(note: Notification) {
+        let reachability = note.object as! Reachability
+        switch reachability.connection {
+        case .wifi:
+            if kDebugLog { print("Reachable via WiFi") }
+            connectToDevice()
+        case .cellular:
+            if kDebugLog { print("Reachable via Cellular") }
+            disconnectFromDevice()
+        case .unavailable:
+            if kDebugLog { print("Network not reachable") }
+            disconnectFromDevice()
+        case .none:
+            if kDebugLog {print("Unknown") }
         }
     }
     
@@ -256,8 +343,21 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
             },
                 failure: { (error: NSError) -> Void in
                     //Handle error
-                    self.isConnected.toggle()
-                    if kDebugLog { print("error 1 \(error)") }
+                    if kDebugLog { print("Error Connecting: \(error)") }
+                    let message = "Failed to connect. Check your network and try again."
+                    let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                        switch action.style{
+                        case .default:
+                            print("default")
+                        case .cancel:
+                            print("cancel")
+                        case .destructive:
+                            print("destructive")
+                        @unknown default:
+                            if kDebugLog { print("Unknown Default Error in Alert") }
+                        }}))
+                    self.present(alert, animated: true, completion: nil)
             })
         } else {
             if kDebugLog { print("Is already connected and getting data") }
@@ -279,7 +379,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     @objc func readValues() {
         swiftLibModbus.readRegistersFrom(startAddress: 4100, count: 44,
                                          success: { (array: [AnyObject]) -> Void in
-                                            if kDebugLog { print("Recived Data: \(array)") }
+                                            //if kDebugLog { print("Received Data: \(array)") }
                                             //https://stackoverflow.com/questions/39110991/calculating-most-and-least-significant-bytemsb-lsb-with-swift
                                             let reg6 = Int(truncating: array[5] as! NSNumber)
                                             let reg7 = Int(truncating: array[6] as! NSNumber)
@@ -294,6 +394,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
                                             let lsb8 = reg8 & 0xFF
                                             let msb8 = (reg8 >> 8) & 0xFF
                                             
+                                            if kDebugLog { print("***************************") }
                                             if kDebugLog { print(String(format: "Mac Addess: %02x:%02x:%02x:%02x:%02x:%02x", msb8, lsb8, msb7, lsb7, msb6, lsb6)) }
                                             
                                             let unitId = Int(truncating: array[0] as! NSNumber)
@@ -347,8 +448,8 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         },
                                          failure:  { (error: NSError) -> Void in
                                             //Handle error
-                                            self.isConnected.toggle()
                                             print("error 2.1 \(error)")
+                                            self.swiftLibModbus.disconnect()
         })
     }
     
@@ -367,7 +468,6 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         },
                                          failure:  { (error: NSError) -> Void in
                                             //Handle error
-                                            self.isConnected.toggle()
                                             if kDebugLog { print("Error Getting Network Data \(error)") }
         })
     }

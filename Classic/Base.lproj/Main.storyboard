@@ -28,12 +28,12 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="335" id="1Rz-t8-2Pm"/>
-                                    <constraint firstAttribute="height" constant="335" id="2uX-bZ-yG9"/>
-                                    <constraint firstAttribute="width" secondItem="LjR-sd-sHy" secondAttribute="height" multiplier="1:1" id="EaA-fl-ALo"/>
-                                    <constraint firstItem="01D-I8-0rt" firstAttribute="top" secondItem="LjR-sd-sHy" secondAttribute="top" constant="45" id="aOf-rw-Oyr"/>
-                                    <constraint firstItem="01D-I8-0rt" firstAttribute="leading" relation="lessThanOrEqual" secondItem="LjR-sd-sHy" secondAttribute="leading" constant="77" id="i6Z-Tw-XJJ"/>
-                                    <constraint firstAttribute="trailing" secondItem="01D-I8-0rt" secondAttribute="trailing" constant="77" id="yUC-rF-fAE"/>
+                                    <constraint firstAttribute="width" secondItem="LjR-sd-sHy" secondAttribute="height" multiplier="1:1" id="BPg-Jq-CdG"/>
+                                    <constraint firstItem="01D-I8-0rt" firstAttribute="top" secondItem="LjR-sd-sHy" secondAttribute="top" constant="45" id="G8a-6O-CXN"/>
+                                    <constraint firstAttribute="width" constant="335" id="Pu2-xP-OMI"/>
+                                    <constraint firstItem="01D-I8-0rt" firstAttribute="leading" relation="lessThanOrEqual" secondItem="LjR-sd-sHy" secondAttribute="leading" constant="77" id="aDc-iy-FDX"/>
+                                    <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="01D-I8-0rt" secondAttribute="trailing" constant="77" id="nQQ-i8-IZg"/>
+                                    <constraint firstAttribute="height" constant="335" id="yUf-Wi-Lg2"/>
                                 </constraints>
                             </view>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jht-Ca-rsO" userLabel="Gauge View Battery Volts" customClass="GaugeViewFloat" customModule="Classic_Monitor" customModuleProvider="target">
@@ -59,30 +59,6 @@
                                     <constraint firstItem="ial-qJ-Min" firstAttribute="top" secondItem="Jht-Ca-rsO" secondAttribute="top" constant="26" id="heT-tJ-qWk"/>
                                 </constraints>
                             </view>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z5N-nT-gSU">
-                                <rect key="frame" x="129" y="593" width="51" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Data 1"/>
-                                <connections>
-                                    <action selector="callFunction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pqG-Sf-ci4"/>
-                                </connections>
-                            </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F09-Ao-b4b">
-                                <rect key="frame" x="188" y="593" width="45" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Data 2"/>
-                                <connections>
-                                    <action selector="getData2:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Uxj-ux-X4H"/>
-                                </connections>
-                            </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2rZ-MJ-Z8w">
-                                <rect key="frame" x="241" y="593" width="78" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Disconnect"/>
-                                <connections>
-                                    <action selector="disconnects:" destination="BYZ-38-t0r" eventType="touchUpInside" id="V1V-XF-xTm"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hNH-sp-Cta" userLabel="Gauge View Energy" customClass="GaugeViewFloat" customModule="Classic_Monitor" customModuleProvider="target">
                                 <rect key="frame" x="20" y="44" width="150" height="150"/>
                                 <subviews>
@@ -106,7 +82,7 @@
                                     <constraint firstItem="D1C-IN-HFJ" firstAttribute="leading" secondItem="hNH-sp-Cta" secondAttribute="leading" constant="14" id="zhK-O9-7qV"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KmD-Ut-sIE" userLabel="Gauge View Input" customClass="GaugeViewFloat" customModule="Classic_Monitor" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KmD-Ut-sIE" userLabel="Gauge View Input" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
                                 <rect key="frame" x="20" y="712" width="150" height="150"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Input" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ehv-Gs-rJE">
@@ -152,6 +128,30 @@
                                     <constraint firstAttribute="width" constant="150" id="yrw-Mv-IUR"/>
                                 </constraints>
                             </view>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z5N-nT-gSU">
+                                <rect key="frame" x="129" y="593" width="51" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Data 1"/>
+                                <connections>
+                                    <action selector="callFunction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pqG-Sf-ci4"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F09-Ao-b4b">
+                                <rect key="frame" x="188" y="593" width="45" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Data 2"/>
+                                <connections>
+                                    <action selector="getData2:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Uxj-ux-X4H"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2rZ-MJ-Z8w">
+                                <rect key="frame" x="241" y="593" width="78" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Disconnect"/>
+                                <connections>
+                                    <action selector="disconnects:" destination="BYZ-38-t0r" eventType="touchUpInside" id="V1V-XF-xTm"/>
+                                </connections>
+                            </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o7P-bd-n6t">
                                 <rect key="frame" x="95" y="593" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -166,14 +166,12 @@
                             <constraint firstItem="KmD-Ut-sIE" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="222-0O-MLv"/>
                             <constraint firstItem="KmD-Ut-sIE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="2DD-9k-ECT"/>
                             <constraint firstItem="hNH-sp-Cta" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="AE0-Dx-RQo"/>
-                            <constraint firstItem="LjR-sd-sHy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Frs-nF-gdg"/>
+                            <constraint firstItem="LjR-sd-sHy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="KVX-Lh-feX"/>
                             <constraint firstItem="Jht-Ca-rsO" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="MZ8-ne-gZs"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Jht-Ca-rsO" secondAttribute="trailing" constant="20" id="Noy-CV-iNj"/>
                             <constraint firstItem="hNH-sp-Cta" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="VfW-JO-BkX"/>
-                            <constraint firstItem="LjR-sd-sHy" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="esc-f5-HNW"/>
+                            <constraint firstItem="LjR-sd-sHy" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="dHp-vu-3sB"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="2Nb-aT-cDL" secondAttribute="trailing" constant="20" id="jGv-uX-QQ1"/>
-                            <constraint firstItem="LjR-sd-sHy" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="39.5" id="kcg-vg-iyz"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="LjR-sd-sHy" secondAttribute="trailing" constant="39.5" id="yan-u8-YaD"/>
                             <constraint firstItem="2Nb-aT-cDL" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="zSz-ZG-9Vx"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
