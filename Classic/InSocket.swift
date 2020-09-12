@@ -5,6 +5,7 @@
 //  Created by Urayoan Miranda on 9/12/20.
 //  Copyright © 2020 Urayoan Miranda. All rights reserved.
 //
+//https://stackoverflow.com/questions/26790129/swift-receive-udp-with-gcdasyncudpsocket
 
 import CocoaAsyncSocket
 
@@ -26,10 +27,15 @@ class InSocket: NSObject, GCDAsyncUdpSocketDelegate {
     
     //MARK:-GCDAsyncUdpSocketDelegate
     func udpSocket(_ sock: GCDAsyncUdpSocket, didReceive data: Data, fromAddress address: Data, withFilterContext filterContext: Any?) {
-        print("incoming message: \(data)");
+        //print("incoming message: \(data)");
         let signal:Signal = Signal.unarchive(d: data)
-        print("signal information : \n first \(signal.firstSignal) , second \(signal.secondSignal) \n third \(signal.thirdSignal) , fourth \(signal.fourthSignal)")
+        //print("signal information : \n first \(signal.firstSignal) , second \(signal.secondSignal) \n third \(signal.thirdSignal) , fourth \(signal.fourthSignal)")
         
+        let lsb3 = signal.firstSignal & 0xFF
+        let msb3 = (signal.firstSignal >> 8) & 0xFF
+        let lsb2 = signal.secondSignal & 0xFF
+        let msb2 = (signal.secondSignal >> 8) & 0xFF
+        print("IP Address: \(lsb3).\(msb3).\(lsb2).\(msb2) with port \(signal.thirdSignal)")
     }
     
     func udpSocket(_ sock: GCDAsyncUdpSocket, didNotConnect error: Error?) {
