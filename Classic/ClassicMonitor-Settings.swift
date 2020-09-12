@@ -14,7 +14,7 @@ import Foundation
 //**************************************
 
 // Display Comments
-let kDebugLog               = true
+let kDebugLog               = false
 
 let classicURL: NSString    = "192.168.1.50"
 let classicURLOut: NSString = "urayoan.mynetgear.com"

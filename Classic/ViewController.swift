@@ -9,6 +9,9 @@
 //https://www.raywenderlich.com/113835-ios-timer-tutorial
 //https://medium.com/@dkw5877/reachability-in-ios-172fc3709a37
 
+//Discovery
+//https://stackoverflow.com/questions/27650143/receiving-ssdp-response-using-cocoaasyncsocket-in-swift
+
 import UIKit
 
 class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegate {
@@ -24,6 +27,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     @IBOutlet weak var voltsLabel: UILabel!
     @IBOutlet weak var inputLabel: UILabel!
     @IBOutlet weak var batAmpsLabel: UILabel!
+    @IBOutlet weak var buttonDeviceDescription: UIButton!
     
     @IBOutlet weak var deviceModel: UILabel!
     
@@ -31,7 +35,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     var timeDelta: Double = 10.0/24 //MARK: For the timer to read
     var timer: Timer?     = nil
     var swiftLibModbus    = SwiftLibModbus(ipAddress: classicURL, port: classicPort, device: 1)
-
+    
     var reachability: Reachability?
     
     //MARK: To store and retrieve connect values
@@ -69,7 +73,6 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         super.viewWillDisappear(animated)
         if kDebugLog{ print("viewWillDisappear") }
         disconnectFromDevice()
-        stopNotifier()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -222,6 +225,10 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     }
     
     func configureGaugeViews() {
+        //MARK: Configure Buttons
+        buttonDeviceDescription.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 20)
+        buttonDeviceDescription.setTitleColor(UIColor(white: 0.7, alpha: 1), for: .normal)
+        
         // Configure gauge view
         //MARK: Gauge Power View
         let screenMinSize = min(UIScreen.main.bounds.size.width, UIScreen.main.bounds.size.height)
@@ -331,7 +338,9 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     }
     
     @IBAction func connect(_ sender: Any) {
-        connectToDevice()
+        stopNotifier()
+        setupReachability(classicURL as String, useClosures: true)
+        startNotifier()
     }
     
     func connectToDevice() {
@@ -369,6 +378,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         ivalidateTimer()
         self.swiftLibModbus.disconnect()
         isConnected.toggle()
+        stopNotifier()
     }
     
     //MARK: From ModbusTask.java del app de Android
@@ -379,7 +389,29 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     @objc func readValues() {
         swiftLibModbus.readRegistersFrom(startAddress: 4100, count: 44,
                                          success: { (array: [AnyObject]) -> Void in
-                                            //if kDebugLog { print("Received Data: \(array)") }
+                                            if kDebugLog { print("Received Data 1: \(array)") }
+                                            
+                                            let unitId = Int(truncating: array[0] as! NSNumber)
+                                            if kDebugLog { print("Unit Type: \(unitId & 0xFF) PCB revision: \(unitId >> 8 & 0xFF)") }
+                                            switch (unitId & 0xFF) {
+                                            case 150:
+                                                if kDebugLog { print("Classic 150: \(unitId >> 8 & 0xFF)") }
+                                                self.buttonDeviceDescription.setTitle("Classic 150", for: .normal)
+                                            case 200:
+                                                if kDebugLog { print("Classic 200: \(unitId >> 8 & 0xFF)") }
+                                                self.buttonDeviceDescription.setTitle("Classic 200", for: .normal)
+                                            case 250:
+                                                if kDebugLog { print("Classic 250: \(unitId >> 8 & 0xFF)") }
+                                                self.buttonDeviceDescription.setTitle("Classic 250", for: .normal)
+                                            case 251:
+                                                if kDebugLog { print("Classic 250 KS: \(unitId >> 8 & 0xFF)") }
+                                                self.buttonDeviceDescription.setTitle("Classic 250 KS", for: .normal)
+                                            default:
+                                                if kDebugLog { print("Not Recognized") }
+                                            }
+                                            
+                                            //MARK: Ejemplo de data actual
+                                            //Received Data 1: [1274, 2018, 518, 10, 0, 41976, 3840, 24605, 0, 0, 56116, 38041, 24597, 1, 542, 1458, 184, 6, 1012, 1028, 75, 1776, 2432, 0, 11, 11929, 0, 22326, 0, 12292, 45568, 303, 524, 560, 0, 300, 502, 2, 7198, 184, 557, 11, 3600, 0]
                                             //https://stackoverflow.com/questions/39110991/calculating-most-and-least-significant-bytemsb-lsb-with-swift
                                             let reg6 = Int(truncating: array[5] as! NSNumber)
                                             let reg7 = Int(truncating: array[6] as! NSNumber)
@@ -397,21 +429,9 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
                                             if kDebugLog { print("***************************") }
                                             if kDebugLog { print(String(format: "Mac Addess: %02x:%02x:%02x:%02x:%02x:%02x", msb8, lsb8, msb7, lsb7, msb6, lsb6)) }
                                             
-                                            let unitId = Int(truncating: array[0] as! NSNumber)
-                                            if kDebugLog { print("Unit Type: \(unitId & 0xFF) PCB revision: \(unitId >> 8 & 0xFF)") }
                                             
-                                            switch (unitId & 0xFF) {
-                                            case 150:
-                                                if kDebugLog { print("Unit Type: Classic 150V Revision: \(unitId >> 8 & 0xFF)") }
-                                            case 200:
-                                                if kDebugLog { print("Unit Type: Classic 200V Revision: \(unitId >> 8 & 0xFF)") }
-                                            case 250:
-                                                if kDebugLog { print("Unit Type: Classic 250V Revision: \(unitId >> 8 & 0xFF)") }
-                                            case 251:
-                                                if kDebugLog { print("Unit Type: Classic 250V with 120V Battery bank capability (lower current than 250) Revision: \(unitId >> 8 & 0xFF)") }
-                                            default:
-                                                if kDebugLog { print("Not Recognized") }
-                                            }
+                                            
+                                            
                                             //Name
                                             //Value
                                             //Description
@@ -448,7 +468,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         },
                                          failure:  { (error: NSError) -> Void in
                                             //Handle error
-                                            print("error 2.1 \(error)")
+                                            if kDebugLog { print("Error Getting Network Data 1: \(error)") }
                                             self.swiftLibModbus.disconnect()
         })
     }
@@ -457,6 +477,8 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         swiftLibModbus.readRegistersFrom(startAddress: 20480, count: 11,
                                          success: { (array: [AnyObject]) -> Void in
                                             if kDebugLog { print("Recived Network Data: \(array)") }
+                                            //MARK: Ejemplo de data actual
+                                            //Recived Network Data: [2, 43200, 12801, 43200, 257, 65535, 255, 43200, 257, 2056, 2056]
                                             let reg3 = Int(truncating: array[2] as! NSNumber)
                                             let reg2 = Int(truncating: array[1] as! NSNumber)
                                             
@@ -468,7 +490,8 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         },
                                          failure:  { (error: NSError) -> Void in
                                             //Handle error
-                                            if kDebugLog { print("Error Getting Network Data \(error)") }
+                                            if kDebugLog { print("Error Getting Network Data 2: \(error)") }
+                                            self.swiftLibModbus.disconnect()
         })
     }
     

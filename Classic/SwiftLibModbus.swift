@@ -132,6 +132,7 @@ class SwiftLibModbus: NSObject {
                                     success(array)
             },
                                    failure: { (error: NSError) -> Void in
+                                    print("Error Reading readRegistersFrom: \(error)")
                                     failure(error)
             })
         }

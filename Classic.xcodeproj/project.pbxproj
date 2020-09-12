@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -22,6 +22,9 @@
 		657A8D642506B2B0006B2BD0 /* SwiftLibModbus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A8D632506B2B0006B2BD0 /* SwiftLibModbus.swift */; };
 		658199592509166C00BAB8C7 /* ClassicMonitor-Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658199582509166C00BAB8C7 /* ClassicMonitor-Settings.swift */; };
 		658EB55C250AF5D20071D8FA /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658EB55B250AF5D20071D8FA /* Reachability.swift */; };
+		658EC243250C8F4000F1ACAF /* DetectDeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658EC242250C8F4000F1ACAF /* DetectDeviceViewController.swift */; };
+		658EC245250C9A6C00F1ACAF /* InSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658EC244250C9A6C00F1ACAF /* InSocket.swift */; };
+		658EC249250CED4A00F1ACAF /* Signal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658EC248250CED4A00F1ACAF /* Signal.swift */; };
 		65B44D412509ACEE0079A3C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65B44D402509ACEE0079A3C8 /* LaunchScreen.storyboard */; };
 		A4F78B4298D572731A394381 /* Pods_Classic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA99D76AF696B0065EA3DE99 /* Pods_Classic.framework */; };
 /* End PBXBuildFile section */
@@ -55,6 +58,9 @@
 		657A8D632506B2B0006B2BD0 /* SwiftLibModbus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftLibModbus.swift; sourceTree = "<group>"; };
 		658199582509166C00BAB8C7 /* ClassicMonitor-Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClassicMonitor-Settings.swift"; sourceTree = "<group>"; };
 		658EB55B250AF5D20071D8FA /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		658EC242250C8F4000F1ACAF /* DetectDeviceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectDeviceViewController.swift; sourceTree = "<group>"; };
+		658EC244250C9A6C00F1ACAF /* InSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InSocket.swift; sourceTree = "<group>"; };
+		658EC248250CED4A00F1ACAF /* Signal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Signal.swift; sourceTree = "<group>"; };
 		65B44D402509ACEE0079A3C8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DA99D76AF696B0065EA3DE99 /* Pods_Classic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Classic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF6CFEDBAC207EAB6F59AD3B /* Pods-Classic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Classic.release.xcconfig"; path = "Target Support Files/Pods-Classic/Pods-Classic.release.xcconfig"; sourceTree = "<group>"; };
@@ -124,6 +130,9 @@
 				657A8D432506AE4E006B2BD0 /* Info.plist */,
 				658199582509166C00BAB8C7 /* ClassicMonitor-Settings.swift */,
 				658EB55B250AF5D20071D8FA /* Reachability.swift */,
+				658EC242250C8F4000F1ACAF /* DetectDeviceViewController.swift */,
+				658EC244250C9A6C00F1ACAF /* InSocket.swift */,
+				658EC248250CED4A00F1ACAF /* Signal.swift */,
 			);
 			path = Classic;
 			sourceTree = "<group>";
@@ -168,6 +177,7 @@
 				657A8D2E2506AE4B006B2BD0 /* Sources */,
 				657A8D2F2506AE4B006B2BD0 /* Frameworks */,
 				657A8D302506AE4B006B2BD0 /* Resources */,
+				59FD21213BCF9FBB9968227D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -227,6 +237,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		59FD21213BCF9FBB9968227D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Classic/Pods-Classic-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Classic/Pods-Classic-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Classic/Pods-Classic-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		A46E459198939B7695764870 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -257,10 +284,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				650B9305250882B4002017BE /* GaugeView.swift in Sources */,
+				658EC249250CED4A00F1ACAF /* Signal.swift in Sources */,
+				658EC245250C9A6C00F1ACAF /* InSocket.swift in Sources */,
 				655CC3AB250A5A9200A0D6D0 /* modbus-data.c in Sources */,
 				658EB55C250AF5D20071D8FA /* Reachability.swift in Sources */,
 				657A8D3A2506AE4B006B2BD0 /* ViewController.swift in Sources */,
 				655CC3AC250A5A9200A0D6D0 /* modbus.c in Sources */,
+				658EC243250C8F4000F1ACAF /* DetectDeviceViewController.swift in Sources */,
 				655CC3AA250A5A9200A0D6D0 /* modbus-rtu.c in Sources */,
 				658199592509166C00BAB8C7 /* ClassicMonitor-Settings.swift in Sources */,
 				655CC3A8250A5A9200A0D6D0 /* modbus-tcp.c in Sources */,
