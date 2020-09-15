@@ -59,6 +59,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIApplication.shared.endReceivingRemoteControlEvents()
     }
-
 }
 
+// Put this piece of code anywhere you like to hide the keyboard
+//necesario para cuando cancela busquedas en las listas. Al darle al boton de X aparecen la lista original
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}

@@ -12,6 +12,8 @@
 //Discovery
 //https://stackoverflow.com/questions/27650143/receiving-ssdp-response-using-cocoaasyncsocket-in-swift
 
+//https://stackoverflow.com/questions/28760541/programmatically-go-back-to-previous-viewcontroller-in-swift
+
 import UIKit
 
 class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegate {
@@ -31,10 +33,14 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     
     @IBOutlet weak var deviceModel: UILabel!
     
+    var classicURL: NSString    = ""
+    var classicPort: Int32      = 0
+    
     var isConnected: Bool = false
     var timeDelta: Double = 10.0/24 //MARK: For the timer to read
     var timer: Timer?     = nil
-    var swiftLibModbus    = SwiftLibModbus(ipAddress: classicURL, port: classicPort, device: 1)
+    //var swiftLibModbus    = SwiftLibModbus(ipAddress: classicURL, port: classicPort, device: 1)
+    var swiftLibModbus: SwiftLibModbus!
     
     var reachability: Reachability?
     
@@ -45,9 +51,6 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         static let keyTwo = "classicPort"
     }
     
-    //init {
-    //}
-    
     deinit {
         stopNotifier()
         swiftLibModbus.disconnect()
@@ -55,6 +58,10 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("\(classicURL) - \(classicPort)")
+        let sw          = SwiftLibModbus(ipAddress: classicURL, port: classicPort, device: 1)
+        swiftLibModbus  = sw
+
         // Do any additional setup after loading the view.
         configureGaugeViews()
         getChargerConnectValues()
@@ -66,13 +73,13 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         stopNotifier()
         setupReachability(classicURL as String, useClosures: true)
         startNotifier()
-        //connectToDevice()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if kDebugLog{ print("viewWillDisappear") }
         disconnectFromDevice()
+        //self.dismiss(animated: true, completion: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -81,6 +88,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     }
     
     override var preferredStatusBarStyle : UIStatusBarStyle {
+        print("Prefered Barstatus Style")
         view.backgroundColor = UIColor(white: 0.1, alpha: 1)
         //MARK: Power
         gaugePowerView.ringBackgroundColor = .black

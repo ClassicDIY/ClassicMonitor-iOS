@@ -23,6 +23,7 @@ struct Signal {
         //    fatalError("Error trying to get data")
         //}
         //#endif
+        
         var s: Signal?
         d.withUnsafeBytes({(bytes: UnsafePointer<Signal>) -> Void in
             s = UnsafePointer<Signal>(bytes).pointee
