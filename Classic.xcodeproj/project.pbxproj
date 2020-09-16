@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		650B930325088293002017BE /* GaugeViewFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650B930225088293002017BE /* GaugeViewFloat.swift */; };
 		650B9305250882B4002017BE /* GaugeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650B9304250882B4002017BE /* GaugeView.swift */; };
+		653A9BC925113C8B009B031F /* WithSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653A9BC825113C8B009B031F /* WithSet.swift */; };
 		655CC3A8250A5A9200A0D6D0 /* modbus-tcp.c in Sources */ = {isa = PBXBuildFile; fileRef = 655CC39F250A5A9200A0D6D0 /* modbus-tcp.c */; };
 		655CC3A9250A5A9200A0D6D0 /* modbus-version.h.in in Resources */ = {isa = PBXBuildFile; fileRef = 655CC3A1250A5A9200A0D6D0 /* modbus-version.h.in */; };
 		655CC3AA250A5A9200A0D6D0 /* modbus-rtu.c in Sources */ = {isa = PBXBuildFile; fileRef = 655CC3A4250A5A9200A0D6D0 /* modbus-rtu.c */; };
@@ -35,6 +36,7 @@
 		47E5A8D95641E141F34489A4 /* Pods-Classic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Classic.debug.xcconfig"; path = "Target Support Files/Pods-Classic/Pods-Classic.debug.xcconfig"; sourceTree = "<group>"; };
 		650B930225088293002017BE /* GaugeViewFloat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaugeViewFloat.swift; sourceTree = "<group>"; };
 		650B9304250882B4002017BE /* GaugeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaugeView.swift; sourceTree = "<group>"; };
+		653A9BC825113C8B009B031F /* WithSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithSet.swift; sourceTree = "<group>"; };
 		655536892508597700B7DE1B /* Classic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Classic.entitlements; sourceTree = "<group>"; };
 		655CC39D250A5A9100A0D6D0 /* modbus-rtu-private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-rtu-private.h"; sourceTree = "<group>"; };
 		655CC39E250A5A9100A0D6D0 /* modbus-tcp-private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-tcp-private.h"; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 			children = (
 				657A8D392506AE4B006B2BD0 /* ViewController.swift */,
 				658EC242250C8F4000F1ACAF /* DetectDeviceViewController.swift */,
+				653A9BC825113C8B009B031F /* WithSet.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 				658EC243250C8F4000F1ACAF /* DetectDeviceViewController.swift in Sources */,
 				655CC3AA250A5A9200A0D6D0 /* modbus-rtu.c in Sources */,
 				658199592509166C00BAB8C7 /* ClassicMonitor-Settings.swift in Sources */,
+				653A9BC925113C8B009B031F /* WithSet.swift in Sources */,
 				655CC3A8250A5A9200A0D6D0 /* modbus-tcp.c in Sources */,
 				658EC24D250D4A4400F1ACAF /* DetectDeviceViewCell.swift in Sources */,
 				658EC25025101E9700F1ACAF /* ClassicDeviceLists.swift in Sources */,
@@ -469,6 +473,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Classic/Classic.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 648XC4D3FH;
 				INFOPLIST_FILE = Classic/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -476,7 +481,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.urayoanmiranda.Classic;
+				PRODUCT_BUNDLE_IDENTIFIER = com.midnitesolar.Classic;
 				PRODUCT_NAME = "Classic Monitor";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Classic/ModBusLibs/Classic-Bridging-Header.h";
@@ -494,6 +499,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Classic/Classic.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 648XC4D3FH;
 				INFOPLIST_FILE = Classic/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -501,7 +507,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.urayoanmiranda.Classic;
+				PRODUCT_BUNDLE_IDENTIFIER = com.midnitesolar.Classic;
 				PRODUCT_NAME = "Classic Monitor";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Classic/ModBusLibs/Classic-Bridging-Header.h";

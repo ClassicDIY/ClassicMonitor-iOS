@@ -18,29 +18,29 @@ import UIKit
 
 class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegate {
     
-    @IBOutlet weak var gaugePowerView: GaugeView!
-    @IBOutlet weak var gaugeEnergyView: GaugeViewFloat!
-    @IBOutlet weak var gaugeInputView: GaugeViewFloat!
-    @IBOutlet weak var gaugeBatteryAmpsView: GaugeViewFloat!
-    @IBOutlet weak var gaugeBatteryVoltsView: GaugeView!
+    @IBOutlet weak var gaugePowerView:          GaugeView!
+    @IBOutlet weak var gaugeEnergyView:         GaugeViewFloat!
+    @IBOutlet weak var gaugeInputView:          GaugeViewFloat!
+    @IBOutlet weak var gaugeBatteryAmpsView:    GaugeViewFloat!
+    @IBOutlet weak var gaugeBatteryVoltsView:   GaugeView!
     
-    @IBOutlet weak var powerLabel: UILabel!
-    @IBOutlet weak var energyLabel: UILabel!
-    @IBOutlet weak var voltsLabel: UILabel!
-    @IBOutlet weak var inputLabel: UILabel!
-    @IBOutlet weak var batAmpsLabel: UILabel!
+    @IBOutlet weak var powerLabel:              UILabel!
+    @IBOutlet weak var energyLabel:             UILabel!
+    @IBOutlet weak var voltsLabel:              UILabel!
+    @IBOutlet weak var inputLabel:              UILabel!
+    @IBOutlet weak var batAmpsLabel:            UILabel!
     @IBOutlet weak var buttonDeviceDescription: UIButton!
+    @IBOutlet weak var buttonReturn:            UIButton!
     
-    @IBOutlet weak var deviceModel: UILabel!
+    //@IBOutlet weak var deviceModel: UILabel!
     
     var classicURL: NSString    = ""
     var classicPort: Int32      = 0
     
-    var isConnected: Bool = false
-    var timeDelta: Double = 10.0/24 //MARK: For the timer to read
-    var timer: Timer?     = nil
-    //var swiftLibModbus    = SwiftLibModbus(ipAddress: classicURL, port: classicPort, device: 1)
-    var swiftLibModbus: SwiftLibModbus!
+    var isConnected: Bool       = false
+    var timeDelta: Double       = 10.0/24 //MARK: For the timer to read
+    var timer: Timer?           = nil
+    var swiftLibModbus:         SwiftLibModbus?
     
     var reachability: Reachability?
     
@@ -51,20 +51,22 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         static let keyTwo = "classicPort"
     }
     
+    convenience init() {
+        self.init()
+    }
+    
     deinit {
         stopNotifier()
-        swiftLibModbus.disconnect()
+        //swiftLibModbus.disconnect()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("\(classicURL) - \(classicPort)")
-        let sw          = SwiftLibModbus(ipAddress: classicURL, port: classicPort, device: 1)
-        swiftLibModbus  = sw
-
+        print("Recived Parameter: \(classicURL) - \(classicPort)")
+        swiftLibModbus = SwiftLibModbus(ipAddress: classicURL, port: classicPort, device: 1)
         // Do any additional setup after loading the view.
         configureGaugeViews()
-        getChargerConnectValues()
+        //getChargerConnectValues()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -176,7 +178,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
             }
             reachability?.whenUnreachable = { reachability in
                 self.ivalidateTimer()
-                self.swiftLibModbus.disconnect()
+                self.swiftLibModbus!.disconnect()
             }
         } else {
             NotificationCenter.default.addObserver(
@@ -193,7 +195,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         
         if reachability.connection != .unavailable {
             self.ivalidateTimer()
-            self.swiftLibModbus.disconnect()
+            self.swiftLibModbus!.disconnect()
         } else {
             self.createTimer()
         }
@@ -229,6 +231,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
             disconnectFromDevice()
         case .none:
             if kDebugLog {print("Unknown") }
+            disconnectFromDevice()
         }
     }
     
@@ -236,6 +239,10 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         //MARK: Configure Buttons
         buttonDeviceDescription.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 20)
         buttonDeviceDescription.setTitleColor(UIColor(white: 0.7, alpha: 1), for: .normal)
+        
+        buttonReturn.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 20)
+        buttonReturn.setTitleColor(UIColor(white: 0.7, alpha: 1), for: .normal)
+        buttonReturn.tintColor = UIColor(white: 0.7, alpha: 1)
         
         // Configure gauge view
         //MARK: Gauge Power View
@@ -314,15 +321,8 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         gaugeInputView.maxValue = 250
         gaugeInputView.limitValue = 0
         gaugeInputView.unitOfMeasurement = "Volts"
-    }
-    
-    func setStyle() {
-        view.backgroundColor = UIColor(white: 0.1, alpha: 1)
-        //deviceModel.textColor = .white
-        gaugePowerView.ringBackgroundColor = .black
-        gaugePowerView.valueTextColor = .white
-        gaugePowerView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
-        gaugePowerView.setNeedsDisplay()
+        
+        getChargerConnectValues()
     }
     
     func ringStokeColor(gaugeView: GaugeView, value: Double) -> UIColor {
@@ -353,7 +353,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     
     func connectToDevice() {
         if (!isConnected) {
-            swiftLibModbus.connect(
+            swiftLibModbus!.connect(
                 success: { () -> Void in
                     if kDebugLog { print("Conectado") }
                     self.createTimer()
@@ -384,7 +384,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     func disconnectFromDevice() {
         if kDebugLog { print("Disconnect") }
         ivalidateTimer()
-        self.swiftLibModbus.disconnect()
+        self.swiftLibModbus!.disconnect()
         isConnected.toggle()
         stopNotifier()
     }
@@ -395,8 +395,8 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     }
     
     @objc func readValues() {
-        swiftLibModbus.readRegistersFrom(startAddress: 4100, count: 44,
-                                         success: { (array: [AnyObject]) -> Void in
+        swiftLibModbus!.readRegistersFrom(startAddress: 4100, count: 44,
+                                          success: { (array: [AnyObject]) -> Void in
                                             if kDebugLog { print("Received Data 1: \(array)") }
                                             
                                             let unitId = Int(truncating: array[0] as! NSNumber)
@@ -437,9 +437,6 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
                                             if kDebugLog { print("***************************") }
                                             if kDebugLog { print(String(format: "Mac Addess: %02x:%02x:%02x:%02x:%02x:%02x", msb8, lsb8, msb7, lsb7, msb6, lsb6)) }
                                             
-                                            
-                                            
-                                            
                                             //Name
                                             //Value
                                             //Description
@@ -474,16 +471,16 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
                                             let watts = Double(truncating: array[18] as! NSNumber)
                                             self.gaugePowerView.value = watts
         },
-                                         failure:  { (error: NSError) -> Void in
+                                          failure:  { (error: NSError) -> Void in
                                             //Handle error
                                             if kDebugLog { print("Error Getting Network Data 1: \(error)") }
-                                            self.swiftLibModbus.disconnect()
+                                            self.swiftLibModbus!.disconnect()
         })
     }
     
     @IBAction func getData2(_ sender: Any) {
-        swiftLibModbus.readRegistersFrom(startAddress: 20480, count: 11,
-                                         success: { (array: [AnyObject]) -> Void in
+        swiftLibModbus!.readRegistersFrom(startAddress: 20480, count: 11,
+                                          success: { (array: [AnyObject]) -> Void in
                                             if kDebugLog { print("Recived Network Data: \(array)") }
                                             //MARK: Ejemplo de data actual
                                             //Recived Network Data: [2, 43200, 12801, 43200, 257, 65535, 255, 43200, 257, 2056, 2056]
@@ -496,10 +493,10 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
                                             let msb2 = (reg2 >> 8) & 0xFF
                                             if kDebugLog { print("IP Address: \(lsb2).\(msb2).\(lsb3).\(msb3)") }
         },
-                                         failure:  { (error: NSError) -> Void in
+                                          failure:  { (error: NSError) -> Void in
                                             //Handle error
                                             if kDebugLog { print("Error Getting Network Data 2: \(error)") }
-                                            self.swiftLibModbus.disconnect()
+                                            self.swiftLibModbus!.disconnect()
         })
     }
     

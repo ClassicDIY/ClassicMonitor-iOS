@@ -8,15 +8,15 @@
 
 import Foundation
 
-struct ClassicDeviceLists: Codable, Hashable {
+struct ClassicDeviceLists: Codable {
     var ip:             String?
     var port:           Int32?
     var deviceName:     String?
     var serialNumber:   String?
     
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(ip)
-    }
+//    func hash(into hasher: inout Hasher) {
+//        hasher.combine(ip)
+//    }
     
     
     init(ip: String? = nil, port: Int32? = 0, deviceName: String? = nil, serialNumber: String? = nil) {
@@ -34,7 +34,7 @@ extension ClassicDeviceLists: Equatable {
 }
 
 //extended Structure
-struct DeviceLists : Codable, Hashable {
+struct DeviceLists : Codable {
     let records: [ClassicDeviceLists]
 }
 

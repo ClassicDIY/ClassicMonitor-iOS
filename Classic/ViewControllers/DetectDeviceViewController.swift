@@ -13,28 +13,28 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
     
     @IBOutlet weak var tableView:           UITableView!
     @IBOutlet weak var searchController:    UISearchBar!
+    @IBOutlet weak var headerLabel:         UILabel!
     
     var searchActive: Bool  = false
     let IP                  = "255.255.255.255"
     let PORT: UInt16        = 4626
     var socket:             GCDAsyncUdpSocket!
     var detectedDevice:     ClassicDeviceLists!
-    //var addedToList:        Bool = false
+    var classicUrl:         String?
+    var classicPort:        Int32?
+    var reachability:       Reachability?
     
-    var ipLabel: String     = ""
-    var portLabel: String   = ""
-    
-    var selectedDevice:     Set<ClassicDeviceLists>!
+    var selectedDevice      = [ClassicDeviceLists]()
     
     // MARK: - Lists
-    var devicelists = Set<ClassicDeviceLists>() {
+    var devicelists = [ClassicDeviceLists]() {
         didSet {
             guard devicelists != oldValue else { return }
             devicesDidUpdate()
         }
     }
-    var searchedDevice = Set<ClassicDeviceLists>()
-
+    var searchedDevice = [ClassicDeviceLists]()
+    
     
     var refreshControl: UIRefreshControl = {
         return UIRefreshControl()
@@ -42,6 +42,11 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //MARK: Configure Buttons
+        headerLabel.font            = UIFont(name: GaugeView.defaultFontName, size: 20)
+        headerLabel.textColor       = UIColor(white: 0.7, alpha: 1)
+        
         searchController.delegate   = self
         tableView.dataSource        = self
         
@@ -56,8 +61,8 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         //Hide Keyboard
         self.hideKeyboardWhenTappedAround()
         // Register 'Nothing Found' cell xib
-        let cellNib = UINib(nibName: "NothingFoundCell", bundle: nil)
-        tableView.register(cellNib, forCellReuseIdentifier: "NothingFound")
+        //let cellNib = UINib(nibName: "NothingFoundCell", bundle: nil)
+        //tableView.register(cellNib, forCellReuseIdentifier: "NothingFound")
         
         // Setup TableView
         tableView.backgroundColor   = UIColor.clear
@@ -70,7 +75,9 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupConnection()
+        stopNotifier()
+        setupReachability(IP as String, useClosures: true)
+        startNotifier()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -80,12 +87,18 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         }
     }
     
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        print("Prefered Barstatus Style")
+        view.backgroundColor = UIColor(white: 0.1, alpha: 1)
+        return .lightContent
+    }
+    
     
     deinit {
         // Be a good citizen.
     }
     
-    func setupConnection(){
+    func setupConnection() {
         socket = GCDAsyncUdpSocket(delegate: self, delegateQueue:DispatchQueue.main)
         do { try socket.bind(toPort: PORT)} catch { print("Not Able to BIND Port")}
         do { try socket.enableBroadcast(true)} catch { print("not able to brad cast")}
@@ -95,10 +108,10 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
     
     //MARK:-GCDAsyncUdpSocketDelegate
     func udpSocket(_ sock: GCDAsyncUdpSocket, didReceive data: Data, fromAddress address: Data, withFilterContext filterContext: Any?) {
-        //print("incoming message: \(data)");
+        print("incoming message: \(data)");
         let signal:Signal = Signal.unarchive(d: data)
-        //print("signal information : \n first \(signal.firstSignal) , second \(signal.secondSignal) \n third \(signal.thirdSignal) , fourth \(signal.fourthSignal)")
-        print("updSocket")
+        print("signal information : \n first \(signal.firstSignal) , second \(signal.secondSignal) \n third \(signal.thirdSignal) , fourth \(signal.fourthSignal)")
+        //print("updSocket")
         let lsb3 = signal.firstSignal & 0xFF
         let msb3 = (signal.firstSignal >> 8) & 0xFF
         let lsb2 = signal.secondSignal & 0xFF
@@ -111,7 +124,9 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
             deviceName:         "CLASSIC",
             serialNumber:       "Serial Number"
         )
-        devicelists.insert(detectedDevice)
+        if (!devicelists.contains(detectedDevice)) {
+            devicelists.append(detectedDevice)
+        }
     }
     
     func udpSocket(_ sock: GCDAsyncUdpSocket, didNotConnect error: Error?) {
@@ -120,27 +135,9 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
     func udpSocketDidClose(_ sock: GCDAsyncUdpSocket, withError error: Error?) {
     }
     
-    func loadDummyData() {
-        detectedDevice = ClassicDeviceLists(
-            ip:                 "192.168.1.50",
-            port:               502,
-            deviceName:         "CLASSIC",
-            serialNumber:       "Serial Number"
-        )
-        devicelists.insert(detectedDevice)
-        
-        detectedDevice = ClassicDeviceLists(
-            ip:                 "192.168.1.50",
-            port:               502,
-            deviceName:         "CLASSIC",
-            serialNumber:       "Serial Number"
-        )
-        devicelists.insert(detectedDevice)
-    }
-    
     //MARK: Esto tiene que estar para poder hacer unwind del segue
     @IBAction func unwindFromPresentedViewController(segue: UIStoryboardSegue) {
-        if kDebugLog { print("Unwind Form") }
+        print("Unwind Form")
     }
     
     private func devicesDidUpdate() {
@@ -173,11 +170,11 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
             cell.backgroundColor = (indexPath.row % 2 == 0) ? UIColor.clear : UIColor.black.withAlphaComponent(0.2)
             
             if(searchedDevice.count == 0){
-                let deviceList = devicelists.index(devicelists.startIndex, offsetBy: indexPath.row)
-                cell.configureDeviceCell(deviceList: devicelists[deviceList])
+                let deviceList = devicelists[indexPath.row]
+                cell.configureDeviceCell(deviceList: deviceList)
             } else {
-                let deviceList = searchedDevice.index(devicelists.startIndex, offsetBy: indexPath.row)//searchedDevice[indexPath.row]
-                cell.configureDeviceCell(deviceList: devicelists[deviceList])
+                let deviceList = searchedDevice[indexPath.row]
+                cell.configureDeviceCell(deviceList: deviceList)
             }
             return cell
         }
@@ -191,7 +188,8 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         // For each item, return true if the item should be included and false if the
         // item should NOT be included
         searchedDevice = devicelists.filter {
-            return ($0.ip!.range(of: searchText, options: [.caseInsensitive]) != nil) || ($0.deviceName!.range(of: searchText, options: [.caseInsensitive]) != nil) }
+            return ($0.ip!.range(of: searchText, options: [.caseInsensitive]) != nil) || ($0.deviceName!.range(of: searchText, options: [.caseInsensitive]) != nil)
+        }
         self.tableView.reloadData()
     }
 }
@@ -201,14 +199,13 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
 //*****************************************************************
 
 extension DetectDeviceViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let cell = tableView.cellForRow(at: indexPath)! as! DetectDeviceViewCell
-        ipLabel                         = cell.ipLabel.text!
-        portLabel                       = cell.portLabel.text!
-        let deviceNameLabel: String     = cell.deviceNameLabel.text!
-        let serialNumberLabel: String   = cell.serialNumberLabel.text!
-        print("Selected \(ipLabel) with port \(portLabel) device name \(deviceNameLabel) with serial number \(serialNumberLabel)")
+        classicUrl  = devicelists[indexPath.row].ip
+        classicPort = devicelists[indexPath.row].port
+        print("SELECTED: \(String(describing: classicUrl)) - \(String(describing: classicPort))")
+        performSegue(withIdentifier: "SelectedSegue", sender: self)
     }
     
     //*****************************************************************
@@ -216,15 +213,92 @@ extension DetectDeviceViewController: UITableViewDelegate {
     //*****************************************************************
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let identifier = segue.identifier{
-            switch identifier {
-                case "SelectedSegue":
-                    let indexPath       = self.tableView.indexPathForSelectedRow
-                    let index           = devicelists.index(devicelists.startIndex, offsetBy: indexPath!.row)
-                    let viewController  = segue.destination as! ViewController
-                    viewController.classicURL   = (devicelists[index].ip!) as NSString
-                    viewController.classicPort  = (devicelists[index].port)! as Int32
-                default: break
+        if segue.identifier == "SelectedSegue" {
+            let viewController          = segue.destination as! ViewController
+            viewController.classicURL   = classicUrl! as NSString
+            viewController.classicPort  = classicPort!
+        }
+    }
+}
+
+extension DetectDeviceViewController {
+    func setupReachability(_ hostName: String?, useClosures: Bool) {
+        let reachability: Reachability?
+        if let hostName = hostName {
+            reachability = try? Reachability(hostname: hostName)
+        } else {
+            reachability = try? Reachability()
+        }
+        self.reachability = reachability
+        if kDebugLog { print("--- Set up with host name: \(String(describing: hostName))") }
+        print("--- Set up with host name: \(String(describing: hostName))")
+        if useClosures {
+            reachability?.whenReachable = { reachability in
+                self.setupConnection()
+            }
+            reachability?.whenUnreachable = { reachability in
+                if (!self.socket.isClosed()) {
+                    self.socket.close()
+                }
+            }
+        } else {
+            NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(reachabilityChanged(_:)),
+                name: .reachabilityChanged,
+                object: reachability
+            )
+        }
+    }
+    
+    @objc func reachabilityChanged(_ note: Notification) {
+        let reachability = note.object as! Reachability
+        
+        if reachability.connection != .unavailable {
+            if (!self.socket.isClosed()) {
+                self.socket.close()
+            }
+        } else {
+            self.setupConnection()
+        }
+    }
+    
+    func startNotifier() {
+        if kDebugLog { print("--- start notifier") }
+        do {
+            try reachability?.startNotifier()
+        } catch {
+            if kDebugLog { print("Unable to start notifier") }
+            return
+        }
+    }
+    
+    func stopNotifier() {
+        reachability?.stopNotifier()
+        NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: nil)
+        reachability = nil
+    }
+    
+    @objc func reachabilityChanged(note: Notification) {
+        let reachability = note.object as! Reachability
+        switch reachability.connection {
+        case .wifi:
+            if kDebugLog { print("Reachable via WiFi") }
+            setupConnection()
+        case .cellular:
+            if kDebugLog { print("Reachable via Cellular") }
+            if (!self.socket.isClosed()) {
+                self.socket.close()
+            }
+        case .unavailable:
+            if kDebugLog { print("Network not reachable") }
+            if (!self.socket.isClosed()) {
+                self.socket.close()
+            }
+        case .none:
+            if kDebugLog {print("Unknown") }
+            if (!self.socket.isClosed()) {
+                self.socket.close()
             }
         }
     }
