@@ -28,6 +28,7 @@
 		658EC24D250D4A4400F1ACAF /* DetectDeviceViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658EC24C250D4A4400F1ACAF /* DetectDeviceViewCell.swift */; };
 		658EC25025101E9700F1ACAF /* ClassicDeviceLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658EC24F25101E9700F1ACAF /* ClassicDeviceLists.swift */; };
 		658EC25225102C6C00F1ACAF /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 658EC25125102C6C00F1ACAF /* NothingFoundCell.xib */; };
+		65A3887E2512A45B00379D78 /* ClassicData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 65A3887C2512A45B00379D78 /* ClassicData.xcdatamodeld */; };
 		65B44D412509ACEE0079A3C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65B44D402509ACEE0079A3C8 /* LaunchScreen.storyboard */; };
 		A4F78B4298D572731A394381 /* Pods_Classic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA99D76AF696B0065EA3DE99 /* Pods_Classic.framework */; };
 /* End PBXBuildFile section */
@@ -67,6 +68,7 @@
 		658EC24C250D4A4400F1ACAF /* DetectDeviceViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectDeviceViewCell.swift; sourceTree = "<group>"; };
 		658EC24F25101E9700F1ACAF /* ClassicDeviceLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassicDeviceLists.swift; sourceTree = "<group>"; };
 		658EC25125102C6C00F1ACAF /* NothingFoundCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NothingFoundCell.xib; sourceTree = "<group>"; };
+		65A3887D2512A45B00379D78 /* ClassicData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClassicData.xcdatamodel; sourceTree = "<group>"; };
 		65B44D402509ACEE0079A3C8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DA99D76AF696B0065EA3DE99 /* Pods_Classic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Classic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF6CFEDBAC207EAB6F59AD3B /* Pods-Classic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Classic.release.xcconfig"; path = "Target Support Files/Pods-Classic/Pods-Classic.release.xcconfig"; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 		657A8D342506AE4B006B2BD0 /* Classic */ = {
 			isa = PBXGroup;
 			children = (
+				65A3887B2512A42B00379D78 /* CoreData */,
 				658EC24E25101E8200F1ACAF /* Models */,
 				655536892508597700B7DE1B /* Classic.entitlements */,
 				657A8D512506B25D006B2BD0 /* ModBusLibs */,
@@ -189,6 +192,14 @@
 				658EC24F25101E9700F1ACAF /* ClassicDeviceLists.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		65A3887B2512A42B00379D78 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				65A3887C2512A45B00379D78 /* ClassicData.xcdatamodeld */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		9D587FA22DCFA06E138848F5 /* Frameworks */ = {
@@ -319,6 +330,7 @@
 			files = (
 				650B9305250882B4002017BE /* GaugeView.swift in Sources */,
 				658EC249250CED4A00F1ACAF /* Signal.swift in Sources */,
+				65A3887E2512A45B00379D78 /* ClassicData.xcdatamodeld in Sources */,
 				655CC3AB250A5A9200A0D6D0 /* modbus-data.c in Sources */,
 				658EB55C250AF5D20071D8FA /* Reachability.swift in Sources */,
 				657A8D3A2506AE4B006B2BD0 /* ViewController.swift in Sources */,
@@ -473,7 +485,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Classic/Classic.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = 648XC4D3FH;
 				INFOPLIST_FILE = Classic/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -499,7 +511,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Classic/Classic.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = 648XC4D3FH;
 				INFOPLIST_FILE = Classic/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -538,6 +550,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		65A3887C2512A45B00379D78 /* ClassicData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				65A3887D2512A45B00379D78 /* ClassicData.xcdatamodel */,
+			);
+			currentVersion = 65A3887D2512A45B00379D78 /* ClassicData.xcdatamodel */;
+			path = ClassicData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 657A8D2A2506AE4B006B2BD0 /* Project object */;
 }
