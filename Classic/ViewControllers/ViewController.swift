@@ -23,7 +23,6 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     @IBOutlet weak var gaugeInputView:          GaugeViewFloat!
     @IBOutlet weak var gaugeBatteryAmpsView:    GaugeViewFloat!
     @IBOutlet weak var gaugeBatteryVoltsView:   GaugeView!
-    
     @IBOutlet weak var powerLabel:              UILabel!
     @IBOutlet weak var energyLabel:             UILabel!
     @IBOutlet weak var voltsLabel:              UILabel!
@@ -57,6 +56,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     
     deinit {
         stopNotifier()
+        swiftLibModbus = nil
         //swiftLibModbus.disconnect()
     }
     
@@ -66,7 +66,14 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         swiftLibModbus = SwiftLibModbus(ipAddress: classicURL, port: classicPort, device: 1)
         // Do any additional setup after loading the view.
         configureGaugeViews()
+        //MARK: Para verificar cuando cae en el background
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self,selector: #selector(appMovedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
         //getChargerConnectValues()
+    }
+    
+    @objc func appMovedToBackground() {
+        self.dismiss(animated: true, completion: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -345,12 +352,6 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         return UIColor(red: 11.0/255, green: 150.0/255, blue: 246.0/255, alpha: 1)
     }
     
-    @IBAction func connect(_ sender: Any) {
-        stopNotifier()
-        setupReachability(classicURL as String, useClosures: true)
-        startNotifier()
-    }
-    
     func connectToDevice() {
         if (!isConnected) {
             swiftLibModbus!.connect(
@@ -387,11 +388,6 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         self.swiftLibModbus!.disconnect()
         isConnected.toggle()
         stopNotifier()
-    }
-    
-    //MARK: From ModbusTask.java del app de Android
-    @IBAction func callFunction(_ sender: Any) {
-        readValues()
     }
     
     @objc func readValues() {
@@ -478,7 +474,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         })
     }
     
-    @IBAction func getData2(_ sender: Any) {
+    func getData2() {
         swiftLibModbus!.readRegistersFrom(startAddress: 20480, count: 11,
                                           success: { (array: [AnyObject]) -> Void in
                                             if kDebugLog { print("Recived Network Data: \(array)") }
@@ -498,10 +494,6 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
                                             if kDebugLog { print("Error Getting Network Data 2: \(error)") }
                                             self.swiftLibModbus!.disconnect()
         })
-    }
-    
-    @IBAction func disconnects(_ sender: Any) {
-        disconnectFromDevice()
     }
 }
 

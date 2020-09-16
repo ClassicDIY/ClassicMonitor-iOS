@@ -61,8 +61,8 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         //Hide Keyboard
         self.hideKeyboardWhenTappedAround()
         // Register 'Nothing Found' cell xib
-        //let cellNib = UINib(nibName: "NothingFoundCell", bundle: nil)
-        //tableView.register(cellNib, forCellReuseIdentifier: "NothingFound")
+        let cellNib = UINib(nibName: "NothingFoundCell", bundle: nil)
+        tableView.register(cellNib, forCellReuseIdentifier: "NothingFound")
         
         // Setup TableView
         tableView.backgroundColor   = UIColor.clear
@@ -160,7 +160,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if devicelists.isEmpty {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "NothingFound", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NothingFound", for: indexPath) as! DetectDeviceViewCell
             cell.backgroundColor = .clear
             cell.selectionStyle  = .none
             return cell
@@ -253,7 +253,6 @@ extension DetectDeviceViewController {
     
     @objc func reachabilityChanged(_ note: Notification) {
         let reachability = note.object as! Reachability
-        
         if reachability.connection != .unavailable {
             if (!self.socket.isClosed()) {
                 self.socket.close()

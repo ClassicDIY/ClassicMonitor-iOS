@@ -5,6 +5,7 @@
 //  Created by Urayoan Miranda on 9/12/20.
 //  Copyright © 2020 Urayoan Miranda. All rights reserved.
 //
+//https://blog.usejournal.com/easy-tableview-setup-tutorial-swift-4-ad48ec4cbd45
 
 import Foundation
 import UIKit
