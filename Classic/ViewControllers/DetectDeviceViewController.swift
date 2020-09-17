@@ -9,6 +9,7 @@
 
 import UIKit
 import CocoaAsyncSocket
+import CoreData
 
 class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, UISearchBarDelegate, UITableViewDataSource, UITextFieldDelegate, UITextViewDelegate {
     

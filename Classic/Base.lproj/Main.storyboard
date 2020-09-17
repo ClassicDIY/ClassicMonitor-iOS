@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QhX-jn-QHk">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QhX-jn-QHk">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -24,7 +25,7 @@
                                         <state key="normal" title="Add"/>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Charge Controllers" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I64-gs-fWW">
-                                        <rect key="frame" x="115.66666666666669" y="11.666666666666664" width="144" height="21"/>
+                                        <rect key="frame" x="116" y="11.666666666666664" width="143" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -41,7 +42,7 @@
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sdf-2B-Vpx">
                                 <rect key="frame" x="0.0" y="132" width="375" height="646"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="sectionIndexColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="deviceCell" rowHeight="50" id="Zca-Ms-dEE" customClass="DetectDeviceViewCell" customModule="Classic_Monitor" customModuleProvider="target">
@@ -125,7 +126,8 @@
                                 </connections>
                             </searchBar>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                        <viewLayoutGuide key="safeArea" id="Ydu-Db-XD2"/>
+                        <color key="backgroundColor" systemColor="viewFlipsideBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="YYv-ac-0hQ" firstAttribute="leading" secondItem="Ydu-Db-XD2" secondAttribute="leading" id="6Gv-Yh-9TQ"/>
                             <constraint firstItem="Bzg-hc-J7r" firstAttribute="top" secondItem="Ydu-Db-XD2" secondAttribute="top" id="7yi-wR-HA6"/>
@@ -139,7 +141,6 @@
                             <constraint firstItem="Bzg-hc-J7r" firstAttribute="trailing" secondItem="Ydu-Db-XD2" secondAttribute="trailing" id="hWC-Ss-N43"/>
                             <constraint firstItem="YYv-ac-0hQ" firstAttribute="top" secondItem="Bzg-hc-J7r" secondAttribute="bottom" id="vL0-0O-3vT"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="Ydu-Db-XD2"/>
                     </view>
                     <connections>
                         <outlet property="headerLabel" destination="I64-gs-fWW" id="Jq0-Io-kb8"/>
@@ -176,7 +177,7 @@
                                             <segue destination="rJf-jb-CbS" kind="unwind" unwindAction="unwindFromPresentedViewControllerWithSegue:" id="wfn-tX-UJO"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2JM-Up-yL8">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2JM-Up-yL8">
                                         <rect key="frame" x="162" y="7" width="51" height="30"/>
                                         <state key="normal" title="Midnite">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -329,7 +330,8 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="viewFlipsideBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="C5V-BS-UXJ" firstAttribute="top" secondItem="brq-kW-N8a" secondAttribute="bottom" id="AaA-3I-Yr2"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="brq-kW-N8a" secondAttribute="trailing" constant="20" id="Fi5-z3-Q8a"/>
@@ -345,7 +347,6 @@
                             <constraint firstItem="brq-kW-N8a" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="v3c-4s-HMw"/>
                             <constraint firstItem="C5V-BS-UXJ" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="vz7-y1-uwY"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Classic 250" id="yd8-Hl-tVD"/>
                     <connections>
@@ -375,18 +376,30 @@
                     <view key="view" contentMode="scaleToFill" id="0qT-mq-CLw">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <viewLayoutGuide key="safeArea" id="ZjO-gs-7p1"/>
+                        <color key="backgroundColor" systemColor="viewFlipsideBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="kLZ-PR-gca"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RQB-56-1U0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2621.739130434783" y="-7.3660714285714279"/>
+            <point key="canvasLocation" x="2574" y="-7"/>
         </scene>
     </scenes>
     <resources>
         <image name="back-3" width="21.333333969116211" height="21.333333969116211"/>
         <image name="ground_fault" width="10" height="10"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="viewFlipsideBackgroundColor">
+            <color red="0.1215686274509804" green="0.12941176470588239" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="viewFlipsideBackgroundColor">
+            <color red="0.1215686274509804" green="0.12941176470588239" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="viewFlipsideBackgroundColor">
+            <color red="0.1215686274509804" green="0.12941176470588239" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>
