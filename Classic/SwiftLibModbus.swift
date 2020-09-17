@@ -25,12 +25,14 @@ class SwiftLibModbus: NSObject {
     init(ipAddress: NSString, port: Int32, device: Int32) {
         super.init()
         modbusQueue = DispatchQueue(label: "com.iModbus.modbusQueue", attributes: .concurrent)
+        //modbusQueue = DispatchQueue(label: "com.iModbus.modbusQueue")
+        
         let _ = self.setupTCP(ipAddress: ipAddress, port: port, device: device)
     }
     
     func setupTCP(ipAddress: NSString, port: Int32, device: Int32) -> Bool {
         self.ipAddress = ipAddress
-        print("IP Address: \(ipAddress)")
+        if kDebugLog { print("IP Address: \(ipAddress)") }
         mb = modbus_new_tcp(ipAddress.cString(using: String.Encoding.ascii.rawValue) , port)
         var modbusErrorRecoveryMode = modbus_error_recovery_mode(0)
         modbusErrorRecoveryMode = modbus_error_recovery_mode(rawValue: MODBUS_ERROR_RECOVERY_LINK.rawValue | MODBUS_ERROR_RECOVERY_PROTOCOL.rawValue)
@@ -44,7 +46,7 @@ class SwiftLibModbus: NSObject {
         if ret == -1 {
             var error = error
             error = self.buildNSError(errno: errno)
-            print("Connect With Error: \(error)")
+            if kDebugLog { print("Connect With Error: \(error)") }
             return false
         }
         return true
@@ -53,7 +55,6 @@ class SwiftLibModbus: NSObject {
     func connect(success: @escaping () -> Void, failure: @escaping (NSError) -> Void) {
         modbusQueue?.async {
             let ret = modbus_connect(self.mb!)
-            print("ERROR RET: \(ret)")
             if ret == -1 {
                 let error = self.buildNSError(errno: errno)
                 DispatchQueue.main.async {
@@ -61,7 +62,6 @@ class SwiftLibModbus: NSObject {
                 }
             } else {
                 DispatchQueue.main.async {
-                    print("ERROR RET2 \(ret)")
                     success()
                 }
             }
@@ -78,19 +78,19 @@ class SwiftLibModbus: NSObject {
             self.writeBit(address: address, status: status,
                           success: { () -> Void in
                             success()
-            },
+                          },
                           failure: { (error: NSError) -> Void in
                             failure(error)
-            })
+                          })
         }
         else if type == .kRegisters {
             self.writeRegister(address: address, value: value,
                                success: { () -> Void in
                                 success()
-            },
+                               },
                                failure: { (error: NSError) -> Void in
                                 failure(error)
-            })
+                               })
         }
         else {
             let error = self.buildNSError(errno: errno, errorString: "Could not write. Function type is read only")
@@ -103,37 +103,36 @@ class SwiftLibModbus: NSObject {
             self.readInputBitsFrom(startAddress: startAddress, count: count,
                                    success: { (array: [AnyObject]) -> Void in
                                     success(array)
-            },
+                                   },
                                    failure: { (error: NSError) -> Void in
                                     failure(error)
-            })
+                                   })
         }
         else if type == .kBits {
             self.readBitsFrom(startAddress: startAddress, count: count,
                               success: { (array: [AnyObject]) -> Void in
                                 success(array)
-            },
+                              },
                               failure: { (error: NSError) -> Void in
                                 failure(error)
-            })
+                              })
         }
         else if type == .kInputRegisters {
             self.readInputRegistersFrom(startAddress: startAddress, count: count,
                                         success: { (array: [AnyObject]) -> Void in
                                             success(array)
-            },
+                                        },
                                         failure: { (error: NSError) -> Void in
                                             failure(error)
-            })
+                                        })
         }
         else if type == .kRegisters {
-            self.readRegistersFrom(startAddress: startAddress, count: count,
-                                   success: { (array: [AnyObject]) -> Void in
-                                    success(array)
+            self.readRegistersFrom(startAddress: startAddress, count: count,success: { (array: [AnyObject]) -> Void in
+                success(array)
             },
-                                   failure: { (error: NSError) -> Void in
-                                    print("Error Reading readRegistersFrom: \(error)")
-                                    failure(error)
+            failure: { (error: NSError) -> Void in
+                print("Error Reading readRegistersFrom: \(error)")
+                failure(error)
             })
         }
     }

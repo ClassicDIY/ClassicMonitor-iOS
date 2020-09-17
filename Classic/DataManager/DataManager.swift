@@ -20,10 +20,11 @@ struct DataManager {
         },
         failure:  { (error: NSError) -> Void in
             //Handle error
-            if kDebugLog { print("Error Getting Network Data 1: \(error)") }
+            if kDebugLog { print("Error Getting Network DataManager: \(error)") }
             swiftLibModbus.disconnect()
             completion(nil, error)
             return
         })
+        swiftLibModbus.disconnect()
     }
 }

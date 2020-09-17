@@ -30,16 +30,12 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     @IBOutlet weak var batAmpsLabel:            UILabel!
     @IBOutlet weak var buttonDeviceDescription: UIButton!
     @IBOutlet weak var buttonReturn:            UIButton!
-    
-    //@IBOutlet weak var deviceModel: UILabel!
-    
+        
     var classicURL: NSString    = ""
     var classicPort: Int32      = 0
     
-    var isConnected: Bool       = false
     var timeDelta: Double       = 10.0/24 //MARK: For the timer to read
     var timer: Timer?           = nil
-    var swiftLibModbus:         SwiftLibModbus?
     
     var reachability: Reachability?
     
@@ -56,14 +52,11 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     
     deinit {
         stopNotifier()
-        swiftLibModbus = nil
-        //swiftLibModbus.disconnect()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Recived Parameter: \(classicURL) - \(classicPort)")
-        swiftLibModbus = SwiftLibModbus(ipAddress: classicURL, port: classicPort, device: 1)
         // Do any additional setup after loading the view.
         configureGaugeViews()
         //MARK: Para verificar cuando cae en el background
@@ -132,7 +125,6 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     
     func createTimer() {
         // 1
-        isConnected.toggle()
         if timer == nil {
             // 2
             timer = Timer.scheduledTimer(timeInterval: 1.0,
@@ -185,7 +177,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
             }
             reachability?.whenUnreachable = { reachability in
                 self.ivalidateTimer()
-                self.swiftLibModbus!.disconnect()
+                //self.swiftLibModbus!.disconnect()
             }
         } else {
             NotificationCenter.default.addObserver(
@@ -202,7 +194,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         
         if reachability.connection != .unavailable {
             self.ivalidateTimer()
-            self.swiftLibModbus!.disconnect()
+            //self.swiftLibModbus!.disconnect()
         } else {
             self.createTimer()
         }
@@ -353,145 +345,118 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     }
     
     func connectToDevice() {
-        if (!isConnected) {
-            swiftLibModbus!.connect(
-                success: { () -> Void in
-                    if kDebugLog { print("Conectado") }
-                    self.createTimer()
-                },
-                failure: { (error: NSError) -> Void in
-                    //Handle error
-                    if kDebugLog { print("Error Connecting: \(error)") }
-                    let message = "Failed to connect. Check your network and try again."
-                    let alert = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                                                    switch action.style{
-                                                    case .default:
-                                                        print("default")
-                                                    case .cancel:
-                                                        print("cancel")
-                                                    case .destructive:
-                                                        print("destructive")
-                                                    @unknown default:
-                                                        if kDebugLog { print("Unknown Default Error in Alert") }
-                                                    }}))
-                    self.present(alert, animated: true, completion: nil)
-                })
-        } else {
-            if kDebugLog { print("Is already connected and getting data") }
-        }
+        self.createTimer()
     }
     
     func disconnectFromDevice() {
         if kDebugLog { print("Disconnect") }
         ivalidateTimer()
-        self.swiftLibModbus!.disconnect()
-        isConnected.toggle()
+        //self.swiftLibModbus!.disconnect()
         stopNotifier()
     }
     
     @objc func readValues() {
-        swiftLibModbus!.readRegistersFrom(startAddress: 4100, count: 44, success: { (array: [AnyObject]) -> Void in
-            if kDebugLog { print("Received Data 1: \(array)") }
-            
-            let unitId = Int(truncating: array[0] as! NSNumber)
-            if kDebugLog { print("Unit Type: \(unitId & 0xFF) PCB revision: \(unitId >> 8 & 0xFF)") }
-            switch (unitId & 0xFF) {
-            case 150:
-                if kDebugLog { print("Classic 150: \(unitId >> 8 & 0xFF)") }
-                self.buttonDeviceDescription.setTitle("Classic 150", for: .normal)
-            case 200:
-                if kDebugLog { print("Classic 200: \(unitId >> 8 & 0xFF)") }
-                self.buttonDeviceDescription.setTitle("Classic 200", for: .normal)
-            case 250:
-                if kDebugLog { print("Classic 250: \(unitId >> 8 & 0xFF)") }
-                self.buttonDeviceDescription.setTitle("Classic 250", for: .normal)
-            case 251:
-                if kDebugLog { print("Classic 250 KS: \(unitId >> 8 & 0xFF)") }
-                self.buttonDeviceDescription.setTitle("Classic 250 KS", for: .normal)
-            default:
-                if kDebugLog { print("Not Recognized") }
+        DataManager.readModbusValues(classicURL: classicURL as NSString, classicPort: classicPort, device: 1, startAddress: 4100, count: 44) { array, error in
+            print("ENTRO AL DATAMANAGER: \(String(describing: array))")
+            if error != nil {
+                print("Error nil - ViewControllers: \(String(describing: error))")
+            } else {
+                if kDebugLog { print("Received Data 1: \(String(describing: array))") }
+                
+                let unitId = Int(truncating: array?[0] as! NSNumber)
+                if kDebugLog { print("Unit Type: \(unitId & 0xFF) PCB revision: \(unitId >> 8 & 0xFF)") }
+                switch (unitId & 0xFF) {
+                case 150:
+                    if kDebugLog { print("Classic 150: \(unitId >> 8 & 0xFF)") }
+                    self.buttonDeviceDescription.setTitle("Classic 150", for: .normal)
+                case 200:
+                    if kDebugLog { print("Classic 200: \(unitId >> 8 & 0xFF)") }
+                    self.buttonDeviceDescription.setTitle("Classic 200", for: .normal)
+                case 250:
+                    if kDebugLog { print("Classic 250: \(unitId >> 8 & 0xFF)") }
+                    self.buttonDeviceDescription.setTitle("Classic 250", for: .normal)
+                case 251:
+                    if kDebugLog { print("Classic 250 KS: \(unitId >> 8 & 0xFF)") }
+                    self.buttonDeviceDescription.setTitle("Classic 250 KS", for: .normal)
+                default:
+                    if kDebugLog { print("Not Recognized") }
+                }
+                
+                //MARK: Ejemplo de data actual
+                //Received Data 1: [1274, 2018, 518, 10, 0, 41976, 3840, 24605, 0, 0, 56116, 38041, 24597, 1, 542, 1458, 184, 6, 1012, 1028, 75, 1776, 2432, 0, 11, 11929, 0, 22326, 0, 12292, 45568, 303, 524, 560, 0, 300, 502, 2, 7198, 184, 557, 11, 3600, 0]
+                //https://stackoverflow.com/questions/39110991/calculating-most-and-least-significant-bytemsb-lsb-with-swift
+                let reg6 = Int(truncating: array?[5] as! NSNumber)
+                let reg7 = Int(truncating: array?[6] as! NSNumber)
+                let reg8 = Int(truncating: array?[7] as! NSNumber)
+                
+                let lsb6 = reg6 & 0xFF
+                let msb6 = (reg6 >> 8) & 0xFF
+                
+                let lsb7 = reg7 & 0xFF
+                let msb7 = (reg7 >> 8) & 0xFF
+                
+                let lsb8 = reg8 & 0xFF
+                let msb8 = (reg8 >> 8) & 0xFF
+                
+                if kDebugLog { print("***************************") }
+                if kDebugLog { print(String(format: "Mac Addess: %02x:%02x:%02x:%02x:%02x:%02x", msb8, lsb8, msb7, lsb7, msb6, lsb6)) }
+                
+                //Name
+                //Value
+                //Description
+                //Classic150 Classic200 Classic250 Classic250 KS
+                //150         Classic 150
+                //200     Classic 200
+                //250     Classic 250
+                //251     Classic 250 with 120 V Battery bank capability (lower current than 250)
+                
+                let dispavgVbatt = Double(truncating: array?[14] as! NSNumber) / 10
+                if kDebugLog { print("Battery Volts: \(dispavgVbatt) V") }
+                self.gaugeBatteryVoltsView.value = dispavgVbatt
+                
+                
+                let dispavgVpv = Double(truncating: array?[15] as! NSNumber) / 10
+                if kDebugLog { print("Battery Volts: \(dispavgVpv) V") }
+                self.gaugeInputView.value = dispavgVpv
+                
+                let IbattDisplayS = Double(truncating: array?[16] as! NSNumber) / 10
+                if kDebugLog { print("Battery Volts: \(IbattDisplayS) Amps") }
+                self.gaugeBatteryAmpsView.value = IbattDisplayS
+                
+                
+                let kWHours = Double(truncating: array?[17] as! NSNumber) / 10
+                self.gaugeEnergyView.value = kWHours
+                if kDebugLog { print("Generated Energy : \(kWHours) kWatt-Hours") }
+                
+                let comboChargeStage = array?[19]
+                if kDebugLog { print("Charge Stage: \((Int(truncating: comboChargeStage as! NSNumber) >> 8) & 0xFF)") }
+                if kDebugLog { print("Stage: \(Int(truncating: comboChargeStage as! NSNumber) & 0xFF)") }
+                
+                let watts = Double(truncating: array?[18] as! NSNumber)
+                self.gaugePowerView.value = watts
             }
-            
-            //MARK: Ejemplo de data actual
-            //Received Data 1: [1274, 2018, 518, 10, 0, 41976, 3840, 24605, 0, 0, 56116, 38041, 24597, 1, 542, 1458, 184, 6, 1012, 1028, 75, 1776, 2432, 0, 11, 11929, 0, 22326, 0, 12292, 45568, 303, 524, 560, 0, 300, 502, 2, 7198, 184, 557, 11, 3600, 0]
-            //https://stackoverflow.com/questions/39110991/calculating-most-and-least-significant-bytemsb-lsb-with-swift
-            let reg6 = Int(truncating: array[5] as! NSNumber)
-            let reg7 = Int(truncating: array[6] as! NSNumber)
-            let reg8 = Int(truncating: array[7] as! NSNumber)
-            
-            let lsb6 = reg6 & 0xFF
-            let msb6 = (reg6 >> 8) & 0xFF
-            
-            let lsb7 = reg7 & 0xFF
-            let msb7 = (reg7 >> 8) & 0xFF
-            
-            let lsb8 = reg8 & 0xFF
-            let msb8 = (reg8 >> 8) & 0xFF
-            
-            if kDebugLog { print("***************************") }
-            if kDebugLog { print(String(format: "Mac Addess: %02x:%02x:%02x:%02x:%02x:%02x", msb8, lsb8, msb7, lsb7, msb6, lsb6)) }
-            
-            //Name
-            //Value
-            //Description
-            //Classic150 Classic200 Classic250 Classic250 KS
-            //150         Classic 150
-            //200     Classic 200
-            //250     Classic 250
-            //251     Classic 250 with 120 V Battery bank capability (lower current than 250)
-            
-            let dispavgVbatt = Double(truncating: array[14] as! NSNumber) / 10
-            if kDebugLog { print("Battery Volts: \(dispavgVbatt) V") }
-            self.gaugeBatteryVoltsView.value = dispavgVbatt
-            
-            
-            let dispavgVpv = Double(truncating: array[15] as! NSNumber) / 10
-            if kDebugLog { print("Battery Volts: \(dispavgVpv) V") }
-            self.gaugeInputView.value = dispavgVpv
-            
-            let IbattDisplayS = Double(truncating: array[16] as! NSNumber) / 10
-            if kDebugLog { print("Battery Volts: \(IbattDisplayS) Amps") }
-            self.gaugeBatteryAmpsView.value = IbattDisplayS
-            
-            
-            let kWHours = Double(truncating: array[17] as! NSNumber) / 10
-            self.gaugeEnergyView.value = kWHours
-            if kDebugLog { print("Generated Energy : \(kWHours) kWatt-Hours") }
-            
-            let comboChargeStage = array[19]
-            if kDebugLog { print("Charge Stage: \((Int(truncating: comboChargeStage as! NSNumber) >> 8) & 0xFF)") }
-            if kDebugLog { print("Stage: \(Int(truncating: comboChargeStage as! NSNumber) & 0xFF)") }
-            
-            let watts = Double(truncating: array[18] as! NSNumber)
-            self.gaugePowerView.value = watts
-        },
-        failure:  { (error: NSError) -> Void in
-            //Handle error
-            if kDebugLog { print("Error Getting Network Data 1: \(error)") }
-            self.swiftLibModbus!.disconnect()
-        })
+        }
     }
     
     func getData2() {
-        swiftLibModbus!.readRegistersFrom(startAddress: 20480, count: 11, success: { (array: [AnyObject]) -> Void in
-            if kDebugLog { print("Recived Network Data: \(array)") }
-            //MARK: Ejemplo de data actual
-            //Recived Network Data: [2, 43200, 12801, 43200, 257, 65535, 255, 43200, 257, 2056, 2056]
-            let reg3 = Int(truncating: array[2] as! NSNumber)
-            let reg2 = Int(truncating: array[1] as! NSNumber)
-            
-            let lsb3 = reg3 & 0xFF
-            let msb3 = (reg3 >> 8) & 0xFF
-            let lsb2 = reg2 & 0xFF
-            let msb2 = (reg2 >> 8) & 0xFF
-            if kDebugLog { print("IP Address: \(lsb2).\(msb2).\(lsb3).\(msb3)") }
-        },
-        failure:  { (error: NSError) -> Void in
-            //Handle error
-            if kDebugLog { print("Error Getting Network Data 2: \(error)") }
-            self.swiftLibModbus!.disconnect()
-        })
+        DataManager.readModbusValues(classicURL: classicURL as NSString, classicPort: classicPort, device: 1, startAddress: 20480, count: 11) { array, error in
+            print("ENTRO AL DATAMANAGER: \(String(describing: array))")
+            if error != nil {
+                print("Error nil - ViewControllers: \(String(describing: error))")
+            } else {
+                if kDebugLog { print("Recived Network Data: \(String(describing: array))") }
+                //MARK: Ejemplo de data actual
+                //Recived Network Data: [2, 43200, 12801, 43200, 257, 65535, 255, 43200, 257, 2056, 2056]
+                let reg3 = Int(truncating: array?[2] as! NSNumber)
+                let reg2 = Int(truncating: array?[1] as! NSNumber)
+                
+                let lsb3 = reg3 & 0xFF
+                let msb3 = (reg3 >> 8) & 0xFF
+                let lsb2 = reg2 & 0xFF
+                let msb2 = (reg2 >> 8) & 0xFF
+                if kDebugLog { print("IP Address: \(lsb2).\(msb2).\(lsb3).\(msb3)") }
+            }
+        }
     }
 }
 

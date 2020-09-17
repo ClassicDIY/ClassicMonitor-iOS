@@ -26,7 +26,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
     var classicPort:        Int32?
     var reachability:       Reachability?
     var selectedDevice      = [ClassicDeviceLists]()
-        
+    
     // MARK: - Lists
     var devicelists = [ClassicDeviceLists]() {
         didSet {
@@ -117,10 +117,11 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         let lsb2 = signal.secondSignal & 0xFF
         let msb2 = (signal.secondSignal >> 8) & 0xFF
         print("IP Address: \(lsb3).\(msb3).\(lsb2).\(msb2) with port \(signal.thirdSignal)")
-             
+        
         DataManager.readModbusValues(classicURL: "\(lsb3).\(msb3).\(lsb2).\(msb2)" as NSString, classicPort: Int32(signal.thirdSignal), device: 1, startAddress: 4100, count: 1) { data, error in
-            if error == nil {
-                
+            print("ENTRO AL DATAMANAGER: \(String(describing: data))")
+            if error != nil {
+                print("Error !nil: \(String(describing: error))")
             } else {
                 var deviceModel: String?
                 let unitId = Int(truncating: data?[0] as! NSNumber)
@@ -153,7 +154,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                 if (!self.devicelists.contains(self.detectedDevice)) {
                     self.devicelists.append(self.detectedDevice)
                 }
-
+                
             }
         }
     }
