@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		650B930325088293002017BE /* GaugeViewFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650B930225088293002017BE /* GaugeViewFloat.swift */; };
 		650B9305250882B4002017BE /* GaugeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650B9304250882B4002017BE /* GaugeView.swift */; };
-		653A9BC925113C8B009B031F /* WithSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653A9BC825113C8B009B031F /* WithSet.swift */; };
+		653A9BC925113C8B009B031F /* BACKUP_NO_BORRAR.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653A9BC825113C8B009B031F /* BACKUP_NO_BORRAR.swift */; };
 		655CC3A8250A5A9200A0D6D0 /* modbus-tcp.c in Sources */ = {isa = PBXBuildFile; fileRef = 655CC39F250A5A9200A0D6D0 /* modbus-tcp.c */; };
 		655CC3A9250A5A9200A0D6D0 /* modbus-version.h.in in Resources */ = {isa = PBXBuildFile; fileRef = 655CC3A1250A5A9200A0D6D0 /* modbus-version.h.in */; };
 		655CC3AA250A5A9200A0D6D0 /* modbus-rtu.c in Sources */ = {isa = PBXBuildFile; fileRef = 655CC3A4250A5A9200A0D6D0 /* modbus-rtu.c */; };
@@ -28,6 +28,7 @@
 		658EC24D250D4A4400F1ACAF /* DetectDeviceViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658EC24C250D4A4400F1ACAF /* DetectDeviceViewCell.swift */; };
 		658EC25025101E9700F1ACAF /* ClassicDeviceLists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658EC24F25101E9700F1ACAF /* ClassicDeviceLists.swift */; };
 		658EC25225102C6C00F1ACAF /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 658EC25125102C6C00F1ACAF /* NothingFoundCell.xib */; };
+		65A04DC52513941400E9ABDB /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A04DC42513941400E9ABDB /* DataManager.swift */; };
 		65A3887E2512A45B00379D78 /* ClassicData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 65A3887C2512A45B00379D78 /* ClassicData.xcdatamodeld */; };
 		65B44D412509ACEE0079A3C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65B44D402509ACEE0079A3C8 /* LaunchScreen.storyboard */; };
 		A4F78B4298D572731A394381 /* Pods_Classic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA99D76AF696B0065EA3DE99 /* Pods_Classic.framework */; };
@@ -37,7 +38,7 @@
 		47E5A8D95641E141F34489A4 /* Pods-Classic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Classic.debug.xcconfig"; path = "Target Support Files/Pods-Classic/Pods-Classic.debug.xcconfig"; sourceTree = "<group>"; };
 		650B930225088293002017BE /* GaugeViewFloat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaugeViewFloat.swift; sourceTree = "<group>"; };
 		650B9304250882B4002017BE /* GaugeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaugeView.swift; sourceTree = "<group>"; };
-		653A9BC825113C8B009B031F /* WithSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithSet.swift; sourceTree = "<group>"; };
+		653A9BC825113C8B009B031F /* BACKUP_NO_BORRAR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BACKUP_NO_BORRAR.swift; sourceTree = "<group>"; };
 		655536892508597700B7DE1B /* Classic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Classic.entitlements; sourceTree = "<group>"; };
 		655CC39D250A5A9100A0D6D0 /* modbus-rtu-private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-rtu-private.h"; sourceTree = "<group>"; };
 		655CC39E250A5A9100A0D6D0 /* modbus-tcp-private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-tcp-private.h"; sourceTree = "<group>"; };
@@ -68,6 +69,7 @@
 		658EC24C250D4A4400F1ACAF /* DetectDeviceViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectDeviceViewCell.swift; sourceTree = "<group>"; };
 		658EC24F25101E9700F1ACAF /* ClassicDeviceLists.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassicDeviceLists.swift; sourceTree = "<group>"; };
 		658EC25125102C6C00F1ACAF /* NothingFoundCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NothingFoundCell.xib; sourceTree = "<group>"; };
+		65A04DC42513941400E9ABDB /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		65A3887D2512A45B00379D78 /* ClassicData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClassicData.xcdatamodel; sourceTree = "<group>"; };
 		65B44D402509ACEE0079A3C8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DA99D76AF696B0065EA3DE99 /* Pods_Classic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Classic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -125,6 +127,7 @@
 		657A8D342506AE4B006B2BD0 /* Classic */ = {
 			isa = PBXGroup;
 			children = (
+				65A04DC3251393F100E9ABDB /* DataManager */,
 				65A3887B2512A42B00379D78 /* CoreData */,
 				658EC24E25101E8200F1ACAF /* Models */,
 				655536892508597700B7DE1B /* Classic.entitlements */,
@@ -181,7 +184,7 @@
 			children = (
 				657A8D392506AE4B006B2BD0 /* ViewController.swift */,
 				658EC242250C8F4000F1ACAF /* DetectDeviceViewController.swift */,
-				653A9BC825113C8B009B031F /* WithSet.swift */,
+				653A9BC825113C8B009B031F /* BACKUP_NO_BORRAR.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -192,6 +195,14 @@
 				658EC24F25101E9700F1ACAF /* ClassicDeviceLists.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		65A04DC3251393F100E9ABDB /* DataManager */ = {
+			isa = PBXGroup;
+			children = (
+				65A04DC42513941400E9ABDB /* DataManager.swift */,
+			);
+			path = DataManager;
 			sourceTree = "<group>";
 		};
 		65A3887B2512A42B00379D78 /* CoreData */ = {
@@ -338,10 +349,11 @@
 				658EC243250C8F4000F1ACAF /* DetectDeviceViewController.swift in Sources */,
 				655CC3AA250A5A9200A0D6D0 /* modbus-rtu.c in Sources */,
 				658199592509166C00BAB8C7 /* ClassicMonitor-Settings.swift in Sources */,
-				653A9BC925113C8B009B031F /* WithSet.swift in Sources */,
+				653A9BC925113C8B009B031F /* BACKUP_NO_BORRAR.swift in Sources */,
 				655CC3A8250A5A9200A0D6D0 /* modbus-tcp.c in Sources */,
 				658EC24D250D4A4400F1ACAF /* DetectDeviceViewCell.swift in Sources */,
 				658EC25025101E9700F1ACAF /* ClassicDeviceLists.swift in Sources */,
+				65A04DC52513941400E9ABDB /* DataManager.swift in Sources */,
 				657A8D362506AE4B006B2BD0 /* AppDelegate.swift in Sources */,
 				650B930325088293002017BE /* GaugeViewFloat.swift in Sources */,
 				657A8D382506AE4B006B2BD0 /* SceneDelegate.swift in Sources */,
