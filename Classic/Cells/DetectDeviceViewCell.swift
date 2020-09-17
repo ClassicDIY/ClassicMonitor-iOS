@@ -19,25 +19,25 @@ class DetectDeviceViewCell: UITableViewCell {
         
     override func awakeFromNib() {
         super.awakeFromNib()
-        ipLabel.font                 = UIFont(name: GaugeView.defaultFontName, size: 20)
-        ipLabel.textColor            = UIColor(white: 0.7, alpha: 1)
-        portLabel.font               = UIFont(name: GaugeView.defaultFontName, size: 20)
-        portLabel.textColor          = UIColor(white: 0.7, alpha: 1)
-        deviceNameLabel.font         = UIFont(name: GaugeView.defaultFontName, size: 20)
-        deviceNameLabel.textColor    = UIColor(white: 0.7, alpha: 1)
-        serialNumberLabel.font       = UIFont(name: GaugeView.defaultFontName, size: 20)
-        serialNumberLabel.textColor  = UIColor(white: 0.7, alpha: 1)
+        ipLabel.font                    = UIFont(name: GaugeView.defaultFontName, size: 20)
+        ipLabel.textColor               = UIColor(white: 0.7, alpha: 1)
+        portLabel.font                  = UIFont(name: GaugeView.defaultFontName, size: 20)
+        portLabel.textColor             = UIColor(white: 0.7, alpha: 1)
+        deviceNameLabel.font            = UIFont(name: GaugeView.defaultFontName, size: 20)
+        deviceNameLabel.textColor       = UIColor(white: 0.7, alpha: 1)
+        serialNumberLabel.font          = UIFont(name: GaugeView.defaultFontName, size: 20)
+        serialNumberLabel.textColor     = UIColor(white: 0.7, alpha: 1)
         // set table selection color
         let selectedView = UIView(frame: CGRect.zero)
-        selectedView.backgroundColor = UIColor(red: 78/255, green: 82/255, blue: 93/255, alpha: 0.6)
-        selectedBackgroundView       = selectedView
+        selectedView.backgroundColor    = UIColor(red: 78/255, green: 82/255, blue: 93/255, alpha: 0.6)
+        selectedBackgroundView          = selectedView
     }
     
     func configureDeviceCell(deviceList: ClassicDeviceLists) {
         // Configure the cell...
         ipLabel.text            = "IP: \(deviceList.ip ?? "127.0.0.1")"
         portLabel.text          = "Port: \(deviceList.port ?? 0)"
-        deviceNameLabel.text    = "Name: \(deviceList.deviceName ?? "CLASSIC")"
+        deviceNameLabel.text    = "Model: \(deviceList.deviceName ?? "CLASSIC")"
         serialNumberLabel.text  = "Serial #: \(deviceList.serialNumber ?? "000000")"
     }
     

@@ -25,8 +25,9 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
     var classicUrl:         String?
     var classicPort:        Int32?
     var reachability:       Reachability?
-    
     var selectedDevice      = [ClassicDeviceLists]()
+    
+    var swiftLibModbus:     SwiftLibModbus?
     
     // MARK: - Lists
     var devicelists = [ClassicDeviceLists]() {
@@ -120,15 +121,59 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         let msb2 = (signal.secondSignal >> 8) & 0xFF
         print("IP Address: \(lsb3).\(msb3).\(lsb2).\(msb2) with port \(signal.thirdSignal)")
         
-        detectedDevice = ClassicDeviceLists(
-            ip:                 "\(lsb3).\(msb3).\(lsb2).\(msb2)",
-            port:               Int32(signal.thirdSignal),
-            deviceName:         "CLASSIC",
-            serialNumber:       "Serial Number"
-        )
-        if (!devicelists.contains(detectedDevice)) {
-            devicelists.append(detectedDevice)
-        }
+        var deviceModel: String?
+        swiftLibModbus = SwiftLibModbus(ipAddress: "\(lsb3).\(msb3).\(lsb2).\(msb2)" as NSString, port: Int32(signal.thirdSignal), device: 1)
+        swiftLibModbus!.readRegistersFrom(startAddress: 4100, count: 1, success: { (array: [AnyObject]) -> Void in
+            if kDebugLog { print("Received Data 1: \(array)") }
+            
+            let unitId = Int(truncating: array[0] as! NSNumber)
+            if kDebugLog { print("Unit Type: \(unitId & 0xFF) PCB revision: \(unitId >> 8 & 0xFF)") }
+            switch (unitId & 0xFF) {
+            case 150:
+                if kDebugLog { print("Classic 150: \(unitId >> 8 & 0xFF)") }
+                deviceModel = "Classic 150"
+            case 200:
+                if kDebugLog { print("Classic 200: \(unitId >> 8 & 0xFF)") }
+                deviceModel = "Classic 200"
+            case 250:
+                if kDebugLog { print("Classic 250: \(unitId >> 8 & 0xFF)") }
+                deviceModel = "Classic 250"
+            case 251:
+                if kDebugLog { print("Classic 250 KS: \(unitId >> 8 & 0xFF)") }
+                deviceModel = "Classic 250 KS"
+            default:
+                if kDebugLog { print("Not Recognized") }
+                deviceModel = "Not Recognized"
+            }
+            
+            self.detectedDevice = ClassicDeviceLists(
+                ip:                 "\(lsb3).\(msb3).\(lsb2).\(msb2)",
+                port:               Int32(signal.thirdSignal),
+                deviceName:         deviceModel,
+                serialNumber:       "Serial Number"
+            )
+            
+            if (!self.devicelists.contains(self.detectedDevice)) {
+                self.devicelists.append(self.detectedDevice)
+            }
+        },
+        failure:  { (error: NSError) -> Void in
+            //Handle error
+            if kDebugLog { print("Error Getting Network Data 1: \(error)") }
+            self.swiftLibModbus!.disconnect()
+        })
+        self.swiftLibModbus!.disconnect()
+//
+//        detectedDevice = ClassicDeviceLists(
+//            ip:                 "\(lsb3).\(msb3).\(lsb2).\(msb2)",
+//            port:               Int32(signal.thirdSignal),
+//            deviceName:         deviceModel,
+//            serialNumber:       "Serial Number"
+//        )
+        
+//        if (!devicelists.contains(detectedDevice)) {
+//            devicelists.append(detectedDevice)
+//        }
     }
     
     func udpSocket(_ sock: GCDAsyncUdpSocket, didNotConnect error: Error?) {
