@@ -6,6 +6,7 @@
 //  Copyright © 2020 Urayoan Miranda. All rights reserved.
 //
 //https://blog.usejournal.com/easy-tableview-setup-tutorial-swift-4-ad48ec4cbd45
+//https://softauthor.com/custom-uitableview-and-uitableviewcell-programmatically-in-swift/
 
 import Foundation
 import UIKit
