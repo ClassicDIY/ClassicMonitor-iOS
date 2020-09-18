@@ -118,7 +118,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         let msb2 = (signal.secondSignal >> 8) & 0xFF
         print("IP Address: \(lsb3).\(msb3).\(lsb2).\(msb2) with port \(signal.thirdSignal)")
         
-        DataManager.readModbusValues(classicURL: "\(lsb3).\(msb3).\(lsb2).\(msb2)" as NSString, classicPort: Int32(signal.thirdSignal), device: 1, startAddress: 4100, count: 1) { data, error in
+        DataManager.readModbusValues(classicURL: "\(lsb3).\(msb3).\(lsb2).\(msb2)" as NSString, classicPort: Int32(signal.thirdSignal), device: 1, startAddress: 4100, count: 44) { data, error in
             print("ENTRO AL DATAMANAGER: \(String(describing: data))")
             if error != nil {
                 print("Error !nil: \(String(describing: error))")

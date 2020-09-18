@@ -428,12 +428,44 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
                 self.gaugeEnergyView.value = kWHours
                 if kDebugLog { print("Generated Energy : \(kWHours) kWatt-Hours") }
                 
-                let comboChargeStage = array?[19]
-                if kDebugLog { print("Charge Stage: \((Int(truncating: comboChargeStage as! NSNumber) >> 8) & 0xFF)") }
-                if kDebugLog { print("Stage: \(Int(truncating: comboChargeStage as! NSNumber) & 0xFF)") }
+                //let comboChargeStage = array?[19]
+                let comboChargeStage = Int(truncating: array?[19] as! NSNumber)
+
+                if kDebugLog { print("Charge Stage: \((comboChargeStage >> 8) & 0xFF)") }
+                switch ((comboChargeStage >> 8) & 0xFF) {
+                case 0:
+                    if kDebugLog { print("Classic 150: \(unitId >> 8 & 0xFF)") }
+                    self.buttonDeviceDescription.setTitle("Resting", for: .normal)
+                case 3:
+                    if kDebugLog { print("Classic 200: \(unitId >> 8 & 0xFF)") }
+                    self.buttonDeviceDescription.setTitle("Absorb", for: .normal)
+                case 4:
+                    if kDebugLog { print("Classic 250: \(unitId >> 8 & 0xFF)") }
+                    self.buttonDeviceDescription.setTitle("BulkMppt", for: .normal)
+                case 5:
+                    if kDebugLog { print("Classic 250 KS: \(unitId >> 8 & 0xFF)") }
+                    self.buttonDeviceDescription.setTitle("Float", for: .normal)
+                case 6:
+                    if kDebugLog { print("Classic 150: \(unitId >> 8 & 0xFF)") }
+                    self.buttonDeviceDescription.setTitle("FloatMppt", for: .normal)
+                case 7:
+                    if kDebugLog { print("Classic 200: \(unitId >> 8 & 0xFF)") }
+                    self.buttonDeviceDescription.setTitle("Equalize", for: .normal)
+                case 10:
+                    if kDebugLog { print("Classic 250: \(unitId >> 8 & 0xFF)") }
+                    self.buttonDeviceDescription.setTitle("HyperVoc", for: .normal)
+                case 18:
+                    if kDebugLog { print("Classic 250 KS: \(unitId >> 8 & 0xFF)") }
+                    self.buttonDeviceDescription.setTitle("EqMppt", for: .normal)
+                default:
+                    if kDebugLog { print("Not Recognized") }
+                }
+                
+                if kDebugLog { print("Stage: \(comboChargeStage & 0xFF)") }
                 
                 let watts = Double(truncating: array?[18] as! NSNumber)
                 self.gaugePowerView.value = watts
+                
             }
         }
     }
