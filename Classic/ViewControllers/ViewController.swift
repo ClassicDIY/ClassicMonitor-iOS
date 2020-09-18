@@ -30,7 +30,8 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     @IBOutlet weak var batAmpsLabel:            UILabel!
     @IBOutlet weak var buttonDeviceDescription: UIButton!
     @IBOutlet weak var buttonReturn:            UIButton!
-        
+    @IBOutlet weak var stageButton:             UIButton!
+    
     var classicURL: NSString    = ""
     var classicPort: Int32      = 0
     
@@ -59,6 +60,8 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         print("Recived Parameter: \(classicURL) - \(classicPort)")
         // Do any additional setup after loading the view.
         configureGaugeViews()
+        self.buttonDeviceDescription.setTitle("Connecting to device", for: .normal)
+        self.stageButton.setTitle("Loading Stage", for: .normal)
         //MARK: Para verificar cuando cae en el background
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self,selector: #selector(appMovedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
@@ -238,6 +241,9 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         //MARK: Configure Buttons
         buttonDeviceDescription.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 20)
         buttonDeviceDescription.setTitleColor(UIColor(white: 0.7, alpha: 1), for: .normal)
+        
+        stageButton.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 16)
+        stageButton.setTitleColor(UIColor(white: 0.7, alpha: 1), for: .normal)
         
         buttonReturn.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 20)
         buttonReturn.setTitleColor(UIColor(white: 0.7, alpha: 1), for: .normal)
@@ -435,30 +441,32 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
                 switch ((comboChargeStage >> 8) & 0xFF) {
                 case 0:
                     if kDebugLog { print("Classic 150: \(unitId >> 8 & 0xFF)") }
-                    self.buttonDeviceDescription.setTitle("Resting", for: .normal)
+                    self.stageButton.setTitle("Resting", for: .normal)
                 case 3:
                     if kDebugLog { print("Classic 200: \(unitId >> 8 & 0xFF)") }
-                    self.buttonDeviceDescription.setTitle("Absorb", for: .normal)
+                    self.stageButton.setTitle("Absorb", for: .normal)
                 case 4:
                     if kDebugLog { print("Classic 250: \(unitId >> 8 & 0xFF)") }
-                    self.buttonDeviceDescription.setTitle("BulkMppt", for: .normal)
+                    self.stageButton.setTitle("BulkMppt", for: .normal)
                 case 5:
                     if kDebugLog { print("Classic 250 KS: \(unitId >> 8 & 0xFF)") }
-                    self.buttonDeviceDescription.setTitle("Float", for: .normal)
+                    self.stageButton.setTitle("Float", for: .normal)
                 case 6:
                     if kDebugLog { print("Classic 150: \(unitId >> 8 & 0xFF)") }
-                    self.buttonDeviceDescription.setTitle("FloatMppt", for: .normal)
+                    self.stageButton.setTitle("FloatMppt", for: .normal)
                 case 7:
                     if kDebugLog { print("Classic 200: \(unitId >> 8 & 0xFF)") }
-                    self.buttonDeviceDescription.setTitle("Equalize", for: .normal)
+                    self.stageButton.setTitle("Equalize", for: .normal)
                 case 10:
                     if kDebugLog { print("Classic 250: \(unitId >> 8 & 0xFF)") }
-                    self.buttonDeviceDescription.setTitle("HyperVoc", for: .normal)
+                    self.stageButton.setTitle("HyperVoc", for: .normal)
                 case 18:
                     if kDebugLog { print("Classic 250 KS: \(unitId >> 8 & 0xFF)") }
-                    self.buttonDeviceDescription.setTitle("EqMppt", for: .normal)
+                    self.stageButton.setTitle("EqMppt", for: .normal)
                 default:
                     if kDebugLog { print("Not Recognized") }
+                    self.stageButton.setTitle("Unknown", for: .normal)
+
                 }
                 
                 if kDebugLog { print("Stage: \(comboChargeStage & 0xFF)") }

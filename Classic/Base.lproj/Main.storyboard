@@ -224,19 +224,22 @@
                                             <constraint firstAttribute="trailing" secondItem="01D-I8-0rt" secondAttribute="trailing" constant="64.5" id="yry-Wd-vAD"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stage" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g3j-ok-4C3">
-                                        <rect key="frame" x="0.0" y="372.66666666666663" width="335" height="17.333333333333314"/>
-                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="14"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ypo-F6-FYm">
+                                        <rect key="frame" x="0.0" y="350" width="335" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="er9-TS-EJa"/>
+                                        </constraints>
+                                        <state key="normal" title="Stage">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="g3j-ok-4C3" secondAttribute="trailing" id="GUc-lr-mxS"/>
-                                    <constraint firstItem="g3j-ok-4C3" firstAttribute="leading" secondItem="brq-kW-N8a" secondAttribute="leading" id="Xnh-LV-WiQ"/>
+                                    <constraint firstItem="Ypo-F6-FYm" firstAttribute="top" secondItem="LjR-sd-sHy" secondAttribute="bottom" id="KQS-2P-PBO"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ypo-F6-FYm" secondAttribute="trailing" id="PCh-yM-nd5"/>
+                                    <constraint firstItem="Ypo-F6-FYm" firstAttribute="leading" secondItem="brq-kW-N8a" secondAttribute="leading" id="azx-sW-XiQ"/>
                                     <constraint firstItem="LjR-sd-sHy" firstAttribute="centerY" secondItem="brq-kW-N8a" secondAttribute="centerY" id="iQD-nj-kJG"/>
                                     <constraint firstItem="LjR-sd-sHy" firstAttribute="centerX" secondItem="brq-kW-N8a" secondAttribute="centerX" id="iq2-5C-Q9T"/>
-                                    <constraint firstAttribute="bottom" secondItem="g3j-ok-4C3" secondAttribute="bottom" id="vDn-X5-5ll"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B27-GU-Erd" userLabel="Top Gauge View">
@@ -371,6 +374,7 @@
                         <outlet property="gaugePowerView" destination="LjR-sd-sHy" id="pO7-7B-oOx"/>
                         <outlet property="inputLabel" destination="Ehv-Gs-rJE" id="n7U-Oc-tip"/>
                         <outlet property="powerLabel" destination="01D-I8-0rt" id="ifQ-OC-5Xy"/>
+                        <outlet property="stageButton" destination="Ypo-F6-FYm" id="FHL-V9-cUp"/>
                         <outlet property="voltsLabel" destination="ial-qJ-Min" id="BSC-NQ-TRd"/>
                     </connections>
                 </viewController>
