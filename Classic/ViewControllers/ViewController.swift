@@ -363,7 +363,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     
     @objc func readValues() {
         DataManager.readModbusValues(classicURL: classicURL as NSString, classicPort: classicPort, device: 1, startAddress: 4100, count: 44) { array, error in
-            print("ENTRO AL DATAMANAGER: \(String(describing: array))")
+            //print("ENTRO AL DATAMANAGER: \(String(describing: array))")
             if error != nil {
                 print("Error nil - ViewControllers: \(String(describing: error))")
             } else {
@@ -480,7 +480,7 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
     
     func getData2() {
         DataManager.readModbusValues(classicURL: classicURL as NSString, classicPort: classicPort, device: 1, startAddress: 20480, count: 11) { array, error in
-            print("ENTRO AL DATAMANAGER: \(String(describing: array))")
+            //print("ENTRO AL DATAMANAGER: \(String(describing: array))")
             if error != nil {
                 print("Error nil - ViewControllers: \(String(describing: error))")
             } else {
@@ -498,5 +498,23 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
             }
         }
     }
+    
+    @IBAction func buttonPressed(_ sender: Any) {
+        let swiftLibModbus = SwiftLibModbus(ipAddress: "192.168.1.50", port: 502, device: 6)
+   
+        swiftLibModbus.readRegistersFrom(startAddress: 0, count: 6, success: { (array: [AnyObject]) -> Void in
+            print("Received Data Graphs: \(array)")
+            swiftLibModbus.disconnect()
+            return
+        },
+        failure:  { (error: NSError) -> Void in
+            //Handle error
+            print("Error Getting Network Graphs: \(error)")
+            swiftLibModbus.disconnect()
+            return
+        })
+        swiftLibModbus.disconnect()
+    }
+    
 }
 
