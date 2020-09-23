@@ -10,9 +10,30 @@ import Foundation
 
 struct DataManager {
         
-    static func readModbusValues(classicURL: NSString, classicPort: Int32,device: Int32, startAddress: Int32, count: Int32, completion: @escaping (_ array: [AnyObject]?, _ error: Error?) -> Void) {
+    static func readRegistersValues(classicURL: NSString, classicPort: Int32, device: Int32, startAddress: Int32, count: Int32, completion: @escaping (_ array: [AnyObject]?, _ error: Error?) -> Void) {
+        //print("Call Read Registers Values")
         let swiftLibModbus = SwiftLibModbus(ipAddress: classicURL, port: classicPort, device: device)
         swiftLibModbus.readRegistersFrom(startAddress: startAddress, count: count, success: { (array: [AnyObject]) -> Void in
+            if kDebugLog { print("Received Data 1: \(array)") }
+            print("Received Data 1: \(array)") 
+            swiftLibModbus.disconnect()
+            completion(array, nil)
+            return
+        },
+        failure:  { (error: NSError) -> Void in
+            //Handle error
+            if kDebugLog { print("Error Getting Network DataManager: \(error)") }
+            print("Error Getting Network DataManager: \(error)")
+            swiftLibModbus.disconnect()
+            completion(nil, error)
+            return
+        })
+        swiftLibModbus.disconnect()
+    }
+    
+    /**static func readBitsValues(classicURL: NSString, classicPort: Int32,device: Int32, startAddress: Int32, count: Int32, completion: @escaping (_ array: [AnyObject]?, _ error: Error?) -> Void) {
+        let swiftLibModbus = SwiftLibModbus(ipAddress: classicURL, port: classicPort, device: device)
+        swiftLibModbus.readBitsFrom(startAddress: startAddress, count: count, success: { (array: [AnyObject]) -> Void in
             if kDebugLog { print("Received Data 1: \(array)") }
             swiftLibModbus.disconnect()
             completion(array, nil)
@@ -26,7 +47,5 @@ struct DataManager {
             return
         })
         swiftLibModbus.disconnect()
-    }
-    
-    
+    }**/
 }

@@ -10,6 +10,7 @@ import Foundation
 
 struct ClassicDeviceLists: Codable {
     var ip:             String?
+    var visualUrl:      String?
     var port:           Int32?
     var deviceName:     String?
     var serialNumber:   String?
@@ -19,8 +20,9 @@ struct ClassicDeviceLists: Codable {
 //    }
     
     
-    init(ip: String? = nil, port: Int32? = 0, deviceName: String? = nil, serialNumber: String? = nil) {
+    init(ip: String? = nil,visualUrl: String? = nil, port: Int32? = 0, deviceName: String? = nil, serialNumber: String? = nil) {
         self.ip             = ip
+        self.visualUrl      = visualUrl
         self.deviceName     = deviceName
         self.port           = port
         self.serialNumber   = serialNumber

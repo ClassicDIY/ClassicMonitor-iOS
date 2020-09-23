@@ -16,6 +16,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
     @IBOutlet weak var tableView:           UITableView!
     @IBOutlet weak var searchController:    UISearchBar!
     @IBOutlet weak var headerLabel:         UILabel!
+    @IBOutlet weak var addButton:           UIButton!
     
     var searchActive: Bool  = false
     let IP                  = "255.255.255.255"
@@ -47,6 +48,9 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         headerLabel.font            = UIFont(name: GaugeView.defaultFontName, size: 20)
         headerLabel.textColor       = UIColor(white: 0.7, alpha: 1)
         
+        addButton.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 20)
+        addButton.setTitleColor(UIColor(white: 0.7, alpha: 1), for: .normal)
+        
         searchController.delegate   = self
         tableView.dataSource        = self
         
@@ -71,6 +75,17 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         
         //MARK: Load dummy data
         //loadDummyData()
+    }
+    
+    func loadDummyData() {
+        detectedDevice = ClassicDeviceLists(
+            ip:                 "24.50.233.83",
+            visualUrl:          "24.50.233.83",
+            port:               502,
+            deviceName:         "CLASSIC",
+            serialNumber:       "Serial Number"
+        )
+        devicelists.append(self.detectedDevice)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -108,21 +123,20 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
     
     //MARK:-GCDAsyncUdpSocketDelegate
     func udpSocket(_ sock: GCDAsyncUdpSocket, didReceive data: Data, fromAddress address: Data, withFilterContext filterContext: Any?) {
-        print("incoming message: \(data)");
+        print("Incoming message: \(data)");
         let signal:Signal = Signal.unarchive(d: data)
+        
         print("signal information : \n first \(signal.firstSignal) , second \(signal.secondSignal) \n third \(signal.thirdSignal) , fourth \(signal.fourthSignal)")
         //print("updSocket")
-        let lsb3 = signal.firstSignal & 0xFF
-        let msb3 = (signal.firstSignal >> 8) & 0xFF
-        let lsb2 = signal.secondSignal & 0xFF
+        let lsb3 = signal.firstSignal   & 0xFF
+        let msb3 = (signal.firstSignal  >> 8) & 0xFF
+        let lsb2 = signal.secondSignal  & 0xFF
         let msb2 = (signal.secondSignal >> 8) & 0xFF
-        print("IP Address: \(lsb3).\(msb3).\(lsb2).\(msb2) with port \(signal.thirdSignal)")
+        print("Detected IP Address: \(lsb3).\(msb3).\(lsb2).\(msb2) with port \(signal.thirdSignal)")
         
-        DataManager.readModbusValues(classicURL: "\(lsb3).\(msb3).\(lsb2).\(msb2)" as NSString, classicPort: Int32(signal.thirdSignal), device: 1, startAddress: 4100, count: 44) { data, error in
+        DataManager.readRegistersValues(classicURL: "\(lsb3).\(msb3).\(lsb2).\(msb2)" as NSString, classicPort: Int32(signal.thirdSignal), device: 1, startAddress: 4100, count: 44) { data, error in
             print("ENTRO AL DATAMANAGER: \(String(describing: data))")
-            if error != nil {
-                print("Error !nil: \(String(describing: error))")
-            } else {
+            if error == nil {
                 var deviceModel: String?
                 let unitId = Int(truncating: data?[0] as! NSNumber)
                 if kDebugLog { print("Unit Type: \(unitId & 0xFF) PCB revision: \(unitId >> 8 & 0xFF)") }
@@ -146,6 +160,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                 
                 self.detectedDevice = ClassicDeviceLists(
                     ip:                 "\(lsb3).\(msb3).\(lsb2).\(msb2)",
+                    visualUrl:          "\(lsb3).\(msb3).\(lsb2).\(msb2)",
                     port:               Int32(signal.thirdSignal),
                     deviceName:         deviceModel,
                     serialNumber:       "Serial Number"
@@ -153,22 +168,107 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                 
                 if (!self.devicelists.contains(self.detectedDevice)) {
                     self.devicelists.append(self.detectedDevice)
+                    print("No es igual \(String(describing: self.detectedDevice))")
+                } else {
+                    print("Es igual o parece igual")
                 }
-                
+            } else {
+
+                print("Error !nil: \(String(describing: error))")
             }
         }
     }
     
     func udpSocket(_ sock: GCDAsyncUdpSocket, didNotConnect error: Error?) {
+        print("Did not connect")
     }
     
     func udpSocketDidClose(_ sock: GCDAsyncUdpSocket, withError error: Error?) {
+        print("Socket did close")
     }
     
     //MARK: Esto tiene que estar para poder hacer unwind del segue
     @IBAction func unwindFromPresentedViewController(segue: UIStoryboardSegue) {
         print("Unwind Form")
     }
+    
+    @IBAction func buttonAddDevice(_ sender: Any) {
+        //1. Create the alert controller.
+        let alert = UIAlertController(title: "Classic Manual Entry", message: "Enter your Midnite Classic IP and Port", preferredStyle: .alert)
+        
+        //2. Add the text field. You can configure it however you need.
+        alert.addTextField(configurationHandler: { classicUrlm in
+            classicUrlm.placeholder = "Enter the Classic URL"
+        })
+        
+        alert.addTextField(configurationHandler: { classicPortm in
+            classicPortm.placeholder = "Enter the Classic Port"
+        })
+        
+        // 3. Grab the value from the text field, and print it when the user clicks OK.
+        alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { action in
+            if let classicUrlm = alert.textFields?.first?.text, let classicPortm = alert.textFields?.last?.text {
+                if (classicUrlm.count != 0 && classicPortm.count != 0) {
+                    self.addManualEntry(classicUrl: classicUrlm, classicPort: classicPortm)
+                } else {
+                    let alert = UIAlertController(title: "Alert", message: "Please enter you Classic URL and Port.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                    self.present(alert, animated: true)
+                    return
+                }
+
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        // 4. Present the alert.
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func addManualEntry(classicUrl: String, classicPort: String) {
+        if (classicUrl.lowercased() == "demo") {
+            self.detectedDevice = ClassicDeviceLists(
+                ip:                 "demo",
+                visualUrl:          "demo",
+                port:               502,
+                deviceName:         "Demo Mode",
+                serialNumber:       "Serial Number"
+            )
+            
+            if (!self.devicelists.contains(self.detectedDevice)) {
+                self.devicelists.append(self.detectedDevice)
+                print("No es igual \(String(describing: self.detectedDevice))")
+            } else {
+                print("Es igual o parece igual")
+            }
+        } else {
+            let host = CFHostCreateWithName(nil,classicUrl as CFString).takeRetainedValue()
+            CFHostStartInfoResolution(host, .addresses, nil)
+            var success: DarwinBoolean = false
+            if let addresses = CFHostGetAddressing(host, &success)?.takeUnretainedValue() as NSArray?,
+                let theAddress = addresses.firstObject as? NSData {
+                var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+                if getnameinfo(theAddress.bytes.assumingMemoryBound(to: sockaddr.self), socklen_t(theAddress.length),&hostname, socklen_t(hostname.count), nil, 0, NI_NUMERICHOST) == 0 {
+                    let numAddress = String(cString: hostname)
+                    print("Detected IP: \(numAddress)")
+                    self.detectedDevice = ClassicDeviceLists(
+                        ip:                 numAddress,
+                        visualUrl:          classicUrl,
+                        port:               Int32(classicPort),
+                        deviceName:         "Remote Classic",
+                        serialNumber:       "Serial Number"
+                    )
+                    
+                    if (!self.devicelists.contains(self.detectedDevice)) {
+                        self.devicelists.append(self.detectedDevice)
+                        print("No es igual \(String(describing: self.detectedDevice))")
+                    } else {
+                        print("Es igual o parece igual")
+                    }
+                }
+            }
+        }
+    }
+    
     
     private func devicesDidUpdate() {
         DispatchQueue.main.async {

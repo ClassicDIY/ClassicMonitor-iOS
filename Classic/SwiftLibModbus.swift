@@ -32,7 +32,7 @@ class SwiftLibModbus: NSObject {
     
     func setupTCP(ipAddress: NSString, port: Int32, device: Int32) -> Bool {
         self.ipAddress = ipAddress
-        if kDebugLog { print("IP Address: \(ipAddress)") }
+        if kDebugLog { print("Setup IP Address: \(ipAddress) with port \(port)") }
         mb = modbus_new_tcp(ipAddress.cString(using: String.Encoding.ascii.rawValue) , port)
         var modbusErrorRecoveryMode = modbus_error_recovery_mode(0)
         modbusErrorRecoveryMode = modbus_error_recovery_mode(rawValue: MODBUS_ERROR_RECOVERY_LINK.rawValue | MODBUS_ERROR_RECOVERY_PROTOCOL.rawValue)
@@ -210,6 +210,27 @@ class SwiftLibModbus: NSObject {
     
     
     func readRegistersFrom(startAddress: Int32, count: Int32, success: @escaping ([AnyObject]) -> Void, failure: @escaping (NSError) -> Void) {
+        modbusQueue?.async {
+            let tab_reg: UnsafeMutablePointer<UInt16> = UnsafeMutablePointer<UInt16>.allocate(capacity: Int(count))
+            if modbus_read_registers(self.mb!, startAddress, count, tab_reg) >= 0 {
+                let returnArray: NSMutableArray = NSMutableArray(capacity: Int(count))
+                for i in 0..<Int(count) {
+                    returnArray.add(Int(tab_reg[i]))
+                }
+                DispatchQueue.main.async {
+                    success(returnArray as [AnyObject])
+                }
+            }
+            else {
+                let error = self.buildNSError(errno: errno)
+                DispatchQueue.main.async {
+                    failure(error)
+                }
+            }
+        }
+    }
+    
+    func downloadFileFrom(startAddress: Int32, count: Int32, success: @escaping ([AnyObject]) -> Void, failure: @escaping (NSError) -> Void) {
         modbusQueue?.async {
             let tab_reg: UnsafeMutablePointer<UInt16> = UnsafeMutablePointer<UInt16>.allocate(capacity: Int(count))
             if modbus_read_registers(self.mb!, startAddress, count, tab_reg) >= 0 {

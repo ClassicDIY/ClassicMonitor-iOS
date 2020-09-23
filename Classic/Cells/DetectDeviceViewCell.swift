@@ -17,7 +17,7 @@ class DetectDeviceViewCell: UITableViewCell {
     @IBOutlet weak var portLabel:           UILabel!
     @IBOutlet weak var deviceNameLabel:     UILabel!
     @IBOutlet weak var serialNumberLabel:   UILabel!
-        
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         ipLabel.font                    = UIFont(name: GaugeView.defaultFontName, size: 20)
@@ -36,7 +36,18 @@ class DetectDeviceViewCell: UITableViewCell {
     
     func configureDeviceCell(deviceList: ClassicDeviceLists) {
         // Configure the cell...
-        ipLabel.text            = "IP: \(deviceList.ip ?? "127.0.0.1")"
+        self.layer.cornerRadius = 10
+        //self.backgroundColor    = UIColor.darkGray
+        //self.translatesAutoresizingMaskIntoConstraints = false
+
+        //NSLayoutConstraint.activate([
+        //    self.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
+        //    self.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10),
+        //    self.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10),
+        //    self.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        //])
+        
+        ipLabel.text            = "IP: \(deviceList.visualUrl ?? "127.0.0.1")"
         portLabel.text          = "Port: \(deviceList.port ?? 0)"
         deviceNameLabel.text    = "Model: \(deviceList.deviceName ?? "CLASSIC")"
         serialNumberLabel.text  = "Serial #: \(deviceList.serialNumber ?? "000000")"
