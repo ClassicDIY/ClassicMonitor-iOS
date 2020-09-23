@@ -264,11 +264,11 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                     } else {
                         print("Es igual o parece igual")
                     }
-                } else {
-                    let alert = UIAlertController(title: "Alert", message: "Host does not resolve to and ip address.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-                    self.present(alert, animated: true)
                 }
+            } else {
+                let alert = UIAlertController(title: "Alert", message: "Host does not resolve to and ip address.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                self.present(alert, animated: true)
             }
         }
     }

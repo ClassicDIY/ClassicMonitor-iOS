@@ -1,0 +1,22 @@
+PODS:
+  - Charts (3.5.0):
+    - Charts/Core (= 3.5.0)
+  - Charts/Core (3.5.0)
+  - CocoaAsyncSocket (7.6.4)
+
+DEPENDENCIES:
+  - Charts
+  - CocoaAsyncSocket
+
+SPEC REPOS:
+  trunk:
+    - Charts
+    - CocoaAsyncSocket
+
+SPEC CHECKSUMS:
+  Charts: 40a08591df1f8ad5c223ddedfb1a06da92f24f7c
+  CocoaAsyncSocket: 694058e7c0ed05a9e217d1b3c7ded962f4180845
+
+PODFILE CHECKSUM: 05da1ca258631d73ebd68dea5b2f6d4d6185bf7c
+
+COCOAPODS: 1.10.0.rc.1
