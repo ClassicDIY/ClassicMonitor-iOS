@@ -281,8 +281,8 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         // 3. Grab the value from the text field, and print it when the user clicks OK.
         alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { action in
             if (alert.textFields?.count == 5) {
-                if let classicName = alert.textFields?.first?.text, let classicUrl = alert.textFields?.last?.text,
-                   let classicPort = alert.textFields?.first?.text, let MQTTUsername = alert.textFields?.last?.text,
+                if let classicName = alert.textFields?.first?.text, let classicUrl = alert.textFields?[1].text,
+                   let classicPort = alert.textFields?[2].text, let MQTTUsername = alert.textFields?[3].text,
                    let MQTTPassword = alert.textFields?.last?.text {
                     self.addManualEntryMQTT(classicName: classicName, classicUrl: classicUrl, classicPort: classicPort, MQTTUser: MQTTUsername, MQTTPassword: MQTTPassword)
                 }
@@ -374,6 +374,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                 print("Es igual o parece igual")
             }
         } else {
+            print("HOST QUE LLEGA \(classicUrl)")
             let host = CFHostCreateWithName(nil,classicUrl as CFString).takeRetainedValue()
             CFHostStartInfoResolution(host, .addresses, nil)
             var success: DarwinBoolean = false
