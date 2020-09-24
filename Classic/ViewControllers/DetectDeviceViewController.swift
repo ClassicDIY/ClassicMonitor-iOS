@@ -11,7 +11,7 @@ import UIKit
 import CocoaAsyncSocket
 import CoreData
 
-class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, UISearchBarDelegate, UITableViewDataSource, UITextFieldDelegate, UITextViewDelegate {
+class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, UISearchBarDelegate, UITableViewDataSource, UITextFieldDelegate, UITextViewDelegate, UIActionSheetDelegate {
     
     @IBOutlet weak var tableView:           UITableView!
     @IBOutlet weak var searchController:    UISearchBar!
@@ -83,7 +83,10 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
             visualUrl:          "24.50.233.83",
             port:               502,
             deviceName:         "CLASSIC",
-            serialNumber:       "Serial Number"
+            serialNumber:       "Serial Number",
+            MQTTUser:           "",
+            MQTTPassword:       "",
+            isMQTT:             false
         )
         devicelists.append(self.detectedDevice)
     }
@@ -163,7 +166,10 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                     visualUrl:          "\(lsb3).\(msb3).\(lsb2).\(msb2)",
                     port:               Int32(signal.thirdSignal),
                     deviceName:         deviceModel,
-                    serialNumber:       "Serial Number"
+                    serialNumber:       "Serial Number",
+                    MQTTUser:           "",
+                    MQTTPassword:       "",
+                    isMQTT:             false
                 )
                 
                 if (!self.devicelists.contains(self.detectedDevice)) {
@@ -173,7 +179,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                     print("Es igual o parece igual")
                 }
             } else {
-
+                
                 print("Error !nil: \(String(describing: error))")
             }
         }
@@ -192,7 +198,30 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         print("Unwind Form")
     }
     
+    //MARK: Reference https://medium.com/swift-india/uialertcontroller-in-swift-22f3c5b1dd68
     @IBAction func buttonAddDevice(_ sender: Any) {
+        let alert = UIAlertController(title: "Add Classic Charge Controller", message: "Please Select an Option", preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Add Modbus Charge Controller", style: .default, handler: { (_) in
+            if kDebugLog { print("Add Modbus Charge Controller") }
+            self.alertModbusEntry()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Add MQTT Controller", style: .default, handler: { (_) in
+            if kDebugLog { print("Add MQTT Controller") }
+            self.alertMQTTEntry()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
+            if kDebugLog { print("User click Dismiss button") }
+        }))
+        
+        self.present(alert, animated: true, completion: {
+            if kDebugLog { print("completion block") }
+        })
+    }
+    
+    func alertModbusEntry() {
         //1. Create the alert controller.
         let alert = UIAlertController(title: "Classic Manual Entry", message: "Enter your Midnite Classic IP and Port", preferredStyle: .alert)
         
@@ -209,14 +238,14 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { action in
             if let classicUrlm = alert.textFields?.first?.text, let classicPortm = alert.textFields?.last?.text {
                 if (classicUrlm.count != 0 && classicPortm.count != 0) {
-                    self.addManualEntry(classicUrl: classicUrlm, classicPort: classicPortm)
+                    self.addManualEntryModbus(classicUrl: classicUrlm, classicPort: classicPortm)
                 } else {
-                    let alert = UIAlertController(title: "Alert", message: "Please enter you Classic URL and Port.", preferredStyle: .alert)
+                    let alert = UIAlertController(title: "Alert", message: "Please enter your Classic URL and Port.", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
                     self.present(alert, animated: true)
                     return
                 }
-
+                
             }
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -224,14 +253,63 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         self.present(alert, animated: true, completion: nil)
     }
     
-    func addManualEntry(classicUrl: String, classicPort: String) {
+    func alertMQTTEntry() {
+        //1. Create the alert controller.
+        let alert = UIAlertController(title: "Classic MQTT Manual Entry", message: "Enter your MQTT Server, Port, User and Password", preferredStyle: .alert)
+        
+        //2. Add the text field. You can configure it however you need.
+        alert.addTextField(configurationHandler: { classicName in
+            classicName.placeholder = "Enter Name Description"
+        })
+        
+        alert.addTextField(configurationHandler: { classicUrl in
+            classicUrl.placeholder = "Enter the MQTT Server"
+        })
+        
+        alert.addTextField(configurationHandler: { classicPort in
+            classicPort.placeholder = "Enter the MQTT Port"
+        })
+        
+        alert.addTextField(configurationHandler: { MQTTUsername in
+            MQTTUsername.placeholder = "Enter the MQTT Username"
+        })
+        
+        alert.addTextField(configurationHandler: { MQTTPassword in
+            MQTTPassword.placeholder = "Enter the MQTT Password"
+        })
+        
+        // 3. Grab the value from the text field, and print it when the user clicks OK.
+        alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { action in
+            if (alert.textFields?.count == 5) {
+                if let classicName = alert.textFields?.first?.text, let classicUrl = alert.textFields?.last?.text,
+                   let classicPort = alert.textFields?.first?.text, let MQTTUsername = alert.textFields?.last?.text,
+                   let MQTTPassword = alert.textFields?.last?.text {
+                    self.addManualEntryMQTT(classicName: classicName, classicUrl: classicUrl, classicPort: classicPort, MQTTUser: MQTTUsername, MQTTPassword: MQTTPassword)
+                }
+            } else {
+                let alert = UIAlertController(title: "Alert", message: "At least one parameter is missing. Please try again", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                self.present(alert, animated: true)
+                return
+            }
+            
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        // 4. Present the alert.
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func addManualEntryModbus(classicUrl: String, classicPort: String) {
         if (classicUrl.lowercased() == "demo") {
             self.detectedDevice = ClassicDeviceLists(
                 ip:                 "demo",
                 visualUrl:          "demo",
                 port:               502,
                 deviceName:         "Demo Mode",
-                serialNumber:       "Serial Number"
+                serialNumber:       "Serial Number",
+                MQTTUser:           "",
+                MQTTPassword:       "",
+                isMQTT:             false
             )
             
             if (!self.devicelists.contains(self.detectedDevice)) {
@@ -245,7 +323,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
             CFHostStartInfoResolution(host, .addresses, nil)
             var success: DarwinBoolean = false
             if let addresses = CFHostGetAddressing(host, &success)?.takeUnretainedValue() as NSArray?,
-                let theAddress = addresses.firstObject as? NSData {
+               let theAddress = addresses.firstObject as? NSData {
                 var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
                 if getnameinfo(theAddress.bytes.assumingMemoryBound(to: sockaddr.self), socklen_t(theAddress.length),&hostname, socklen_t(hostname.count), nil, 0, NI_NUMERICHOST) == 0 {
                     let numAddress = String(cString: hostname)
@@ -255,7 +333,65 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                         visualUrl:          classicUrl,
                         port:               Int32(classicPort),
                         deviceName:         "Remote Classic",
-                        serialNumber:       "Serial Number"
+                        serialNumber:       "Serial Number",
+                        MQTTUser:           "",
+                        MQTTPassword:       "",
+                        isMQTT:             false
+                    )
+                    
+                    if (!self.devicelists.contains(self.detectedDevice)) {
+                        self.devicelists.append(self.detectedDevice)
+                        print("No es igual \(String(describing: self.detectedDevice))")
+                    } else {
+                        print("Es igual o parece igual")
+                    }
+                }
+            } else {
+                let alert = UIAlertController(title: "Alert", message: "Host does not resolve to and ip address.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                self.present(alert, animated: true)
+            }
+        }
+    }
+    
+    func addManualEntryMQTT(classicName: String, classicUrl: String, classicPort: String, MQTTUser: String, MQTTPassword: String) {
+        if (classicUrl.lowercased() == "demo") {
+            self.detectedDevice = ClassicDeviceLists(
+                ip:                 "demo",
+                visualUrl:          "demo",
+                port:               502,
+                deviceName:         "Demo Mode",
+                serialNumber:       "Serial Number",
+                MQTTUser:           "demo",
+                MQTTPassword:       "demo",
+                isMQTT:             true
+            )
+            
+            if (!self.devicelists.contains(self.detectedDevice)) {
+                self.devicelists.append(self.detectedDevice)
+                print("No es igual \(String(describing: self.detectedDevice))")
+            } else {
+                print("Es igual o parece igual")
+            }
+        } else {
+            let host = CFHostCreateWithName(nil,classicUrl as CFString).takeRetainedValue()
+            CFHostStartInfoResolution(host, .addresses, nil)
+            var success: DarwinBoolean = false
+            if let addresses = CFHostGetAddressing(host, &success)?.takeUnretainedValue() as NSArray?,
+               let theAddress = addresses.firstObject as? NSData {
+                var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+                if getnameinfo(theAddress.bytes.assumingMemoryBound(to: sockaddr.self), socklen_t(theAddress.length),&hostname, socklen_t(hostname.count), nil, 0, NI_NUMERICHOST) == 0 {
+                    let numAddress = String(cString: hostname)
+                    print("Detected IP: \(numAddress)")
+                    self.detectedDevice = ClassicDeviceLists(
+                        ip:                 numAddress,
+                        visualUrl:          classicUrl,
+                        port:               Int32(classicPort),
+                        deviceName:         classicName,
+                        serialNumber:       "Serial Number",
+                        MQTTUser:           MQTTUser,
+                        MQTTPassword:       MQTTPassword,
+                        isMQTT:             true
                     )
                     
                     if (!self.devicelists.contains(self.detectedDevice)) {

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Devices" representedClassName="Devices" syncable="YES" codeGenerationType="class">
-        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="ip" attributeType="String"/>
-        <attribute name="name" attributeType="String"/>
-        <attribute name="port" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="serial" optional="YES" attributeType="String"/>
-        <attribute name="status" optional="YES" attributeType="String"/>
+        <attribute name="deviceName" optional="YES" attributeType="String"/>
+        <attribute name="ip" optional="YES" attributeType="String"/>
+        <attribute name="isMQTT" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="port" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="serialNumber" optional="YES" attributeType="String"/>
+        <attribute name="visualUrl" optional="YES" attributeType="String"/>
     </entity>
     <elements>
         <element name="Devices" positionX="-122.9296875" positionY="-1120.921875" width="128" height="133"/>

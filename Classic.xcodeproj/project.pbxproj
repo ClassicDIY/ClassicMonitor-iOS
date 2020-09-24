@@ -32,6 +32,7 @@
 		65A04DC52513941400E9ABDB /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A04DC42513941400E9ABDB /* DataManager.swift */; };
 		65A3887E2512A45B00379D78 /* ClassicData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 65A3887C2512A45B00379D78 /* ClassicData.xcdatamodeld */; };
 		65B44D412509ACEE0079A3C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65B44D402509ACEE0079A3C8 /* LaunchScreen.storyboard */; };
+		65DA6786251C129000C4962E /* MQTTData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DA6785251C129000C4962E /* MQTTData.swift */; };
 		A4F78B4298D572731A394381 /* Pods_Classic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA99D76AF696B0065EA3DE99 /* Pods_Classic.framework */; };
 /* End PBXBuildFile section */
 
@@ -74,6 +75,7 @@
 		65A04DC42513941400E9ABDB /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		65A3887D2512A45B00379D78 /* ClassicData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClassicData.xcdatamodel; sourceTree = "<group>"; };
 		65B44D402509ACEE0079A3C8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		65DA6785251C129000C4962E /* MQTTData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTData.swift; sourceTree = "<group>"; };
 		DA99D76AF696B0065EA3DE99 /* Pods_Classic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Classic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF6CFEDBAC207EAB6F59AD3B /* Pods-Classic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Classic.release.xcconfig"; path = "Target Support Files/Pods-Classic/Pods-Classic.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -196,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				658EC24F25101E9700F1ACAF /* ClassicDeviceLists.swift */,
+				65DA6785251C129000C4962E /* MQTTData.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				650B9305250882B4002017BE /* GaugeView.swift in Sources */,
+				65DA6786251C129000C4962E /* MQTTData.swift in Sources */,
 				658EC249250CED4A00F1ACAF /* Signal.swift in Sources */,
 				65A3887E2512A45B00379D78 /* ClassicData.xcdatamodeld in Sources */,
 				655CC3AB250A5A9200A0D6D0 /* modbus-data.c in Sources */,
