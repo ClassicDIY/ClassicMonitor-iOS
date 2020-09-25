@@ -166,7 +166,7 @@ open class GaugeCenterView: UIView {
     // MARK: DRAWING
     
     override open func draw(_ rect: CGRect) {
-        
+        print("Entrando al draw del Gauge Center")
         // Prepare drawing
         divisionUnitValue = numOfDivisions != 0 ? (maxValue - minValue)/Double(numOfDivisions) : 0
         divisionUnitAngle = numOfDivisions != 0 ? abs(endAngle - startAngle)/Double(numOfDivisions) : 0
@@ -208,7 +208,7 @@ open class GaugeCenterView: UIView {
                         let angle = angleFromValue(value)
                         let point = CGPoint(x: dotRadius * cos(angle) + Double(center.x),
                                             y: dotRadius * sin(angle) + Double(center.y))
-                        context?.drawDot(center: point,
+                        context?.drawDotCenter(center: point,
                                          radius: subDivisionsRadius,
                                          fillColor: subDivisionsColor)
                     }
@@ -219,7 +219,7 @@ open class GaugeCenterView: UIView {
                 let angle = angleFromValue(value)
                 let point = CGPoint(x: dotRadius * cos(angle) + Double(center.x),
                                     y: dotRadius * sin(angle) + Double(center.y))
-                context?.drawDot(center: point,
+                context?.drawDotCenter(center: point,
                                  radius: divisionsRadius,
                                  fillColor: divisionsColor)
             }
@@ -230,7 +230,7 @@ open class GaugeCenterView: UIView {
             let angle = angleFromValue(limitValue)
             let point = CGPoint(x: dotRadius * cos(angle) + Double(center.x),
                                 y: dotRadius * sin(angle) + Double(center.y))
-            context?.drawDot(center: point,
+            context?.drawDotCenter(center: point,
                              radius: limitDotRadius,
                              fillColor: limitDotColor)
         }
@@ -327,5 +327,18 @@ extension GaugeCenterView {
         let level = divisionUnitValue != 0 ? (value - minValue)/divisionUnitValue : 0
         let angle = level * divisionUnitAngle + startAngle
         return angle
+    }
+}
+
+extension CGContext {
+    func drawDotCenter(center: CGPoint, radius: Double, fillColor: UIColor) {
+        beginPath()
+        addArc(center: center,
+               radius: CGFloat(radius),
+               startAngle: 0,
+               endAngle: .pi * 2,
+               clockwise: false)
+        setFillColor(fillColor.cgColor)
+        fillPath()
     }
 }

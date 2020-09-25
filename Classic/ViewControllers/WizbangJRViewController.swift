@@ -22,8 +22,13 @@ class WizbangJRViewController: UIViewController, GaugeCenterViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        createTimer()
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        invalidateTimer()
     }
     
     override var preferredStatusBarStyle : UIStatusBarStyle {
@@ -59,7 +64,25 @@ class WizbangJRViewController: UIViewController, GaugeCenterViewDelegate {
         
     }
     
-    func demoMode() {
+    func createTimer() {
+        // 1
+        if timer == nil {
+            // 2
+            timer = Timer.scheduledTimer(timeInterval: 1.0,
+                                         target: self,
+                                         selector: #selector(demoMode),
+                                         userInfo: nil,
+                                         repeats: true)
+        }
+    }
+    
+    func invalidateTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+    
+    
+    @objc func demoMode() {
         if kDebugLog { print("Setting Demo Mode Values") }
         // Calculate velocity
         velocity += timeDelta * acceleration

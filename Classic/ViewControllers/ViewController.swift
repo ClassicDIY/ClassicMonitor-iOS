@@ -144,7 +144,7 @@ class ViewController: UIViewController, GaugeViewDelegate {
         }
     }
     
-    func ivalidateTimer() {
+    func invalidateTimer() {
         timer?.invalidate()
         timer = nil
     }
@@ -187,7 +187,7 @@ class ViewController: UIViewController, GaugeViewDelegate {
                     self.createTimer()
                 }
                 reachability?.whenUnreachable = { reachability in
-                    self.ivalidateTimer()
+                    self.invalidateTimer()
                     //self.swiftLibModbus!.disconnect()
                 }
             } else {
@@ -205,7 +205,7 @@ class ViewController: UIViewController, GaugeViewDelegate {
         let reachability = note.object as! Reachability
         
         if reachability.connection != .unavailable {
-            self.ivalidateTimer()
+            self.invalidateTimer()
             //self.swiftLibModbus!.disconnect()
         } else {
             self.createTimer()
@@ -355,14 +355,14 @@ class ViewController: UIViewController, GaugeViewDelegate {
     
     func disconnectFromDevice() {
         if kDebugLog { print("Disconnect") }
-        ivalidateTimer()
+        invalidateTimer()
         //self.swiftLibModbus!.disconnect()
         stopNotifier()
     }
     
     @objc func readValues() {
         if (classicURL == "demo") {
-            startDemoMode()
+            demoMode()
         } else {
             DataManager.readRegistersValues(classicURL: classicURL as NSString, classicPort: classicPort, device: 1, startAddress: 4100, count: 44) { array, error in
                 //print("ENTRO AL DATAMANAGER: \(String(describing: array))")
@@ -480,7 +480,7 @@ class ViewController: UIViewController, GaugeViewDelegate {
         }
     }
     
-    func startDemoMode() {
+    func demoMode() {
         if kDebugLog { print("Setting Demo Mode Values") }
         // Calculate velocity
         buttonDeviceDescription.setTitle("Classic Demo", for: .normal)
