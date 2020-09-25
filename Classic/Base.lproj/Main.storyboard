@@ -158,10 +158,10 @@
             </objects>
             <point key="canvasLocation" x="-180" y="-7"/>
         </scene>
-        <!--Classic 250-->
+        <!--Classic 250 Readings-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="GreenViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="ViewController" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GreenViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" userLabel="Classic 250 Readings" customClass="ViewController" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -186,6 +186,9 @@
                                             <constraint firstItem="D1C-IN-HFJ" firstAttribute="leading" secondItem="hNH-sp-Cta" secondAttribute="leading" constant="14" id="Ryn-QW-vlh"/>
                                             <constraint firstItem="D1C-IN-HFJ" firstAttribute="top" secondItem="hNH-sp-Cta" secondAttribute="top" constant="26" id="oRi-sw-8bs"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="stringFormat" value="%.1f"/>
+                                        </userDefinedRuntimeAttributes>
                                     </view>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dbf-DK-bZ8">
                                         <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
@@ -387,6 +390,9 @@
                                             <constraint firstItem="EnJ-90-Aum" firstAttribute="leading" secondItem="2Nb-aT-cDL" secondAttribute="leading" constant="14" id="voC-SD-Rgb"/>
                                             <constraint firstItem="EnJ-90-Aum" firstAttribute="top" secondItem="2Nb-aT-cDL" secondAttribute="top" constant="26" id="yF1-v8-53d"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="stringFormat" value="%.1f"/>
+                                        </userDefinedRuntimeAttributes>
                                     </view>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gmo-ha-FbN">
                                         <rect key="frame" x="185" y="0.0" width="150" height="150"/>
@@ -458,20 +464,35 @@
         <!--Page View Controller-->
         <scene sceneID="REQ-1J-LEU">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="4i2-QT-QYg" customClass="PageViewController" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController"/>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" interfaceStyle="dark" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="4i2-QT-QYg" customClass="PageViewController" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UXY-Sm-6Ke" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="898" y="-698"/>
         </scene>
-        <!--View Controller-->
+        <!--WizbangJR Readings-->
         <scene sceneID="0hU-If-ARu">
             <objects>
-                <viewController storyboardIdentifier="RedViewController" id="sd2-qE-60F" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="JeP-Ia-ff0">
+                <viewController storyboardIdentifier="RedViewController" id="sd2-qE-60F" userLabel="WizbangJR Readings" customClass="WizbangJRViewController" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="JeP-Ia-ff0">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YTv-AY-uh2" customClass="GaugeCenterView" customModule="Classic_Monitor" customModuleProvider="target">
+                                <rect key="frame" x="32.666666666666657" y="251" width="310" height="310"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="YTv-AY-uh2" secondAttribute="height" multiplier="1:1" id="0tN-yE-JQo"/>
+                                    <constraint firstAttribute="width" constant="310" id="MXZ-fv-Hi8"/>
+                                    <constraint firstAttribute="height" constant="310" id="SuJ-Ze-jOP"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="25B-03-uLa"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" red="0.12165830280000001" green="0.12915611269999999" blue="0.1411797702" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="YTv-AY-uh2" firstAttribute="centerY" secondItem="JeP-Ia-ff0" secondAttribute="centerY" id="fH9-UR-gEg"/>
+                            <constraint firstItem="YTv-AY-uh2" firstAttribute="centerX" secondItem="JeP-Ia-ff0" secondAttribute="centerX" id="fuq-4U-oLp"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IPg-qV-8UI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -494,7 +515,7 @@
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ZjO-gs-7p1"/>
-                        <color key="backgroundColor" systemColor="viewFlipsideBackgroundColor"/>
+                        <color key="backgroundColor" red="0.12165830280000001" green="0.12915611269999999" blue="0.1411797702" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="1pt-un-Nnd" firstAttribute="centerY" secondItem="0qT-mq-CLw" secondAttribute="centerY" id="0pZ-Wg-bNg"/>
                             <constraint firstItem="1pt-un-Nnd" firstAttribute="centerX" secondItem="0qT-mq-CLw" secondAttribute="centerX" id="b08-Zd-D5X"/>
@@ -680,9 +701,6 @@
         <image name="ground_fault" width="10" height="10"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="viewFlipsideBackgroundColor">
-            <color red="0.1215686275" green="0.12941176469999999" blue="0.14117647059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="viewFlipsideBackgroundColor">
             <color red="0.1215686275" green="0.12941176469999999" blue="0.14117647059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

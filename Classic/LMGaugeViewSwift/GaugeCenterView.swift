@@ -8,14 +8,14 @@
 import Foundation
 import UIKit
 
-public protocol GaugeViewDelegate: class {
+public protocol GaugeCenterViewDelegate: class {
     
     /// Return ring stroke color from the specified value.
-    func ringStokeColor(gaugeView: GaugeView, value: Double) -> UIColor
+    func ringStokeColor(gaugeView: GaugeCenterView, value: Double) -> UIColor
 }
 
 @IBDesignable
-open class GaugeView: UIView {
+open class GaugeCenterView: UIView {
     
     // MARK: PROPERTIES
     
@@ -41,7 +41,7 @@ open class GaugeView: UIView {
     }
     
     /// Minimum value.
-    public var minValue: Double = 0
+    public var minValue: Double = -120
     
     /// Maximum value.
     public var maxValue: Double = 120
@@ -114,7 +114,7 @@ open class GaugeView: UIView {
     @IBInspectable public var unitOfMeasurementTextColor: UIColor = UIColor(white: 0.3, alpha: 1)
     
     /// The receiver of all gauge view delegate callbacks.
-    public weak var delegate: GaugeViewDelegate? = nil
+    public weak var delegate: GaugeCenterViewDelegate? = nil
     
     var startAngle: Double = 3 * .pi / 4
     var endAngle: Double = .pi/4 + .pi * 2
@@ -322,23 +322,10 @@ open class GaugeView: UIView {
 
 // MARK: - SUPPORT
 
-extension GaugeView {
+extension GaugeCenterView {
     func angleFromValue(_ value: Double) -> Double {
         let level = divisionUnitValue != 0 ? (value - minValue)/divisionUnitValue : 0
         let angle = level * divisionUnitAngle + startAngle
         return angle
-    }
-}
-
-extension CGContext {
-    func drawDot(center: CGPoint, radius: Double, fillColor: UIColor) {
-        beginPath()
-        addArc(center: center,
-               radius: CGFloat(radius),
-               startAngle: 0,
-               endAngle: .pi * 2,
-               clockwise: false)
-        setFillColor(fillColor.cgColor)
-        fillPath()
     }
 }
