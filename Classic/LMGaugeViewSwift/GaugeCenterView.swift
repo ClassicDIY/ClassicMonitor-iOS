@@ -41,10 +41,10 @@ open class GaugeCenterView: UIView {
     }
     
     /// Minimum value.
-    public var minValue: Double = -120
+    public var minValue: Double = -16
     
     /// Maximum value.
-    public var maxValue: Double = 120
+    public var maxValue: Double = 16
     
     /// Limit value.
     public var limitValue: Double = 50
