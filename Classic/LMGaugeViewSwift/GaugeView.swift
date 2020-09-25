@@ -14,6 +14,7 @@ public protocol GaugeViewDelegate: class {
     func ringStokeColor(gaugeView: GaugeView, value: Double) -> UIColor
 }
 
+@IBDesignable
 open class GaugeView: UIView {
     
     // MARK: PROPERTIES
@@ -22,12 +23,16 @@ open class GaugeView: UIView {
     
     public static let defaultMinMaxValueFont = "HelveticaNeue"
     
+    //MARK: Urayoan - String format
+    /// String Format
+    @IBInspectable public var stringFormat: String = "%.0f" //para float values usar %.1f
+    
     /// Current value.
     public var value: Double = 0 {
         didSet {
             value = max(min(value, maxValue), minValue)
             // Set text for value label
-            valueLabel.text = String(format: "%.0f", value)
+            valueLabel.text = String(format: stringFormat, value)
             //print("VALUE LABEL \(valueLabel)")
 
             // Trigger the stoke animation of ring layer
@@ -43,6 +48,7 @@ open class GaugeView: UIView {
     
     /// Limit value.
     public var limitValue: Double = 50
+    
     
     /// The number of divisions.
     @IBInspectable public var numOfDivisions: Int = 6
@@ -250,7 +256,7 @@ open class GaugeView: UIView {
         if valueLabel.superview == nil {
             addSubview(valueLabel)
         }
-        valueLabel.text = String(format: "%.0f", value)
+        valueLabel.text = String(format: stringFormat, value)
         valueLabel.font = valueFont
         valueLabel.minimumScaleFactor = 10/valueFont.pointSize
         valueLabel.textColor = valueTextColor
@@ -262,7 +268,7 @@ open class GaugeView: UIView {
         if minValueLabel.superview == nil {
             addSubview(minValueLabel)
         }
-        minValueLabel.text = String(format: "%.0f", minValue)
+        minValueLabel.text = String(format: stringFormat, minValue)
         minValueLabel.font = minMaxValueFont
         minValueLabel.minimumScaleFactor = 10/minMaxValueFont.pointSize
         minValueLabel.textColor = minMaxValueTextColor
@@ -275,7 +281,7 @@ open class GaugeView: UIView {
         if maxValueLabel.superview == nil {
             addSubview(maxValueLabel)
         }
-        maxValueLabel.text = String(format: "%.0f", maxValue)
+        maxValueLabel.text = String(format: stringFormat, maxValue)
         maxValueLabel.font = minMaxValueFont
         maxValueLabel.minimumScaleFactor = 10/minMaxValueFont.pointSize
         maxValueLabel.textColor = minMaxValueTextColor

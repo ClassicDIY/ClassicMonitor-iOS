@@ -6,6 +6,15 @@ target 'Classic' do
   use_frameworks!
   #pod 'LMGaugeViewSwift'
   # Pods for Classic
+  
+  #To Get Classics Over the Network
   pod 'CocoaAsyncSocket'
+  
+  #Charts
   pod 'Charts'
+  
+  #MQTT
+  pod 'MQTTClient/Min'
+  pod 'MQTTClient/Manager'
+  pod 'MQTTClient/Websocket'
 end

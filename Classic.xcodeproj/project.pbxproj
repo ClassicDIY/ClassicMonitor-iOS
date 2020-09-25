@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		65091C4425197E2900B94E06 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65091C4325197E2900B94E06 /* NetworkExtension.framework */; };
-		650B930325088293002017BE /* GaugeViewFloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650B930225088293002017BE /* GaugeViewFloat.swift */; };
 		650B9305250882B4002017BE /* GaugeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650B9304250882B4002017BE /* GaugeView.swift */; };
 		6513E8A3251AE0DF00C77214 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6513E8A2251AE0DF00C77214 /* PageViewController.swift */; };
 		655CC3A8250A5A9200A0D6D0 /* modbus-tcp.c in Sources */ = {isa = PBXBuildFile; fileRef = 655CC39F250A5A9200A0D6D0 /* modbus-tcp.c */; };
@@ -39,7 +38,6 @@
 /* Begin PBXFileReference section */
 		47E5A8D95641E141F34489A4 /* Pods-Classic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Classic.debug.xcconfig"; path = "Target Support Files/Pods-Classic/Pods-Classic.debug.xcconfig"; sourceTree = "<group>"; };
 		65091C4325197E2900B94E06 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
-		650B930225088293002017BE /* GaugeViewFloat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaugeViewFloat.swift; sourceTree = "<group>"; };
 		650B9304250882B4002017BE /* GaugeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaugeView.swift; sourceTree = "<group>"; };
 		6513E8A2251AE0DF00C77214 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		655536892508597700B7DE1B /* Classic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Classic.entitlements; sourceTree = "<group>"; };
@@ -105,7 +103,6 @@
 		650B930125088270002017BE /* LMGaugeViewSwift */ = {
 			isa = PBXGroup;
 			children = (
-				650B930225088293002017BE /* GaugeViewFloat.swift */,
 				650B9304250882B4002017BE /* GaugeView.swift */,
 			);
 			path = LMGaugeViewSwift;
@@ -363,7 +360,6 @@
 				658EC25025101E9700F1ACAF /* ClassicDeviceLists.swift in Sources */,
 				65A04DC52513941400E9ABDB /* DataManager.swift in Sources */,
 				657A8D362506AE4B006B2BD0 /* AppDelegate.swift in Sources */,
-				650B930325088293002017BE /* GaugeViewFloat.swift in Sources */,
 				657A8D382506AE4B006B2BD0 /* SceneDelegate.swift in Sources */,
 				657A8D642506B2B0006B2BD0 /* SwiftLibModbus.swift in Sources */,
 			);

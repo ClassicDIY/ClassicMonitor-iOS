@@ -169,7 +169,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B27-GU-Erd" userLabel="Top Gauge View">
                                 <rect key="frame" x="20" y="88" width="335" height="150"/>
                                 <subviews>
-                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hNH-sp-Cta" userLabel="Gauge View Energy" customClass="GaugeViewFloat" customModule="Classic_Monitor" customModuleProvider="target">
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hNH-sp-Cta" userLabel="Gauge View Energy" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Energy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D1C-IN-HFJ">
@@ -196,7 +196,7 @@
                                             <segue destination="kDZ-eV-5ie" kind="presentation" id="QgO-K1-lzs"/>
                                         </connections>
                                     </button>
-                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jht-Ca-rsO" userLabel="Gauge View Battery Volts" customClass="GaugeViewFloat" customModule="Classic_Monitor" customModuleProvider="target">
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jht-Ca-rsO" userLabel="Gauge View Battery Volts" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
                                         <rect key="frame" x="185" y="0.0" width="150" height="150"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Battery" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ial-qJ-Min">
@@ -213,6 +213,9 @@
                                             <constraint firstItem="ial-qJ-Min" firstAttribute="leading" secondItem="Jht-Ca-rsO" secondAttribute="leading" constant="14" id="CSq-L2-CMc"/>
                                             <constraint firstAttribute="width" secondItem="Jht-Ca-rsO" secondAttribute="height" multiplier="1:1" id="xgx-zb-tn3"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="stringFormat" value="%.1f"/>
+                                        </userDefinedRuntimeAttributes>
                                     </view>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hOk-9x-VRr">
                                         <rect key="frame" x="185" y="0.0" width="150" height="150"/>
@@ -367,7 +370,7 @@
                                             <segue destination="AD7-v6-nD4" kind="presentation" id="ElN-0H-GCI"/>
                                         </connections>
                                     </button>
-                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Nb-aT-cDL" userLabel="Gauge View Battery Amps" customClass="GaugeViewFloat" customModule="Classic_Monitor" customModuleProvider="target">
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2Nb-aT-cDL" userLabel="Gauge View Battery Amps" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
                                         <rect key="frame" x="185" y="0.0" width="150" height="150"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Battery" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EnJ-90-Aum">

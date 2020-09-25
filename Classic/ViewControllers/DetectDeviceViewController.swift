@@ -226,19 +226,19 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         let alert = UIAlertController(title: "Classic Manual Entry", message: "Enter your Midnite Classic IP and Port", preferredStyle: .alert)
         
         //2. Add the text field. You can configure it however you need.
-        alert.addTextField(configurationHandler: { classicUrlm in
-            classicUrlm.placeholder = "Enter the Classic URL"
+        alert.addTextField(configurationHandler: { classicUrl in
+            classicUrl.placeholder = "Enter the Classic URL"
         })
         
-        alert.addTextField(configurationHandler: { classicPortm in
-            classicPortm.placeholder = "Enter the Classic Port"
+        alert.addTextField(configurationHandler: { classicPort in
+            classicPort.placeholder = "Enter the Classic Port"
         })
         
         // 3. Grab the value from the text field, and print it when the user clicks OK.
         alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { action in
-            if let classicUrlm = alert.textFields?.first?.text, let classicPortm = alert.textFields?.last?.text {
-                if (classicUrlm.count != 0 && classicPortm.count != 0) {
-                    self.addManualEntryModbus(classicUrl: classicUrlm, classicPort: classicPortm)
+            if let classicUrl = alert.textFields?.first?.text, let classicPort = alert.textFields?.last?.text {
+                if (classicUrl.count != 0 && classicPort.count != 0) {
+                    self.addManualEntryModbus(classicUrl: classicUrl, classicPort: classicPort)
                 } else {
                     let alert = UIAlertController(title: "Alert", message: "Please enter your Classic URL and Port.", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
@@ -280,19 +280,18 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         
         // 3. Grab the value from the text field, and print it when the user clicks OK.
         alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { action in
-            if (alert.textFields?.count == 5) {
-                if let classicName = alert.textFields?.first?.text, let classicUrl = alert.textFields?[1].text,
-                   let classicPort = alert.textFields?[2].text, let MQTTUsername = alert.textFields?[3].text,
-                   let MQTTPassword = alert.textFields?.last?.text {
+            if let classicName = alert.textFields?.first?.text, let classicUrl = alert.textFields?[1].text,
+               let classicPort = alert.textFields?[2].text, let MQTTUsername = alert.textFields?[3].text,
+               let MQTTPassword = alert.textFields?.last?.text {
+                if (classicName.count != 0 && classicUrl.count != 0 && classicPort.count != 0 && MQTTUsername.count != 0 && MQTTPassword.count != 0) {
                     self.addManualEntryMQTT(classicName: classicName, classicUrl: classicUrl, classicPort: classicPort, MQTTUser: MQTTUsername, MQTTPassword: MQTTPassword)
+                } else {
+                    let alert = UIAlertController(title: "Alert", message: "At least one parameter is missing. Please try again", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                    self.present(alert, animated: true)
+                    return
                 }
-            } else {
-                let alert = UIAlertController(title: "Alert", message: "At least one parameter is missing. Please try again", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-                self.present(alert, animated: true)
-                return
             }
-            
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         // 4. Present the alert.

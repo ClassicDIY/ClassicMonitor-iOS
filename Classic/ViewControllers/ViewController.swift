@@ -16,12 +16,12 @@
 
 import UIKit
 
-class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegate {
+class ViewController: UIViewController, GaugeViewDelegate {
     
     @IBOutlet weak var gaugePowerView:          GaugeView!
-    @IBOutlet weak var gaugeEnergyView:         GaugeViewFloat!
-    @IBOutlet weak var gaugeInputView:          GaugeViewFloat!
-    @IBOutlet weak var gaugeBatteryAmpsView:    GaugeViewFloat!
+    @IBOutlet weak var gaugeEnergyView:         GaugeView!
+    @IBOutlet weak var gaugeInputView:          GaugeView!
+    @IBOutlet weak var gaugeBatteryAmpsView:    GaugeView!
     @IBOutlet weak var gaugeBatteryVoltsView:   GaugeView!
     @IBOutlet weak var powerLabel:              UILabel!
     @IBOutlet weak var energyLabel:             UILabel!
@@ -349,15 +349,15 @@ class ViewController: UIViewController, GaugeViewDelegate, GaugeViewFloatDelegat
         return UIColor(red: 11.0/255, green: 150.0/255, blue: 246.0/255, alpha: 1)
     }
     
-    func ringStokeColorFloat(gaugeView: GaugeViewFloat, value: Double) -> UIColor {
-        if value >= gaugeView.limitValue {
-            return UIColor(red: 1, green: 59.0/255, blue: 48.0/255, alpha: 1)
-        }
-        //if nightModeSwitch.isOn {
-        //    return UIColor(red: 76.0/255, green: 217.0/255, blue: 100.0/255, alpha: 1)
-        //}
-        return UIColor(red: 11.0/255, green: 150.0/255, blue: 246.0/255, alpha: 1)
-    }
+//    func ringStokeColorFloat(gaugeView: GaugeViewFloat, value: Double) -> UIColor {
+//        if value >= gaugeView.limitValue {
+//            return UIColor(red: 1, green: 59.0/255, blue: 48.0/255, alpha: 1)
+//        }
+//        //if nightModeSwitch.isOn {
+//        //    return UIColor(red: 76.0/255, green: 217.0/255, blue: 100.0/255, alpha: 1)
+//        //}
+//        return UIColor(red: 11.0/255, green: 150.0/255, blue: 246.0/255, alpha: 1)
+//    }
     
     func connectToDevice() {
         self.createTimer()
