@@ -106,7 +106,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
     }
     
     override var preferredStatusBarStyle : UIStatusBarStyle {
-        print("Prefered Barstatus Style")
+        if kDebugLog { print("Prefered Barstatus Style") }
         view.backgroundColor = UIColor(white: 0.1, alpha: 1)
         return .lightContent
     }
@@ -126,19 +126,19 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
     
     //MARK:-GCDAsyncUdpSocketDelegate
     func udpSocket(_ sock: GCDAsyncUdpSocket, didReceive data: Data, fromAddress address: Data, withFilterContext filterContext: Any?) {
-        print("Incoming message: \(data)");
+        if kDebugLog { print("Incoming message: \(data)") }
         let signal:Signal = Signal.unarchive(d: data)
         
-        print("signal information : \n first \(signal.firstSignal) , second \(signal.secondSignal) \n third \(signal.thirdSignal) , fourth \(signal.fourthSignal)")
+        if kDebugLog { print("signal information : \n first \(signal.firstSignal) , second \(signal.secondSignal) \n third \(signal.thirdSignal) , fourth \(signal.fourthSignal)") }
         //print("updSocket")
         let lsb3 = signal.firstSignal   & 0xFF
         let msb3 = (signal.firstSignal  >> 8) & 0xFF
         let lsb2 = signal.secondSignal  & 0xFF
         let msb2 = (signal.secondSignal >> 8) & 0xFF
-        print("Detected IP Address: \(lsb3).\(msb3).\(lsb2).\(msb2) with port \(signal.thirdSignal)")
+        if kDebugLog { print("Detected IP Address: \(lsb3).\(msb3).\(lsb2).\(msb2) with port \(signal.thirdSignal)") }
         
         DataManager.readRegistersValues(classicURL: "\(lsb3).\(msb3).\(lsb2).\(msb2)" as NSString, classicPort: Int32(signal.thirdSignal), device: 1, startAddress: 4100, count: 44) { data, error in
-            print("ENTRO AL DATAMANAGER: \(String(describing: data))")
+            if kDebugLog { print("ENTRO AL DATAMANAGER: \(String(describing: data))") }
             if error == nil {
                 var deviceModel: String?
                 let unitId = Int(truncating: data?[0] as! NSNumber)
@@ -174,35 +174,34 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                 
                 if (!self.devicelists.contains(self.detectedDevice)) {
                     self.devicelists.append(self.detectedDevice)
-                    print("No es igual \(String(describing: self.detectedDevice))")
+                    if kDebugLog { print("No es igual \(String(describing: self.detectedDevice))") }
                 } else {
-                    print("Es igual o parece igual")
+                    if kDebugLog { print("Es igual o parece igual") }
                 }
             } else {
-                
-                print("Error !nil: \(String(describing: error))")
+                if kDebugLog { print("Error !nil: \(String(describing: error))") }
             }
         }
     }
     
     func udpSocket(_ sock: GCDAsyncUdpSocket, didNotConnect error: Error?) {
-        print("Did not connect")
+        if kDebugLog { print("Did not connect") }
     }
     
     func udpSocketDidClose(_ sock: GCDAsyncUdpSocket, withError error: Error?) {
-        print("Socket did close")
+        if kDebugLog { print("Socket did close") }
     }
     
     //MARK: Esto tiene que estar para poder hacer unwind del segue
     @IBAction func unwindFromPresentedViewController(segue: UIStoryboardSegue) {
-        print("Unwind Form")
+        if kDebugLog { print("Unwind Form") }
     }
     
     //MARK: Reference https://medium.com/swift-india/uialertcontroller-in-swift-22f3c5b1dd68
     @IBAction func buttonAddDevice(_ sender: Any) {
         let alert = UIAlertController(title: "Add Classic Charge Controller", message: "Please Select an Option", preferredStyle: .actionSheet)
         
-        alert.addAction(UIAlertAction(title: "Add Modbus Charge Controller", style: .default, handler: { (_) in
+        /*alert.addAction(UIAlertAction(title: "Add Modbus Charge Controller", style: .default, handler: { (_) in
             if kDebugLog { print("Add Modbus Charge Controller") }
             self.alertModbusEntry()
         }))
@@ -218,7 +217,32 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         
         self.present(alert, animated: true, completion: {
             if kDebugLog { print("completion block") }
+        })*/
+                
+        let addModbus = UIAlertAction(title: "Add Modbus Charge Controller", style: .default, handler: { (_) in
+            if kDebugLog { print("Add Modbus Charge Controller") }
+            self.alertModbusEntry()
         })
+        
+        let addMQTT = UIAlertAction(title: "Add MQTT Controller", style: .default, handler: { (_) in
+            if kDebugLog { print("Add MQTT Controller") }
+            self.alertMQTTEntry()
+        })
+        
+        let addCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
+            if kDebugLog { print("User click Dismiss button") }
+        })
+        
+        alert.addAction(addModbus)
+        alert.addAction(addMQTT)
+        alert.addAction(addCancel)
+        
+        if let popoverController = alert.popoverPresentationController {
+            popoverController.sourceView = self.view
+            popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        self.present(alert, animated: true, completion: nil)
     }
     
     func alertModbusEntry() {
@@ -313,9 +337,9 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
             
             if (!self.devicelists.contains(self.detectedDevice)) {
                 self.devicelists.append(self.detectedDevice)
-                print("No es igual \(String(describing: self.detectedDevice))")
+                if kDebugLog { print("No es igual \(String(describing: self.detectedDevice))") }
             } else {
-                print("Es igual o parece igual")
+                if kDebugLog { print("Es igual o parece igual") }
             }
         } else {
             let host = CFHostCreateWithName(nil,classicUrl as CFString).takeRetainedValue()
@@ -326,7 +350,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                 var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
                 if getnameinfo(theAddress.bytes.assumingMemoryBound(to: sockaddr.self), socklen_t(theAddress.length),&hostname, socklen_t(hostname.count), nil, 0, NI_NUMERICHOST) == 0 {
                     let numAddress = String(cString: hostname)
-                    print("Detected IP: \(numAddress)")
+                    if kDebugLog { print("Detected IP: \(numAddress)") }
                     self.detectedDevice = ClassicDeviceLists(
                         ip:                 numAddress,
                         visualUrl:          classicUrl,
@@ -340,9 +364,9 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                     
                     if (!self.devicelists.contains(self.detectedDevice)) {
                         self.devicelists.append(self.detectedDevice)
-                        print("No es igual \(String(describing: self.detectedDevice))")
+                        if kDebugLog { print("No es igual \(String(describing: self.detectedDevice))") }
                     } else {
-                        print("Es igual o parece igual")
+                        if kDebugLog { print("Es igual o parece igual") }
                     }
                 }
             } else {
@@ -368,12 +392,12 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
             
             if (!self.devicelists.contains(self.detectedDevice)) {
                 self.devicelists.append(self.detectedDevice)
-                print("No es igual \(String(describing: self.detectedDevice))")
+                if kDebugLog { print("No es igual \(String(describing: self.detectedDevice))") }
             } else {
-                print("Es igual o parece igual")
+                if kDebugLog { print("Es igual o parece igual") }
             }
         } else {
-            print("HOST QUE LLEGA \(classicUrl)")
+            if kDebugLog { print("HOST QUE LLEGA \(classicUrl)") }
             let host = CFHostCreateWithName(nil,classicUrl as CFString).takeRetainedValue()
             CFHostStartInfoResolution(host, .addresses, nil)
             var success: DarwinBoolean = false
@@ -382,7 +406,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                 var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
                 if getnameinfo(theAddress.bytes.assumingMemoryBound(to: sockaddr.self), socklen_t(theAddress.length),&hostname, socklen_t(hostname.count), nil, 0, NI_NUMERICHOST) == 0 {
                     let numAddress = String(cString: hostname)
-                    print("Detected IP: \(numAddress)")
+                    if kDebugLog { print("Detected IP: \(numAddress)") }
                     self.detectedDevice = ClassicDeviceLists(
                         ip:                 numAddress,
                         visualUrl:          classicUrl,
@@ -396,9 +420,9 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                     
                     if (!self.devicelists.contains(self.detectedDevice)) {
                         self.devicelists.append(self.detectedDevice)
-                        print("No es igual \(String(describing: self.detectedDevice))")
+                        if kDebugLog { print("No es igual \(String(describing: self.detectedDevice))") }
                     } else {
-                        print("Es igual o parece igual")
+                        if kDebugLog { print("Es igual o parece igual") }
                     }
                 }
             } else {
@@ -474,7 +498,7 @@ extension DetectDeviceViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         classicUrl  = devicelists[indexPath.row].ip
         classicPort = devicelists[indexPath.row].port
-        print("SELECTED: \(String(describing: classicUrl)) - \(String(describing: classicPort))")
+        if kDebugLog { print("SELECTED: \(String(describing: classicUrl)) - \(String(describing: classicPort))") }
         performSegue(withIdentifier: "SelectedSegue", sender: self)
     }
     
@@ -501,7 +525,6 @@ extension DetectDeviceViewController {
         }
         self.reachability = reachability
         if kDebugLog { print("--- Set up with host name: \(String(describing: hostName))") }
-        print("--- Set up with host name: \(String(describing: hostName))")
         if useClosures {
             reachability?.whenReachable = { reachability in
                 self.setupConnection()

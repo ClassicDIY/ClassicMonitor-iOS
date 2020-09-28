@@ -31,10 +31,10 @@ open class GaugeCenterView: UIView {
     public var value: Double = 0 {
         didSet {
             value = max(min(value, maxValue), minValue)
+            print("Value Assigned:\(value)")
             // Set text for value label
             valueLabel.text = String(format: stringFormat, value)
             //print("VALUE LABEL \(valueLabel)")
-
             // Trigger the stoke animation of ring layer
             strokeGauge()
         }
@@ -47,7 +47,7 @@ open class GaugeCenterView: UIView {
     public var maxValue: Double = 16
     
     /// Limit value.
-    public var limitValue: Double = 50
+    public var limitValue: Double = 0
     
     
     /// The number of divisions.
@@ -60,7 +60,7 @@ open class GaugeCenterView: UIView {
     @IBInspectable public var ringThickness: Double = 15
     
     /// The background color of the ring.
-    @IBInspectable public var ringBackgroundColor: UIColor = UIColor(white: 0.9, alpha: 1)
+    @IBInspectable public var ringBackgroundColor: UIColor = UIColor.black
     
     /// The divisions radius.
     @IBInspectable public var divisionsRadius: Double = 1.25
@@ -116,41 +116,42 @@ open class GaugeCenterView: UIView {
     /// The receiver of all gauge view delegate callbacks.
     public weak var delegate: GaugeCenterViewDelegate? = nil
     
-    var startAngle: Double = 3 * .pi / 4
-    var endAngle: Double = .pi/4 + .pi * 2
-    var divisionUnitAngle: Double = 0
-    var divisionUnitValue: Double = 0
+    var startAngle: Double          = 3 * .pi / 4
+    let centerAngle: Double         = 3 * .pi / 2
+    var endAngle: Double            = .pi/4 + .pi * 2
+    var divisionUnitAngle: Double   = 0
+    var divisionUnitValue: Double   = 0
     
     lazy var progressLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
         layer.contentsScale = UIScreen.main.scale
-        layer.fillColor = UIColor.clear.cgColor
-        layer.lineCap = CAShapeLayerLineCap.butt
-        layer.lineJoin = CAShapeLayerLineJoin.bevel
-        layer.strokeEnd = 0
+        layer.fillColor     = UIColor.clear.cgColor
+        layer.lineCap       = CAShapeLayerLineCap.butt
+        layer.lineJoin      = CAShapeLayerLineJoin.bevel
+        layer.strokeEnd     = 0
         return layer
     }()
     
     lazy var valueLabel: UILabel = {
         let label = UILabel()
-        label.backgroundColor = UIColor.clear
-        label.textAlignment = .center
+        label.backgroundColor           = UIColor.clear
+        label.textAlignment             = .center
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
     lazy var unitOfMeasurementLabel: UILabel = {
         let label = UILabel()
-        label.backgroundColor = UIColor.clear
-        label.textAlignment = .center
+        label.backgroundColor           = UIColor.clear
+        label.textAlignment             = .center
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
     lazy var minValueLabel: UILabel = {
         let label = UILabel()
-        label.backgroundColor = UIColor.clear
-        label.textAlignment = .left
+        label.backgroundColor           = UIColor.clear
+        label.textAlignment             = .left
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -166,7 +167,7 @@ open class GaugeCenterView: UIView {
     // MARK: DRAWING
     
     override open func draw(_ rect: CGRect) {
-        print("Entrando al draw del Gauge Center")
+        //print("Entrando al draw del Gauge Center")
         // Prepare drawing
         divisionUnitValue = numOfDivisions != 0 ? (maxValue - minValue)/Double(numOfDivisions) : 0
         divisionUnitAngle = numOfDivisions != 0 ? abs(endAngle - startAngle)/Double(numOfDivisions) : 0
@@ -202,15 +203,14 @@ open class GaugeCenterView: UIView {
             for i in 0...numOfDivisions {
                 if i != numOfDivisions && numOfSubDivisions != 0 {
                     for j in 0...numOfSubDivisions {
-                        
                         // Subdivisions
                         let value = Double(i) * divisionUnitValue + Double(j) * divisionUnitValue/Double(numOfSubDivisions) + minValue
                         let angle = angleFromValue(value)
                         let point = CGPoint(x: dotRadius * cos(angle) + Double(center.x),
                                             y: dotRadius * sin(angle) + Double(center.y))
                         context?.drawDotCenter(center: point,
-                                         radius: subDivisionsRadius,
-                                         fillColor: subDivisionsColor)
+                                               radius: subDivisionsRadius,
+                                               fillColor: subDivisionsColor)
                     }
                 }
                 
@@ -220,8 +220,8 @@ open class GaugeCenterView: UIView {
                 let point = CGPoint(x: dotRadius * cos(angle) + Double(center.x),
                                     y: dotRadius * sin(angle) + Double(center.y))
                 context?.drawDotCenter(center: point,
-                                 radius: divisionsRadius,
-                                 fillColor: divisionsColor)
+                                       radius: divisionsRadius,
+                                       fillColor: divisionsColor)
             }
         }
         
@@ -231,25 +231,38 @@ open class GaugeCenterView: UIView {
             let point = CGPoint(x: dotRadius * cos(angle) + Double(center.x),
                                 y: dotRadius * sin(angle) + Double(center.y))
             context?.drawDotCenter(center: point,
-                             radius: limitDotRadius,
-                             fillColor: limitDotColor)
+                                   radius: limitDotRadius,
+                                   fillColor: limitDotColor)
         }
         
         // Progress Layer
         if progressLayer.superlayer == nil {
             layer.addSublayer(progressLayer)
         }
+        var smoothedPath: UIBezierPath?
+        if (value >= 0) {
+            //print("Value mayor que cero \(value)")
+            smoothedPath = UIBezierPath(arcCenter: progressLayer.position,
+                                            radius: CGFloat(ringRadius),
+                                            startAngle: CGFloat(centerAngle),
+                                            endAngle: CGFloat(endAngle),
+                                            clockwise: true)
+        }
+        else if (value < 0 ) {
+            //print("Value menor que cero \(value)")
+            smoothedPath = UIBezierPath(arcCenter: progressLayer.position,
+                                            radius: CGFloat(ringRadius),
+                                            startAngle: CGFloat(centerAngle),
+                                            endAngle: CGFloat(startAngle),
+                                            clockwise: false)
+        }
+        //dependiendo el valor de arriba es la direccion que va a ir
         progressLayer.frame = CGRect(x: center.x - CGFloat(ringRadius) - CGFloat(ringThickness)/2,
                                      y: center.y - CGFloat(ringRadius) - CGFloat(ringThickness)/2,
                                      width: (CGFloat(ringRadius) + CGFloat(ringThickness)/2) * 2,
                                      height: (CGFloat(ringRadius) + CGFloat(ringThickness)/2) * 2)
         progressLayer.bounds = progressLayer.frame
-        let smoothedPath = UIBezierPath(arcCenter: progressLayer.position,
-                                        radius: CGFloat(ringRadius),
-                                        startAngle: CGFloat(startAngle),
-                                        endAngle: CGFloat(endAngle),
-                                        clockwise: true)
-        progressLayer.path = smoothedPath.cgPath
+        progressLayer.path = smoothedPath?.cgPath
         progressLayer.lineWidth = CGFloat(ringThickness)
         
         // Value Label
@@ -268,6 +281,7 @@ open class GaugeCenterView: UIView {
         if minValueLabel.superview == nil {
             addSubview(minValueLabel)
         }
+        
         minValueLabel.text = String(format: stringFormat, minValue)
         minValueLabel.font = minMaxValueFont
         minValueLabel.minimumScaleFactor = 10/minMaxValueFont.pointSize
@@ -306,17 +320,19 @@ open class GaugeCenterView: UIView {
     }
     
     public func strokeGauge() {
-        
         // Set progress for ring layer
-        let progress = maxValue != 0 ? (value - minValue)/(maxValue - minValue) : 0
+        var progress: Double = 0
+        progress = maxValue != 0 ? (value - minValue)/(maxValue - minValue) : 0
+        print("Stroke Progress: \(progress)")
         progressLayer.strokeEnd = CGFloat(progress)
-
+        
         // Set ring stroke color
         var ringColor = UIColor(red: 76.0/255, green: 217.0/255, blue: 100.0/255, alpha: 1)
         if let delegate = delegate {
             ringColor = delegate.ringStokeColor(gaugeView: self, value: value)
         }
         progressLayer.strokeColor = ringColor.cgColor
+        setNeedsDisplay()
     }
 }
 
@@ -332,6 +348,7 @@ extension GaugeCenterView {
 
 extension CGContext {
     func drawDotCenter(center: CGPoint, radius: Double, fillColor: UIColor) {
+        //print("Draw dot center")
         beginPath()
         addArc(center: center,
                radius: CGFloat(radius),

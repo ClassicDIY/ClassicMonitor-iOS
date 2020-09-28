@@ -34,7 +34,7 @@ open class GaugeView: UIView {
             // Set text for value label
             valueLabel.text = String(format: stringFormat, value)
             //print("VALUE LABEL \(valueLabel)")
-
+            
             // Trigger the stoke animation of ring layer
             strokeGauge()
         }
@@ -102,16 +102,27 @@ open class GaugeView: UIView {
     @IBInspectable public var minMaxValueTextColor: UIColor = UIColor(white: 0.3, alpha: 1)
     
     /// A boolean indicates whether to show unit of measurement.
-    @IBInspectable public var showUnitOfMeasurement: Bool = true
+    @IBInspectable public var showUnitOfMeasurement: Bool           = true
+    
+    @IBInspectable public var showUpperText: Bool                   = true
     
     /// The unit of measurement.
-    @IBInspectable public var unitOfMeasurement: String = "km/h"
+    @IBInspectable public var unitOfMeasurement: String             = "km/h"
+    
+    /// The upper label.
+    @IBInspectable public var upperText: String                     = "Upper Label"
     
     /// Font of unit of measurement label.
-    @IBInspectable public var unitOfMeasurementFont: UIFont = UIFont(name: defaultFontName, size: 16) ?? UIFont.systemFont(ofSize: 16)
+    @IBInspectable public var unitOfMeasurementFont: UIFont         = UIFont(name: defaultFontName, size: 16) ?? UIFont.systemFont(ofSize: 16)
+    
+    /// Font of unit of measurement label.
+    @IBInspectable public var upperTextFont: UIFont                 = UIFont(name: defaultFontName, size: 16) ?? UIFont.systemFont(ofSize: 16)
     
     /// Text color of unit of measurement label.
-    @IBInspectable public var unitOfMeasurementTextColor: UIColor = UIColor(white: 0.3, alpha: 1)
+    @IBInspectable public var unitOfMeasurementTextColor: UIColor   = UIColor(white: 0.7, alpha: 1)
+    
+    /// Text color of unit of measurement label.
+    @IBInspectable public var upperTextColor: UIColor               = UIColor(white: 0.7, alpha: 1)
     
     /// The receiver of all gauge view delegate callbacks.
     public weak var delegate: GaugeViewDelegate? = nil
@@ -140,6 +151,14 @@ open class GaugeView: UIView {
     }()
     
     lazy var unitOfMeasurementLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = UIColor.clear
+        label.textAlignment = .center
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    
+    lazy var upperTextLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = UIColor.clear
         label.textAlignment = .center
@@ -294,15 +313,29 @@ open class GaugeView: UIView {
         if unitOfMeasurementLabel.superview == nil {
             addSubview(unitOfMeasurementLabel)
         }
-        unitOfMeasurementLabel.text = unitOfMeasurement
-        unitOfMeasurementLabel.font = unitOfMeasurementFont
-        unitOfMeasurementLabel.minimumScaleFactor = 10/unitOfMeasurementFont.pointSize
-        unitOfMeasurementLabel.textColor = unitOfMeasurementTextColor
-        unitOfMeasurementLabel.isHidden = !showUnitOfMeasurement
-        unitOfMeasurementLabel.frame = CGRect(x: valueLabel.frame.origin.x,
-                                              y: valueLabel.frame.maxY - 10,
-                                              width: valueLabel.frame.width,
-                                              height: 20)
+        unitOfMeasurementLabel.text                 = unitOfMeasurement
+        unitOfMeasurementLabel.font                 = unitOfMeasurementFont
+        unitOfMeasurementLabel.minimumScaleFactor   = 10/unitOfMeasurementFont.pointSize
+        unitOfMeasurementLabel.textColor            = unitOfMeasurementTextColor
+        unitOfMeasurementLabel.isHidden             = !showUnitOfMeasurement
+        unitOfMeasurementLabel.frame                = CGRect(x: valueLabel.frame.origin.x,
+                                                             y: valueLabel.frame.maxY - 10,
+                                                             width: valueLabel.frame.width,
+                                                             height: 20)
+        
+        // Upper Text Label
+        if upperTextLabel.superview == nil {
+            addSubview(upperTextLabel)
+        }
+        upperTextLabel.text                 = upperText
+        upperTextLabel.font                 = upperTextFont
+        upperTextLabel.minimumScaleFactor   = 10/upperTextFont.pointSize
+        upperTextLabel.textColor            = upperTextColor
+        upperTextLabel.isHidden             = !showUpperText
+        upperTextLabel.frame                = CGRect(x: valueLabel.frame.origin.x,
+                                                     y: valueLabel.frame.maxY / frame.height + 28,
+                                                             width: valueLabel.frame.width,
+                                                             height: 20)
     }
     
     public func strokeGauge() {
@@ -310,7 +343,7 @@ open class GaugeView: UIView {
         // Set progress for ring layer
         let progress = maxValue != 0 ? (value - minValue)/(maxValue - minValue) : 0
         progressLayer.strokeEnd = CGFloat(progress)
-
+        
         // Set ring stroke color
         var ringColor = UIColor(red: 76.0/255, green: 217.0/255, blue: 100.0/255, alpha: 1)
         if let delegate = delegate {

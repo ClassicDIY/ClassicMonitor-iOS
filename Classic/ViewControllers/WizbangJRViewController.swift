@@ -14,7 +14,7 @@ class WizbangJRViewController: UIViewController, GaugeCenterViewDelegate {
 
     //MARK: Demo variables
     var velocity: Double        = 0
-    var acceleration: Double    = 500
+    var acceleration: Double    = 4
     //MARK: End Demo Variables
     
     var timeDelta: Double       = 10.0/24 //MARK: For the timer to read
@@ -31,6 +31,11 @@ class WizbangJRViewController: UIViewController, GaugeCenterViewDelegate {
         invalidateTimer()
     }
     
+    @objc func appMovedToBackground() {
+        if kDebugLog{ print("appMovedToBackground") }
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     override var preferredStatusBarStyle : UIStatusBarStyle {
         print("Prefered Barstatus Style")
         view.backgroundColor = UIColor(white: 0.1, alpha: 1)
@@ -43,6 +48,9 @@ class WizbangJRViewController: UIViewController, GaugeCenterViewDelegate {
     }
     
     func ringStokeColor(gaugeView: GaugeCenterView, value: Double) -> UIColor {
+        if value >= gaugeView.limitValue {
+            return UIColor(red: 1, green: 59.0/255, blue: 48.0/255, alpha: 1)
+        }
         return UIColor(red: 11.0/255, green: 150.0/255, blue: 246.0/255, alpha: 1)
     }
     
@@ -84,17 +92,8 @@ class WizbangJRViewController: UIViewController, GaugeCenterViewDelegate {
     
     @objc func demoMode() {
         if kDebugLog { print("Setting Demo Mode Values") }
-        // Calculate velocity
-        velocity += timeDelta * acceleration
-        if velocity > gaugeWizbangJR.maxValue {
-            velocity = gaugeWizbangJR.maxValue
-            acceleration = -1
-        }
-        if velocity < gaugeWizbangJR.minValue {
-            velocity = gaugeWizbangJR.minValue
-            acceleration = 1
-        }
-        // Set value for gauge view
+        let randomDouble = Double.random(in: -16..<16)
+        velocity = randomDouble
         gaugeWizbangJR.value        = velocity
     }
 }
