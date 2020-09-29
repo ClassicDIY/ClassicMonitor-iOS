@@ -140,7 +140,6 @@
                             </searchBar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Ydu-Db-XD2"/>
-                        <color key="backgroundColor" systemColor="viewFlipsideBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="YYv-ac-0hQ" firstAttribute="leading" secondItem="Ydu-Db-XD2" secondAttribute="leading" id="6Gv-Yh-9TQ"/>
                             <constraint firstItem="Bzg-hc-J7r" firstAttribute="top" secondItem="Ydu-Db-XD2" secondAttribute="top" id="7yi-wR-HA6"/>
@@ -182,7 +181,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YTv-AY-uh2" customClass="GaugeCenterView" customModule="Classic_Monitor" customModuleProvider="target">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YTv-AY-uh2" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
                                 <rect key="frame" x="32.666666666666657" y="224" width="310" height="310"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -266,7 +265,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </button>
                             <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oHz-tC-8rg" userLabel="Gauge View Power Center" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
-                                <rect key="frame" x="33" y="251" width="310" height="310"/>
+                                <rect key="frame" x="26" y="251" width="310" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ground_fault" translatesAutoresizingMaskIntoConstraints="NO" id="fsN-Sf-SQz">
@@ -294,7 +293,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                             </button>
                             <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EWJ-Nw-nAq" userLabel="Gauge View Battery Amps" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
-                                <rect key="frame" x="209" y="632" width="146" height="146"/>
+                                <rect key="frame" x="208" y="632" width="147" height="146"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <userDefinedRuntimeAttributes>
@@ -304,7 +303,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8w4-pd-Jvv" userLabel="Button Battery Amps">
-                                <rect key="frame" x="209" y="632" width="146" height="146"/>
+                                <rect key="frame" x="208" y="632" width="147" height="146"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yfn-13-6Q1">
@@ -316,12 +315,12 @@
                                 </state>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EYu-Fj-dMe" userLabel="Center Button">
-                                <rect key="frame" x="33" y="251" width="310" height="310"/>
+                                <rect key="frame" x="26" y="251" width="310" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="hby-qT-6j5"/>
-                        <color key="backgroundColor" systemColor="viewFlipsideBackgroundColor"/>
+                        <color key="backgroundColor" red="0.12165830280000001" green="0.12915611269999999" blue="0.1411797702" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </view>
                     <navigationItem key="navigationItem" title="Classic 250" id="4v1-xt-lKz"/>
                     <connections>
@@ -346,12 +345,6 @@
         <image name="ground_fault" width="10" height="10"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="viewFlipsideBackgroundColor">
-            <color red="0.1215686275" green="0.12941176469999999" blue="0.14117647059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="viewFlipsideBackgroundColor">
-            <color red="0.1215686275" green="0.12941176469999999" blue="0.14117647059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
