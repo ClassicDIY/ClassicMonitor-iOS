@@ -17,6 +17,7 @@
 		655CC3AA250A5A9200A0D6D0 /* modbus-rtu.c in Sources */ = {isa = PBXBuildFile; fileRef = 655CC3A4250A5A9200A0D6D0 /* modbus-rtu.c */; };
 		655CC3AB250A5A9200A0D6D0 /* modbus-data.c in Sources */ = {isa = PBXBuildFile; fileRef = 655CC3A6250A5A9200A0D6D0 /* modbus-data.c */; };
 		655CC3AC250A5A9200A0D6D0 /* modbus.c in Sources */ = {isa = PBXBuildFile; fileRef = 655CC3A7250A5A9200A0D6D0 /* modbus.c */; };
+		657301C32523A7E000AF868D /* MQTTDataReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657301C22523A7E000AF868D /* MQTTDataReading.swift */; };
 		657A8D362506AE4B006B2BD0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A8D352506AE4B006B2BD0 /* AppDelegate.swift */; };
 		657A8D382506AE4B006B2BD0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A8D372506AE4B006B2BD0 /* SceneDelegate.swift */; };
 		657A8D3A2506AE4B006B2BD0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A8D392506AE4B006B2BD0 /* ViewController.swift */; };
@@ -33,7 +34,7 @@
 		65A04DC52513941400E9ABDB /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A04DC42513941400E9ABDB /* DataManager.swift */; };
 		65A3887E2512A45B00379D78 /* ClassicData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 65A3887C2512A45B00379D78 /* ClassicData.xcdatamodeld */; };
 		65B44D412509ACEE0079A3C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65B44D402509ACEE0079A3C8 /* LaunchScreen.storyboard */; };
-		65DA6786251C129000C4962E /* MQTTData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DA6785251C129000C4962E /* MQTTData.swift */; };
+		65DA6786251C129000C4962E /* MQTTDataInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DA6785251C129000C4962E /* MQTTDataInfo.swift */; };
 		A4F78B4298D572731A394381 /* Pods_Classic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA99D76AF696B0065EA3DE99 /* Pods_Classic.framework */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +57,7 @@
 		655CC3A5250A5A9200A0D6D0 /* modbus-rtu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-rtu.h"; sourceTree = "<group>"; };
 		655CC3A6250A5A9200A0D6D0 /* modbus-data.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "modbus-data.c"; sourceTree = "<group>"; };
 		655CC3A7250A5A9200A0D6D0 /* modbus.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = modbus.c; sourceTree = "<group>"; };
+		657301C22523A7E000AF868D /* MQTTDataReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTDataReading.swift; sourceTree = "<group>"; };
 		657A8D322506AE4B006B2BD0 /* Classic Monitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Classic Monitor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		657A8D352506AE4B006B2BD0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		657A8D372506AE4B006B2BD0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -77,7 +79,7 @@
 		65A04DC42513941400E9ABDB /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		65A3887D2512A45B00379D78 /* ClassicData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClassicData.xcdatamodel; sourceTree = "<group>"; };
 		65B44D402509ACEE0079A3C8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		65DA6785251C129000C4962E /* MQTTData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTData.swift; sourceTree = "<group>"; };
+		65DA6785251C129000C4962E /* MQTTDataInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTDataInfo.swift; sourceTree = "<group>"; };
 		DA99D76AF696B0065EA3DE99 /* Pods_Classic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Classic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF6CFEDBAC207EAB6F59AD3B /* Pods-Classic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Classic.release.xcconfig"; path = "Target Support Files/Pods-Classic/Pods-Classic.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -201,7 +203,8 @@
 			isa = PBXGroup;
 			children = (
 				658EC24F25101E9700F1ACAF /* ClassicDeviceLists.swift */,
-				65DA6785251C129000C4962E /* MQTTData.swift */,
+				65DA6785251C129000C4962E /* MQTTDataInfo.swift */,
+				657301C22523A7E000AF868D /* MQTTDataReading.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -350,7 +353,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				650B9305250882B4002017BE /* GaugeView.swift in Sources */,
-				65DA6786251C129000C4962E /* MQTTData.swift in Sources */,
+				65DA6786251C129000C4962E /* MQTTDataInfo.swift in Sources */,
 				658EC249250CED4A00F1ACAF /* Signal.swift in Sources */,
 				65A3887E2512A45B00379D78 /* ClassicData.xcdatamodeld in Sources */,
 				655CC3AB250A5A9200A0D6D0 /* modbus-data.c in Sources */,
@@ -359,6 +362,7 @@
 				655CC3AC250A5A9200A0D6D0 /* modbus.c in Sources */,
 				658EC243250C8F4000F1ACAF /* DetectDeviceViewController.swift in Sources */,
 				655CC3AA250A5A9200A0D6D0 /* modbus-rtu.c in Sources */,
+				657301C32523A7E000AF868D /* MQTTDataReading.swift in Sources */,
 				658199592509166C00BAB8C7 /* ClassicMonitor-Settings.swift in Sources */,
 				6513E8A3251AE0DF00C77214 /* PageViewController.swift in Sources */,
 				655CC3A8250A5A9200A0D6D0 /* modbus-tcp.c in Sources */,
@@ -511,10 +515,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Classic/Classic.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = 648XC4D3FH;
 				INFOPLIST_FILE = Classic/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -537,10 +541,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Classic/Classic.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = 648XC4D3FH;
 				INFOPLIST_FILE = Classic/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

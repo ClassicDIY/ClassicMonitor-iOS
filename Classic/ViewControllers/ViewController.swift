@@ -23,11 +23,6 @@ class ViewController: UIViewController, GaugeViewDelegate {
     @IBOutlet weak var gaugeInputView:          GaugeView!
     @IBOutlet weak var gaugeBatteryAmpsView:    GaugeView!
     @IBOutlet weak var gaugeBatteryVoltsView:   GaugeView!
-    //@IBOutlet weak var powerLabel:              UILabel!
-    //@IBOutlet weak var energyLabel:             UILabel!
-    //@IBOutlet weak var voltsLabel:              UILabel!
-    //@IBOutlet weak var inputLabel:              UILabel!
-    //@IBOutlet weak var batAmpsLabel:            UILabel!
     @IBOutlet weak var buttonDeviceDescription: UIButton!
     @IBOutlet weak var buttonReturn:            UIButton!
     @IBOutlet weak var stageButton:             UIButton!
@@ -248,13 +243,13 @@ class ViewController: UIViewController, GaugeViewDelegate {
     
     func configureGaugeViews() {
         //MARK: Configure Buttons
-        buttonDeviceDescription.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 20)
+        buttonDeviceDescription.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 20) ?? UIFont.systemFont(ofSize: 20)
         buttonDeviceDescription.setTitleColor(UIColor(white: 0.7, alpha: 1), for: .normal)
         
-        stageButton.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 16)
+        stageButton.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 24) ?? UIFont.systemFont(ofSize: 24)
         stageButton.setTitleColor(UIColor(white: 0.7, alpha: 1), for: .normal)
         
-        buttonReturn.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 20)
+        buttonReturn.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 20) ?? UIFont.systemFont(ofSize: 20)
         buttonReturn.setTitleColor(UIColor(white: 0.7, alpha: 1), for: .normal)
         buttonReturn.tintColor = UIColor(white: 0.7, alpha: 1)
         
@@ -264,10 +259,12 @@ class ViewController: UIViewController, GaugeViewDelegate {
         let ratio = Double(screenMinSize)/320
         gaugePowerView.divisionsRadius          = 1.25 * ratio
         gaugePowerView.subDivisionsRadius       = (1.25 - 0.5) * ratio
-        gaugePowerView.ringThickness            = 12 * ratio
-        gaugePowerView.valueFont                = UIFont(name: GaugeView.defaultFontName, size: CGFloat(140 * ratio))!
-        gaugePowerView.unitOfMeasurementFont    = UIFont(name: GaugeView.defaultFontName, size: CGFloat(16 * ratio))!
+        gaugePowerView.ringThickness            = 6 * ratio
+        //print("RING THICKNESS: \(6 * ratio)")
+        gaugePowerView.valueFont                = UIFont(name: GaugeView.defaultFontName, size: CGFloat(80 * ratio))!
+        gaugePowerView.unitOfMeasurementFont    = UIFont(name: GaugeView.defaultFontName, size: CGFloat(12 * ratio))!
         gaugePowerView.minMaxValueFont          = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(12 * ratio))!
+        gaugePowerView.upperTextFont            = UIFont(name: GaugeView.defaultFontName, size: CGFloat(24 * ratio))!
         //powerLabel.font = UIFont(name: GaugeView.defaultFontName, size: CGFloat(24 * ratio))!
         //powerLabel.textColor = UIColor(white: 0.7, alpha: 1)
         // Update gauge view
@@ -280,9 +277,9 @@ class ViewController: UIViewController, GaugeViewDelegate {
         gaugeEnergyView.divisionsRadius = 1.25 * ratio
         gaugeEnergyView.subDivisionsRadius = (1.25 - 0.5) * ratio
         gaugeEnergyView.ringThickness = 4 * ratio
-        gaugeEnergyView.valueFont = UIFont(name: GaugeView.defaultFontName, size: CGFloat(40 * ratio))!
+        gaugeEnergyView.valueFont = UIFont(name: GaugeView.defaultFontName, size: CGFloat(30 * ratio))!
         gaugeEnergyView.unitOfMeasurementFont = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
-        gaugeEnergyView.minMaxValueFont = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(10 * ratio))!
+        gaugeEnergyView.minMaxValueFont = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(8 * ratio))!
         //energyLabel.font = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
         //energyLabel.textColor = UIColor(white: 0.7, alpha: 1)
         // Update gauge view
@@ -295,9 +292,9 @@ class ViewController: UIViewController, GaugeViewDelegate {
         gaugeBatteryVoltsView.divisionsRadius = 1.25 * ratio
         gaugeBatteryVoltsView.subDivisionsRadius = (1.25 - 0.5) * ratio
         gaugeBatteryVoltsView.ringThickness = 4 * ratio
-        gaugeBatteryVoltsView.valueFont = UIFont(name: GaugeView.defaultFontName, size: CGFloat(40 * ratio))!
+        gaugeBatteryVoltsView.valueFont = UIFont(name: GaugeView.defaultFontName, size: CGFloat(30 * ratio))!
         gaugeBatteryVoltsView.unitOfMeasurementFont = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
-        gaugeBatteryVoltsView.minMaxValueFont = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(10 * ratio))!
+        gaugeBatteryVoltsView.minMaxValueFont = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(8 * ratio))!
         //voltsLabel.font = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
         //voltsLabel.textColor = UIColor(white: 0.7, alpha: 1)
         // Update gauge view
@@ -310,9 +307,9 @@ class ViewController: UIViewController, GaugeViewDelegate {
         gaugeBatteryAmpsView.divisionsRadius = 1.25 * ratio
         gaugeBatteryAmpsView.subDivisionsRadius = (1.25 - 0.5) * ratio
         gaugeBatteryAmpsView.ringThickness = 4 * ratio
-        gaugeBatteryAmpsView.valueFont = UIFont(name: GaugeView.defaultFontName, size: CGFloat(40 * ratio))!
+        gaugeBatteryAmpsView.valueFont = UIFont(name: GaugeView.defaultFontName, size: CGFloat(30 * ratio))!
         gaugeBatteryAmpsView.unitOfMeasurementFont = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
-        gaugeBatteryAmpsView.minMaxValueFont = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(10 * ratio))!
+        gaugeBatteryAmpsView.minMaxValueFont = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(8 * ratio))!
         //batAmpsLabel.font = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
         //batAmpsLabel.textColor = UIColor(white: 0.7, alpha: 1)
         // Update gauge view
@@ -325,9 +322,9 @@ class ViewController: UIViewController, GaugeViewDelegate {
         gaugeInputView.divisionsRadius = 1.25 * ratio
         gaugeInputView.subDivisionsRadius = (1.25 - 0.5) * ratio
         gaugeInputView.ringThickness = 4 * ratio
-        gaugeInputView.valueFont = UIFont(name: GaugeView.defaultFontName, size: CGFloat(40 * ratio))!
+        gaugeInputView.valueFont = UIFont(name: GaugeView.defaultFontName, size: CGFloat(30 * ratio))!
         gaugeInputView.unitOfMeasurementFont = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
-        gaugeInputView.minMaxValueFont = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(10 * ratio))!
+        gaugeInputView.minMaxValueFont = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(8 * ratio))!
         //inputLabel.font = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
         //inputLabel.textColor = UIColor(white: 0.7, alpha: 1)
         // Update gauge view
