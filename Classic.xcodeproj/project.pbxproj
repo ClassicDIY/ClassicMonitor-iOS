@@ -12,6 +12,7 @@
 		6513E8A3251AE0DF00C77214 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6513E8A2251AE0DF00C77214 /* PageViewController.swift */; };
 		65307382251E6965005949E2 /* GaugeCenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65307381251E6965005949E2 /* GaugeCenterView.swift */; };
 		65307385251E6BB4005949E2 /* WizbangJRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65307384251E6BB4005949E2 /* WizbangJRViewController.swift */; };
+		65528B3D25254D8F004CA8DB /* MqqtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65528B3C25254D8F004CA8DB /* MqqtViewController.swift */; };
 		655CC3A8250A5A9200A0D6D0 /* modbus-tcp.c in Sources */ = {isa = PBXBuildFile; fileRef = 655CC39F250A5A9200A0D6D0 /* modbus-tcp.c */; };
 		655CC3A9250A5A9200A0D6D0 /* modbus-version.h.in in Resources */ = {isa = PBXBuildFile; fileRef = 655CC3A1250A5A9200A0D6D0 /* modbus-version.h.in */; };
 		655CC3AA250A5A9200A0D6D0 /* modbus-rtu.c in Sources */ = {isa = PBXBuildFile; fileRef = 655CC3A4250A5A9200A0D6D0 /* modbus-rtu.c */; };
@@ -45,6 +46,7 @@
 		6513E8A2251AE0DF00C77214 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		65307381251E6965005949E2 /* GaugeCenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaugeCenterView.swift; sourceTree = "<group>"; };
 		65307384251E6BB4005949E2 /* WizbangJRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WizbangJRViewController.swift; sourceTree = "<group>"; };
+		65528B3C25254D8F004CA8DB /* MqqtViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MqqtViewController.swift; sourceTree = "<group>"; };
 		655536892508597700B7DE1B /* Classic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Classic.entitlements; sourceTree = "<group>"; };
 		655CC39D250A5A9100A0D6D0 /* modbus-rtu-private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-rtu-private.h"; sourceTree = "<group>"; };
 		655CC39E250A5A9100A0D6D0 /* modbus-tcp-private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-tcp-private.h"; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				658EC242250C8F4000F1ACAF /* DetectDeviceViewController.swift */,
 				6513E8A2251AE0DF00C77214 /* PageViewController.swift */,
 				65307384251E6BB4005949E2 /* WizbangJRViewController.swift */,
+				65528B3C25254D8F004CA8DB /* MqqtViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -357,6 +360,7 @@
 				658EC249250CED4A00F1ACAF /* Signal.swift in Sources */,
 				65A3887E2512A45B00379D78 /* ClassicData.xcdatamodeld in Sources */,
 				655CC3AB250A5A9200A0D6D0 /* modbus-data.c in Sources */,
+				65528B3D25254D8F004CA8DB /* MqqtViewController.swift in Sources */,
 				658EB55C250AF5D20071D8FA /* Reachability.swift in Sources */,
 				657A8D3A2506AE4B006B2BD0 /* ViewController.swift in Sources */,
 				655CC3AC250A5A9200A0D6D0 /* modbus.c in Sources */,
@@ -518,7 +522,7 @@
 				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = 648XC4D3FH;
 				INFOPLIST_FILE = Classic/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -544,7 +548,7 @@
 				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = 648XC4D3FH;
 				INFOPLIST_FILE = Classic/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

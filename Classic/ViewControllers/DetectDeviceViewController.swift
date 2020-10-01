@@ -100,7 +100,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if (!socket.isClosed()) {
+        if (socket != nil && !socket.isClosed()) {
             socket.close()
         }
     }
@@ -530,6 +530,7 @@ extension DetectDeviceViewController {
                 self.setupConnection()
             }
             reachability?.whenUnreachable = { reachability in
+                //MARK: se le puso verificacion de nil antes para asegurarse que esté activo el objeto
                 if (!self.socket.isClosed()) {
                     self.socket.close()
                 }
