@@ -4,11 +4,12 @@
         <attribute name="deviceName" optional="YES" attributeType="String"/>
         <attribute name="ip" optional="YES" attributeType="String"/>
         <attribute name="isMQTT" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="mqttTopic" optional="YES" attributeType="String"/>
         <attribute name="port" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="serialNumber" optional="YES" attributeType="String"/>
         <attribute name="visualUrl" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Devices" positionX="-122.9296875" positionY="-1120.921875" width="128" height="133"/>
+        <element name="Devices" positionX="-122.9296875" positionY="-1120.921875" width="128" height="148"/>
     </elements>
 </model>

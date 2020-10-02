@@ -17,6 +17,7 @@ struct ClassicDeviceLists: Codable {
     var MQTTUser:       String?
     var MQTTPassword:   String?
     var isMQTT:         Bool?
+    var mqttTopic:      String?
 
     
 //    func hash(into hasher: inout Hasher) {
@@ -24,7 +25,7 @@ struct ClassicDeviceLists: Codable {
 //    }
     
     
-    init(ip: String? = nil,visualUrl: String? = nil, port: Int32? = 0, deviceName: String? = nil, serialNumber: String? = nil, MQTTUser: String?, MQTTPassword: String?, isMQTT: Bool?) {
+    init(ip: String? = nil,visualUrl: String? = nil, port: Int32? = 0, deviceName: String? = nil, serialNumber: String? = nil, MQTTUser: String?, MQTTPassword: String?, isMQTT: Bool?, mqttTopic: String?) {
         self.ip             = ip
         self.visualUrl      = visualUrl
         self.deviceName     = deviceName
@@ -33,12 +34,13 @@ struct ClassicDeviceLists: Codable {
         self.MQTTUser       = MQTTUser
         self.MQTTPassword   = MQTTPassword
         self.isMQTT         = isMQTT
+        self.mqttTopic      = mqttTopic
     }
 }
 
 extension ClassicDeviceLists: Equatable {
     static func ==(lhs: ClassicDeviceLists, rhs: ClassicDeviceLists) -> Bool {
-        return (lhs.ip == rhs.ip) && (lhs.visualUrl == rhs.visualUrl) && (lhs.port == rhs.port) && (lhs.deviceName == rhs.deviceName) && (lhs.serialNumber == rhs.serialNumber) && (lhs.MQTTUser == rhs.MQTTUser) && (lhs.MQTTPassword == rhs.MQTTPassword) && (lhs.isMQTT == rhs.isMQTT)
+        return (lhs.ip == rhs.ip) && (lhs.visualUrl == rhs.visualUrl) && (lhs.port == rhs.port) && (lhs.deviceName == rhs.deviceName) && (lhs.serialNumber == rhs.serialNumber) && (lhs.MQTTUser == rhs.MQTTUser) && (lhs.MQTTPassword == rhs.MQTTPassword) && (lhs.isMQTT == rhs.isMQTT) && (lhs.mqttTopic == rhs.mqttTopic)
     }
 }
 

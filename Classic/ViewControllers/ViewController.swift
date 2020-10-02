@@ -33,7 +33,7 @@ class ViewController: UIViewController, GaugeViewDelegate {
     //MARK: End Demo Variables
     
     var classicURL: NSString    = ""
-    var classicPort: Int32      = 0
+    var classicPort: Int32      = 502
     
     var timeDelta: Double       = 10.0/24 //MARK: For the timer to read
     var timer: Timer?           = nil

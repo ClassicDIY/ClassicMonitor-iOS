@@ -40,40 +40,40 @@
 
 struct MQTTDataReading: Codable {
     
-    var BatTemperature:         Double?
+    var BatTemperature:         Float?
     var NetAmpHours:            Int?
     var ChargeState:            Int?
     var InfoFlagsBits:          Int?
     var ReasonForResting:       Int?
     var NegativeAmpHours:       Int?
-    var BatVoltage:             Int?
-    var PVVoltage:              Int?
-    var VbattRegSetPTmpComp:    Int?
+    var BatVoltage:             Float?
+    var PVVoltage:              Float?
+    var VbattRegSetPTmpComp:    Float?
     var TotalAmpHours:          Int?
-    var WhizbangBatCurrent:     Double?
-    var BatCurrent:             Double?
-    var PVCurrent:              Double?
+    var WhizbangBatCurrent:     Float?
+    var BatCurrent:             Float?
+    var PVCurrent:              Float?
     var ConnectionState:        Int?
-    var EnergyToday:            Double?
+    var EnergyToday:            Float?
     var EqualizeTime:           Int?
     var SOC:                    Int?
     var Aux1:                   Bool?
     var Aux2:                   Bool?
-    var Power:                  Double?
-    var FETTemperature:         Double?
+    var Power:                  Float?
+    var FETTemperature:         Float?
     var PositiveAmpHours:       Int?
-    var TotalEnergy:            Double?
-    var FloatTimeTodaySeconds:  Double?
+    var TotalEnergy:            Float?
+    var FloatTimeTodaySeconds:  Int?
     var RemainingAmpHours:      Int?
     var AbsorbTime:             Int?
-    var ShuntTemperature:       Double?
-    var PCBTemperature:         Double?
+    var ShuntTemperature:       Float?
+    var PCBTemperature:         Float?
     
-    init(BatTemperature: Double? = 0.0,NetAmpHours: Int? = 0, ChargeState: Int? = 0, InfoFlagsBits: Int? = 0, ReasonForResting: Int? = 0,
-         NegativeAmpHours: Int?, BatVoltage: Int?, PVVoltage: Int?, VbattRegSetPTmpComp: Int?, TotalAmpHours: Int?, WhizbangBatCurrent: Double?, BatCurrent: Double?,
-         PVCurrent: Double?, ConnectionState: Int?, EnergyToday: Double?, EqualizeTime: Int?, SOC: Int?, Aux1: Bool?, Aux2: Bool?,
-         Power: Double?, FETTemperature: Double?, PositiveAmpHours: Int?, TotalEnergy: Double?, FloatTimeTodaySeconds: Double?, RemainingAmpHours: Int?, AbsorbTime: Int?,
-         ShuntTemperature: Double?, PCBTemperature: Double?) {
+    init(BatTemperature: Float? = 0.0,NetAmpHours: Int? = 0, ChargeState: Int? = 0, InfoFlagsBits: Int? = 0, ReasonForResting: Int? = 0,
+         NegativeAmpHours: Int?, BatVoltage: Float?, PVVoltage: Float?, VbattRegSetPTmpComp: Float?, TotalAmpHours: Int?, WhizbangBatCurrent: Float?, BatCurrent: Float?,
+         PVCurrent: Float?, ConnectionState: Int?, EnergyToday: Float?, EqualizeTime: Int?, SOC: Int?, Aux1: Bool?, Aux2: Bool?,
+         Power: Float?, FETTemperature: Float?, PositiveAmpHours: Int?, TotalEnergy: Float?, FloatTimeTodaySeconds: Int?, RemainingAmpHours: Int?, AbsorbTime: Int?,
+         ShuntTemperature: Float?, PCBTemperature: Float?) {
         self.BatTemperature         = BatTemperature
         self.NetAmpHours            = NetAmpHours
         self.ChargeState            = ChargeState
@@ -97,7 +97,6 @@ struct MQTTDataReading: Codable {
         self.FETTemperature         = FETTemperature
         self.PositiveAmpHours       = PositiveAmpHours
         self.TotalEnergy            = TotalEnergy
-        
         self.FloatTimeTodaySeconds  = FloatTimeTodaySeconds
         self.RemainingAmpHours      = RemainingAmpHours
         self.AbsorbTime             = AbsorbTime

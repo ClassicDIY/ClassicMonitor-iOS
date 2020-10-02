@@ -86,7 +86,8 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
             serialNumber:       "Serial Number",
             MQTTUser:           "",
             MQTTPassword:       "",
-            isMQTT:             false
+            isMQTT:             false,
+            mqttTopic:          ""
         )
         devicelists.append(self.detectedDevice)
     }
@@ -169,7 +170,8 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                     serialNumber:       "Serial Number",
                     MQTTUser:           "",
                     MQTTPassword:       "",
-                    isMQTT:             false
+                    isMQTT:             false,
+                    mqttTopic:          ""
                 )
                 
                 if (!self.devicelists.contains(self.detectedDevice)) {
@@ -201,24 +203,6 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
     @IBAction func buttonAddDevice(_ sender: Any) {
         let alert = UIAlertController(title: "Add Classic Charge Controller", message: "Please Select an Option", preferredStyle: .actionSheet)
         
-        /*alert.addAction(UIAlertAction(title: "Add Modbus Charge Controller", style: .default, handler: { (_) in
-            if kDebugLog { print("Add Modbus Charge Controller") }
-            self.alertModbusEntry()
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Add MQTT Controller", style: .default, handler: { (_) in
-            if kDebugLog { print("Add MQTT Controller") }
-            self.alertMQTTEntry()
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
-            if kDebugLog { print("User click Dismiss button") }
-        }))
-        
-        self.present(alert, animated: true, completion: {
-            if kDebugLog { print("completion block") }
-        })*/
-                
         let addModbus = UIAlertAction(title: "Add Modbus Charge Controller", style: .default, handler: { (_) in
             if kDebugLog { print("Add Modbus Charge Controller") }
             self.alertModbusEntry()
@@ -279,27 +263,31 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
     
     func alertMQTTEntry() {
         //1. Create the alert controller.
-        let alert = UIAlertController(title: "Classic MQTT Manual Entry", message: "Enter your MQTT Server, Port, User and Password", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Classic MQTT Entry", message: "Enter your MQTT Broaker Details", preferredStyle: .alert)
         
         //2. Add the text field. You can configure it however you need.
         alert.addTextField(configurationHandler: { classicName in
-            classicName.placeholder = "Enter Name Description"
+            classicName.placeholder = "Enter Controller Unit Name"
         })
         
         alert.addTextField(configurationHandler: { classicUrl in
-            classicUrl.placeholder = "Enter the MQTT Server"
+            classicUrl.placeholder = "MQTT Broker Host Name"
         })
         
         alert.addTextField(configurationHandler: { classicPort in
-            classicPort.placeholder = "Enter the MQTT Port"
+            classicPort.placeholder = "MQTT Broker Port"
         })
         
         alert.addTextField(configurationHandler: { MQTTUsername in
-            MQTTUsername.placeholder = "Enter the MQTT Username"
+            MQTTUsername.placeholder = "MQTT Username"
         })
         
         alert.addTextField(configurationHandler: { MQTTPassword in
-            MQTTPassword.placeholder = "Enter the MQTT Password"
+            MQTTPassword.placeholder = "MQTT Password"
+        })
+        
+        alert.addTextField(configurationHandler: { MQTTTopic in
+            MQTTTopic.placeholder = "MQTT Topic /example@mail.com/"
         })
         
         // 3. Grab the value from the text field, and print it when the user clicks OK.
@@ -332,7 +320,8 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                 serialNumber:       "Serial Number",
                 MQTTUser:           "",
                 MQTTPassword:       "",
-                isMQTT:             false
+                isMQTT:             false,
+                mqttTopic:          ""
             )
             
             if (!self.devicelists.contains(self.detectedDevice)) {
@@ -359,7 +348,8 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                         serialNumber:       "Serial Number",
                         MQTTUser:           "",
                         MQTTPassword:       "",
-                        isMQTT:             false
+                        isMQTT:             false,
+                        mqttTopic:          ""
                     )
                     
                     if (!self.devicelists.contains(self.detectedDevice)) {
@@ -387,7 +377,8 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                 serialNumber:       "Serial Number",
                 MQTTUser:           "demo",
                 MQTTPassword:       "demo",
-                isMQTT:             true
+                isMQTT:             true,
+                mqttTopic:          ""
             )
             
             if (!self.devicelists.contains(self.detectedDevice)) {
@@ -415,7 +406,8 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                         serialNumber:       "Serial Number",
                         MQTTUser:           MQTTUser,
                         MQTTPassword:       MQTTPassword,
-                        isMQTT:             true
+                        isMQTT:             true,
+                        mqttTopic:          ""
                     )
                     
                     if (!self.devicelists.contains(self.detectedDevice)) {
