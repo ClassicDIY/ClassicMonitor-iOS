@@ -24,8 +24,12 @@ class MqqtViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
     var timeDelta: Double       = 10.0/24 //MARK: For the timer to read
     var timer: Timer?           = nil
     
-    var classicURL: NSString    = ""
-    var classicPort: Int32      = 502
+    var classicURL: String      = ""
+    var classicPort: Int32      = 1883
+    var mqttUser: String        = ""
+    var mqttPassword: String    = ""
+    var mqttTopic: String       = ""
+    var classicName: String     = ""
     
     //var reachability: Reachability?
     
@@ -41,12 +45,13 @@ class MqqtViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("Recived Parameters: \(classicURL) - \(classicPort) - \(mqttUser) - \(mqttPassword) - \(mqttTopic) - \(classicName)")
         configureGaugeViews()
         session.transport       = MQTTCFSocketTransport()
-        session.transport.host  = "mqtt.dioty.co"
-        session.transport.port  = 1883
-        session.userName        = "urayoan.miranda@gmail.com"
-        session.password        = "8d2176c3"
+        session.transport.host  = classicURL
+        session.transport.port  = UInt32(classicPort)
+        session.userName        = mqttUser //"urayoan.miranda@gmail.com"
+        session.password        = mqttPassword//"8d2176c3"
         session.clientId        = "Classic_Monitor"
         session.delegate        = self
         
@@ -192,17 +197,17 @@ class MqqtViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
     func subscribeUnsubscribe() {
         if self.subscribed {
             print("Unsuscribed")
-            session.unsubscribeTopic(" /urayoan.miranda@gmail.com/CLASSIC250/#")
+            session.unsubscribeTopic("\(mqttTopic)#")
         } else {
             print("Suscribed")
-            session.subscribe(toTopic: "/urayoan.miranda@gmail.com/CLASSIC250/#", at: .atMostOnce)
+            session.subscribe(toTopic: "\(mqttTopic)#", at: .atMostOnce)
         }
         
     }
     @objc func publish() {
-        print("PUBLISH")
+        print("PUBLISH TO TOPIC: \(mqttTopic)\(classicName)/cmnd")
         self.session.publishData(("{\"wake\"}").data(using: String.Encoding.utf8, allowLossyConversion: false),
-                                 onTopic: "/urayoan.miranda@gmail.com/CLASSIC250/cmnd",
+                                 onTopic: "\(mqttTopic)\(classicName)/cmnd",
                                  retain: false,
                                  qos: .atMostOnce)
     }

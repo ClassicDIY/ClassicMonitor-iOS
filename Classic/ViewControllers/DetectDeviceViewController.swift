@@ -27,6 +27,11 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
     var detectedDevice:     ClassicDeviceLists!
     var classicUrl:         String?
     var classicPort:        Int32?
+    var mqttUser:           String?
+    var mqttPassword:       String?
+    var mqttTopic:          String?
+    var classicName:        String?
+    var isMQTT:             Bool?
     var reachability:       Reachability?
     var selectedDevice: [NSManagedObject] = []
     
@@ -182,7 +187,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                 let managedContext = appDelegate.persistentContainer.viewContext
                 
                 // 2
-                let entity = NSEntityDescription.entity(forEntityName: "ClassicData", in: managedContext)!
+                let entity = NSEntityDescription.entity(forEntityName: "DeviceData", in: managedContext)!
                 
                 let device = NSManagedObject(entity: entity, insertInto: managedContext)
                 
@@ -291,7 +296,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
     
     func alertMQTTEntry() {
         //1. Create the alert controller.
-        let alert = UIAlertController(title: "Classic MQTT Entry", message: "Enter your MQTT Broaker Details", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Classic MQTT Entry", message: "Enter your MQTT Broker Details", preferredStyle: .alert)
         
         //2. Add the text field. You can configure it however you need.
         alert.addTextField(configurationHandler: { classicName in
@@ -340,7 +345,6 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
     
     func addManualEntryModbus(classicUrl: String, classicPort: String) {
         if (classicUrl.lowercased() == "demo") {
-            
             //0
             guard let appDelegate =
                 UIApplication.shared.delegate as? AppDelegate else {
@@ -397,7 +401,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                     let managedContext = appDelegate.persistentContainer.viewContext
                     
                     // 2
-                    let entity = NSEntityDescription.entity(forEntityName: "ClassicData", in: managedContext)!
+                    let entity = NSEntityDescription.entity(forEntityName: "DeviceData", in: managedContext)!
                     
                     let device = NSManagedObject(entity: entity, insertInto: managedContext)
                     
@@ -443,7 +447,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
             let managedContext = appDelegate.persistentContainer.viewContext
             
             // 2
-            let entity = NSEntityDescription.entity(forEntityName: "ClassicData", in: managedContext)!
+            let entity = NSEntityDescription.entity(forEntityName: "DeviceData", in: managedContext)!
             
             let device = NSManagedObject(entity: entity, insertInto: managedContext)
             
@@ -491,15 +495,15 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                     let managedContext = appDelegate.persistentContainer.viewContext
                     
                     // 2
-                    let entity = NSEntityDescription.entity(forEntityName: "ClassicData", in: managedContext)!
+                    let entity = NSEntityDescription.entity(forEntityName: "DeviceData", in: managedContext)!
                     
                     let device = NSManagedObject(entity: entity, insertInto: managedContext)
                     
                     // 3
-                    device.setValue(numAddress, forKeyPath: "ip")
+                    device.setValue(classicUrl, forKeyPath: "ip")
                     device.setValue(classicUrl, forKeyPath: "visualUrl")
                     device.setValue(Int32(classicPort), forKeyPath: "port")
-                    device.setValue("Remote MQTT", forKeyPath: "deviceName")
+                    device.setValue(classicName, forKeyPath: "deviceName")
                     device.setValue("000000", forKeyPath: "serialNumber")
                     device.setValue(MQTTUser, forKeyPath: "mqttUser")
                     device.setValue(MQTTPassword, forKeyPath: "mqttPassword")
@@ -589,10 +593,20 @@ extension DetectDeviceViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        classicUrl  = devicelists[indexPath.row].value(forKeyPath: "ip") as? String
-        classicPort = devicelists[indexPath.row].value(forKeyPath: "port") as? Int32
+        classicUrl      = devicelists[indexPath.row].value(forKeyPath: "ip") as? String
+        classicPort     = devicelists[indexPath.row].value(forKeyPath: "port") as? Int32
+        mqttUser        = devicelists[indexPath.row].value(forKeyPath: "mqttUser") as? String
+        mqttPassword    = devicelists[indexPath.row].value(forKeyPath: "mqttPassword") as? String
+        mqttTopic       = devicelists[indexPath.row].value(forKeyPath: "mqttTopic") as? String
+        classicName     = devicelists[indexPath.row].value(forKeyPath: "deviceName") as? String
+        isMQTT          = devicelists[indexPath.row].value(forKeyPath: "isMQTT") as? Bool
         if kDebugLog { print("SELECTED: \(String(describing: classicUrl)) - \(String(describing: classicPort))") }
-        performSegue(withIdentifier: "SelectedSegue", sender: self)
+        //MARK: Select the route to the correct View
+        if (!isMQTT!) {
+            performSegue(withIdentifier: "SelectedSegue", sender: self)
+        } else {
+            performSegue(withIdentifier: "SelectedSegueMQTT", sender: self)
+        }
     }
     
     //*****************************************************************
@@ -604,6 +618,14 @@ extension DetectDeviceViewController: UITableViewDelegate {
             let viewController          = segue.destination as! ViewController
             viewController.classicURL   = classicUrl! as NSString
             viewController.classicPort  = classicPort!
+        } else if (segue.identifier == "SelectedSegueMQTT") {
+            let mqttViewController          = segue.destination as! MqqtViewController
+            mqttViewController.classicURL   = classicUrl!
+            mqttViewController.classicPort  = classicPort!
+            mqttViewController.mqttUser     = mqttUser!
+            mqttViewController.mqttPassword = mqttPassword!
+            mqttViewController.mqttTopic    = mqttTopic!
+            mqttViewController.classicName  = classicName!
         }
     }
 }

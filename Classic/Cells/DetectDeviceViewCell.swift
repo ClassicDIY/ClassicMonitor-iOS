@@ -38,12 +38,12 @@ class DetectDeviceViewCell: UITableViewCell {
     func configureDeviceCell(deviceList: NSManagedObject) {
         // Configure the cell...
         self.layer.cornerRadius = 10
-        
+        print("PUERTO EN EL CELL: \(String(describing: deviceList.value(forKeyPath: "port")))")
         //deviceList.value(forKeyPath: "deviceName") as? String
-        ipLabel.text            = "IP: \(deviceList.value(forKeyPath: "visualUrl") as? String ?? "127.0.0.1")"
-        portLabel.text          = "Port: \(deviceList.value(forKeyPath: "port") as? String ?? "0")"
-        deviceNameLabel.text    = "Model: \(deviceList.value(forKeyPath: "deviceName") as? String ?? "CLASSIC")"
-        serialNumberLabel.text  = "Serial #: \(deviceList.value(forKeyPath: "serialNumber") as? String ?? "000000")"
+        ipLabel.text            = "IP: \(deviceList.value(forKeyPath: "visualUrl") ?? "127.0.0.1")"
+        portLabel.text          = "Port: \(deviceList.value(forKeyPath: "port") ?? "0")"
+        deviceNameLabel.text    = "Model: \(deviceList.value(forKeyPath: "deviceName") ?? "CLASSIC")"
+        serialNumberLabel.text  = "Serial #: \(deviceList.value(forKeyPath: "serialNumber") ?? "000000")"
     }
     
     override func prepareForReuse() {
