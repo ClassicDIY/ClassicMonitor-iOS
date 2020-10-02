@@ -27,6 +27,7 @@
 		657A8D3F2506AE4E006B2BD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 657A8D3E2506AE4E006B2BD0 /* Assets.xcassets */; };
 		657A8D642506B2B0006B2BD0 /* SwiftLibModbus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A8D632506B2B0006B2BD0 /* SwiftLibModbus.swift */; };
 		658199592509166C00BAB8C7 /* ClassicMonitor-Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658199582509166C00BAB8C7 /* ClassicMonitor-Settings.swift */; };
+		658D4BB125279B22008C874A /* BeforeCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658D4BB025279B22008C874A /* BeforeCoreData.swift */; };
 		658EB55C250AF5D20071D8FA /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658EB55B250AF5D20071D8FA /* Reachability.swift */; };
 		658EC243250C8F4000F1ACAF /* DetectDeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658EC242250C8F4000F1ACAF /* DetectDeviceViewController.swift */; };
 		658EC249250CED4A00F1ACAF /* Signal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658EC248250CED4A00F1ACAF /* Signal.swift */; };
@@ -74,6 +75,7 @@
 		657A8D5F2506B292006B2BD0 /* modbus-version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-version.h"; sourceTree = "<group>"; };
 		657A8D632506B2B0006B2BD0 /* SwiftLibModbus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftLibModbus.swift; sourceTree = "<group>"; };
 		658199582509166C00BAB8C7 /* ClassicMonitor-Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClassicMonitor-Settings.swift"; sourceTree = "<group>"; };
+		658D4BB025279B22008C874A /* BeforeCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeforeCoreData.swift; sourceTree = "<group>"; };
 		658EB55B250AF5D20071D8FA /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		658EC242250C8F4000F1ACAF /* DetectDeviceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectDeviceViewController.swift; sourceTree = "<group>"; };
 		658EC248250CED4A00F1ACAF /* Signal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Signal.swift; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 			children = (
 				657A8D392506AE4B006B2BD0 /* ViewController.swift */,
 				658EC242250C8F4000F1ACAF /* DetectDeviceViewController.swift */,
+				658D4BB025279B22008C874A /* BeforeCoreData.swift */,
 				6513E8A2251AE0DF00C77214 /* PageViewController.swift */,
 				65307384251E6BB4005949E2 /* WizbangJRViewController.swift */,
 				65528B3C25254D8F004CA8DB /* MqqtViewController.swift */,
@@ -388,6 +391,7 @@
 				65307385251E6BB4005949E2 /* WizbangJRViewController.swift in Sources */,
 				657A8D362506AE4B006B2BD0 /* AppDelegate.swift in Sources */,
 				65307382251E6965005949E2 /* GaugeCenterView.swift in Sources */,
+				658D4BB125279B22008C874A /* BeforeCoreData.swift in Sources */,
 				657A8D382506AE4B006B2BD0 /* SceneDelegate.swift in Sources */,
 				657A8D642506B2B0006B2BD0 /* SwiftLibModbus.swift in Sources */,
 			);

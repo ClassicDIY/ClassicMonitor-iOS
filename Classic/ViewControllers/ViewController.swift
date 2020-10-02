@@ -465,7 +465,6 @@ class ViewController: UIViewController, GaugeViewDelegate {
                     default:
                         if kDebugLog { print("Not Recognized") }
                         self.stageButton.setTitle("Unknown", for: .normal)
-                        
                     }
                     
                     if kDebugLog { print("Stage: \(comboChargeStage & 0xFF)") }

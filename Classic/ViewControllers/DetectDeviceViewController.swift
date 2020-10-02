@@ -6,6 +6,8 @@
 //  Copyright © 2020 Urayoan Miranda. All rights reserved.
 //
 //https://blog.usejournal.com/easy-tableview-setup-tutorial-swift-4-ad48ec4cbd45
+//Core Data
+//https://www.raywenderlich.com/7569-getting-started-with-core-data-tutorial
 
 import UIKit
 import CocoaAsyncSocket
@@ -26,16 +28,18 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
     var classicUrl:         String?
     var classicPort:        Int32?
     var reachability:       Reachability?
-    var selectedDevice      = [ClassicDeviceLists]()
+    var selectedDevice: [NSManagedObject] = []
     
     // MARK: - Lists
-    var devicelists = [ClassicDeviceLists]() {
+    var devicelists: [NSManagedObject] = []
+    {
         didSet {
             guard devicelists != oldValue else { return }
             devicesDidUpdate()
         }
     }
-    var searchedDevice = [ClassicDeviceLists]()
+    
+    var searchedDevice: [NSManagedObject] = []
     
     
     var refreshControl: UIRefreshControl = {
@@ -73,23 +77,30 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         tableView.backgroundView    = nil
         tableView.separatorStyle    = UITableViewCell.SeparatorStyle.none
         
-        //MARK: Load dummy data
-        //loadDummyData()
+        //MARK: Load Core Data
+        loadCoreData()
     }
     
-    func loadDummyData() {
-        detectedDevice = ClassicDeviceLists(
-            ip:                 "24.50.233.83",
-            visualUrl:          "24.50.233.83",
-            port:               502,
-            deviceName:         "CLASSIC",
-            serialNumber:       "Serial Number",
-            MQTTUser:           "",
-            MQTTPassword:       "",
-            isMQTT:             false,
-            mqttTopic:          ""
-        )
-        devicelists.append(self.detectedDevice)
+    func loadCoreData() {
+        //1
+        guard let appDelegate =
+          UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext =
+          appDelegate.persistentContainer.viewContext
+        
+        //2
+        let fetchRequest =
+          NSFetchRequest<NSManagedObject>(entityName: "DeviceData")
+        
+        //3
+        do {
+            devicelists = try managedContext.fetch(fetchRequest)
+        } catch let error as NSError {
+          print("Could not fetch. \(error), \(error.userInfo)")
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -162,23 +173,40 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                     deviceModel = "Not Recognized"
                 }
                 
-                self.detectedDevice = ClassicDeviceLists(
-                    ip:                 "\(lsb3).\(msb3).\(lsb2).\(msb2)",
-                    visualUrl:          "\(lsb3).\(msb3).\(lsb2).\(msb2)",
-                    port:               Int32(signal.thirdSignal),
-                    deviceName:         deviceModel,
-                    serialNumber:       "Serial Number",
-                    MQTTUser:           "",
-                    MQTTPassword:       "",
-                    isMQTT:             false,
-                    mqttTopic:          ""
-                )
+                //0
+                guard let appDelegate =
+                    UIApplication.shared.delegate as? AppDelegate else {
+                    return
+                }
+                // 1
+                let managedContext = appDelegate.persistentContainer.viewContext
                 
-                if (!self.devicelists.contains(self.detectedDevice)) {
-                    self.devicelists.append(self.detectedDevice)
-                    if kDebugLog { print("No es igual \(String(describing: self.detectedDevice))") }
-                } else {
-                    if kDebugLog { print("Es igual o parece igual") }
+                // 2
+                let entity = NSEntityDescription.entity(forEntityName: "ClassicData", in: managedContext)!
+                
+                let device = NSManagedObject(entity: entity, insertInto: managedContext)
+                
+                // 3
+                device.setValue("\(lsb3).\(msb3).\(lsb2).\(msb2)", forKeyPath: "ip")
+                device.setValue("\(lsb3).\(msb3).\(lsb2).\(msb2)", forKeyPath: "visualUrl")
+                device.setValue(Int32(signal.thirdSignal), forKeyPath: "port")
+                device.setValue(deviceModel, forKeyPath: "deviceName")
+                device.setValue("000000", forKeyPath: "serialNumber")
+                device.setValue("", forKeyPath: "mqttUser")
+                device.setValue("", forKeyPath: "mqttPassword")
+                device.setValue(false, forKeyPath: "isMQTT")
+                device.setValue("", forKeyPath: "mqttTopic")
+                
+                // 4
+                do {
+                  try managedContext.save()
+                    if (!self.devicelists.contains(device)) {
+                        self.devicelists.append(device)
+                    } else {
+                        if kDebugLog { print("Es igual o parece igual") }
+                    }
+                } catch let error as NSError {
+                    print("Could not save. \(error), \(error.userInfo)")
                 }
             } else {
                 if kDebugLog { print("Error !nil: \(String(describing: error))") }
@@ -293,10 +321,10 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         // 3. Grab the value from the text field, and print it when the user clicks OK.
         alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { action in
             if let classicName = alert.textFields?.first?.text, let classicUrl = alert.textFields?[1].text,
-               let classicPort = alert.textFields?[2].text, let MQTTUsername = alert.textFields?[3].text,
-               let MQTTPassword = alert.textFields?.last?.text {
+               let classicPort = alert.textFields?[2].text, let MQTTUsername = alert.textFields?[3].text, let MQTTPassword = alert.textFields?[4].text,
+               let MQTTTopic = alert.textFields?.last?.text {
                 if (classicName.count != 0 && classicUrl.count != 0 && classicPort.count != 0 && MQTTUsername.count != 0 && MQTTPassword.count != 0) {
-                    self.addManualEntryMQTT(classicName: classicName, classicUrl: classicUrl, classicPort: classicPort, MQTTUser: MQTTUsername, MQTTPassword: MQTTPassword)
+                    self.addManualEntryMQTT(classicName: classicName, classicUrl: classicUrl, classicPort: classicPort, MQTTUser: MQTTUsername, MQTTPassword: MQTTPassword, MQTTTopic: MQTTTopic)
                 } else {
                     let alert = UIAlertController(title: "Alert", message: "At least one parameter is missing. Please try again", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
@@ -312,24 +340,43 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
     
     func addManualEntryModbus(classicUrl: String, classicPort: String) {
         if (classicUrl.lowercased() == "demo") {
-            self.detectedDevice = ClassicDeviceLists(
-                ip:                 "demo",
-                visualUrl:          "demo",
-                port:               502,
-                deviceName:         "Demo Mode",
-                serialNumber:       "Serial Number",
-                MQTTUser:           "",
-                MQTTPassword:       "",
-                isMQTT:             false,
-                mqttTopic:          ""
-            )
             
-            if (!self.devicelists.contains(self.detectedDevice)) {
-                self.devicelists.append(self.detectedDevice)
-                if kDebugLog { print("No es igual \(String(describing: self.detectedDevice))") }
-            } else {
-                if kDebugLog { print("Es igual o parece igual") }
+            //0
+            guard let appDelegate =
+                UIApplication.shared.delegate as? AppDelegate else {
+                return
             }
+            // 1
+            let managedContext = appDelegate.persistentContainer.viewContext
+    
+            // 2
+            let entity = NSEntityDescription.entity(forEntityName: "DeviceData", in: managedContext)!
+            
+            let device = NSManagedObject(entity: entity, insertInto: managedContext)
+            
+            // 3
+            device.setValue("demo", forKeyPath: "ip")
+            device.setValue("Demo Modbus", forKeyPath: "visualUrl")
+            device.setValue(502, forKeyPath: "port")
+            device.setValue("Demo Mode Modbus", forKeyPath: "deviceName")
+            device.setValue("000000", forKeyPath: "serialNumber")
+            device.setValue("", forKeyPath: "mqttUser")
+            device.setValue("", forKeyPath: "mqttPassword")
+            device.setValue(false, forKeyPath: "isMQTT")
+            device.setValue("", forKeyPath: "mqttTopic")
+            
+            // 4
+            do {
+              try managedContext.save()
+                if (!self.devicelists.contains(device)) {
+                    self.devicelists.append(device)
+                } else {
+                    if kDebugLog { print("Es igual o parece igual") }
+                }
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
+            
         } else {
             let host = CFHostCreateWithName(nil,classicUrl as CFString).takeRetainedValue()
             CFHostStartInfoResolution(host, .addresses, nil)
@@ -340,23 +387,41 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                 if getnameinfo(theAddress.bytes.assumingMemoryBound(to: sockaddr.self), socklen_t(theAddress.length),&hostname, socklen_t(hostname.count), nil, 0, NI_NUMERICHOST) == 0 {
                     let numAddress = String(cString: hostname)
                     if kDebugLog { print("Detected IP: \(numAddress)") }
-                    self.detectedDevice = ClassicDeviceLists(
-                        ip:                 numAddress,
-                        visualUrl:          classicUrl,
-                        port:               Int32(classicPort),
-                        deviceName:         "Remote Classic",
-                        serialNumber:       "Serial Number",
-                        MQTTUser:           "",
-                        MQTTPassword:       "",
-                        isMQTT:             false,
-                        mqttTopic:          ""
-                    )
                     
-                    if (!self.devicelists.contains(self.detectedDevice)) {
-                        self.devicelists.append(self.detectedDevice)
-                        if kDebugLog { print("No es igual \(String(describing: self.detectedDevice))") }
-                    } else {
-                        if kDebugLog { print("Es igual o parece igual") }
+                    //0
+                    guard let appDelegate =
+                        UIApplication.shared.delegate as? AppDelegate else {
+                        return
+                    }
+                    // 1
+                    let managedContext = appDelegate.persistentContainer.viewContext
+                    
+                    // 2
+                    let entity = NSEntityDescription.entity(forEntityName: "ClassicData", in: managedContext)!
+                    
+                    let device = NSManagedObject(entity: entity, insertInto: managedContext)
+                    
+                    // 3
+                    device.setValue(numAddress, forKeyPath: "ip")
+                    device.setValue(classicUrl, forKeyPath: "visualUrl")
+                    device.setValue(Int32(classicPort), forKeyPath: "port")
+                    device.setValue("Remote MQTT", forKeyPath: "deviceName")
+                    device.setValue("000000", forKeyPath: "serialNumber")
+                    device.setValue("", forKeyPath: "mqttUser")
+                    device.setValue("", forKeyPath: "mqttPassword")
+                    device.setValue(false, forKeyPath: "isMQTT")
+                    device.setValue("", forKeyPath: "mqttTopic")
+                    
+                    // 4
+                    do {
+                      try managedContext.save()
+                        if (!self.devicelists.contains(device)) {
+                            self.devicelists.append(device)
+                        } else {
+                            if kDebugLog { print("Es igual o parece igual") }
+                        }
+                    } catch let error as NSError {
+                        print("Could not save. \(error), \(error.userInfo)")
                     }
                 }
             } else {
@@ -367,26 +432,44 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         }
     }
     
-    func addManualEntryMQTT(classicName: String, classicUrl: String, classicPort: String, MQTTUser: String, MQTTPassword: String) {
+    func addManualEntryMQTT(classicName: String, classicUrl: String, classicPort: String, MQTTUser: String, MQTTPassword: String, MQTTTopic: String) {
         if (classicUrl.lowercased() == "demo") {
-            self.detectedDevice = ClassicDeviceLists(
-                ip:                 "demo",
-                visualUrl:          "demo",
-                port:               502,
-                deviceName:         "Demo Mode",
-                serialNumber:       "Serial Number",
-                MQTTUser:           "demo",
-                MQTTPassword:       "demo",
-                isMQTT:             true,
-                mqttTopic:          ""
-            )
-            
-            if (!self.devicelists.contains(self.detectedDevice)) {
-                self.devicelists.append(self.detectedDevice)
-                if kDebugLog { print("No es igual \(String(describing: self.detectedDevice))") }
-            } else {
-                if kDebugLog { print("Es igual o parece igual") }
+            //0
+            guard let appDelegate =
+                UIApplication.shared.delegate as? AppDelegate else {
+                return
             }
+            // 1
+            let managedContext = appDelegate.persistentContainer.viewContext
+            
+            // 2
+            let entity = NSEntityDescription.entity(forEntityName: "ClassicData", in: managedContext)!
+            
+            let device = NSManagedObject(entity: entity, insertInto: managedContext)
+            
+            // 3
+            device.setValue("demo", forKeyPath: "ip")
+            device.setValue("Demo MQTT", forKeyPath: "visualUrl")
+            device.setValue(502, forKeyPath: "port")
+            device.setValue("Remote MQTT", forKeyPath: "deviceName")
+            device.setValue("000000", forKeyPath: "serialNumber")
+            device.setValue("", forKeyPath: "mqttUser")
+            device.setValue("", forKeyPath: "mqttPassword")
+            device.setValue(true, forKeyPath: "isMQTT")
+            device.setValue("", forKeyPath: "mqttTopic")
+            
+            // 4
+            do {
+              try managedContext.save()
+                if (!self.devicelists.contains(device)) {
+                    self.devicelists.append(device)
+                } else {
+                    if kDebugLog { print("Es igual o parece igual") }
+                }
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
+            }
+            
         } else {
             if kDebugLog { print("HOST QUE LLEGA \(classicUrl)") }
             let host = CFHostCreateWithName(nil,classicUrl as CFString).takeRetainedValue()
@@ -398,23 +481,41 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                 if getnameinfo(theAddress.bytes.assumingMemoryBound(to: sockaddr.self), socklen_t(theAddress.length),&hostname, socklen_t(hostname.count), nil, 0, NI_NUMERICHOST) == 0 {
                     let numAddress = String(cString: hostname)
                     if kDebugLog { print("Detected IP: \(numAddress)") }
-                    self.detectedDevice = ClassicDeviceLists(
-                        ip:                 numAddress,
-                        visualUrl:          classicUrl,
-                        port:               Int32(classicPort),
-                        deviceName:         classicName,
-                        serialNumber:       "Serial Number",
-                        MQTTUser:           MQTTUser,
-                        MQTTPassword:       MQTTPassword,
-                        isMQTT:             true,
-                        mqttTopic:          ""
-                    )
                     
-                    if (!self.devicelists.contains(self.detectedDevice)) {
-                        self.devicelists.append(self.detectedDevice)
-                        if kDebugLog { print("No es igual \(String(describing: self.detectedDevice))") }
-                    } else {
-                        if kDebugLog { print("Es igual o parece igual") }
+                    //0
+                    guard let appDelegate =
+                        UIApplication.shared.delegate as? AppDelegate else {
+                        return
+                    }
+                    // 1
+                    let managedContext = appDelegate.persistentContainer.viewContext
+                    
+                    // 2
+                    let entity = NSEntityDescription.entity(forEntityName: "ClassicData", in: managedContext)!
+                    
+                    let device = NSManagedObject(entity: entity, insertInto: managedContext)
+                    
+                    // 3
+                    device.setValue(numAddress, forKeyPath: "ip")
+                    device.setValue(classicUrl, forKeyPath: "visualUrl")
+                    device.setValue(Int32(classicPort), forKeyPath: "port")
+                    device.setValue("Remote MQTT", forKeyPath: "deviceName")
+                    device.setValue("000000", forKeyPath: "serialNumber")
+                    device.setValue(MQTTUser, forKeyPath: "mqttUser")
+                    device.setValue(MQTTPassword, forKeyPath: "mqttPassword")
+                    device.setValue(true, forKeyPath: "isMQTT")
+                    device.setValue(MQTTTopic, forKeyPath: "mqttTopic")
+                    
+                    // 4
+                    do {
+                      try managedContext.save()
+                        if (!self.devicelists.contains(device)) {
+                            self.devicelists.append(device)
+                        } else {
+                            if kDebugLog { print("Es igual o parece igual") }
+                        }
+                    } catch let error as NSError {
+                        print("Could not save. \(error), \(error.userInfo)")
                     }
                 }
             } else {
@@ -473,9 +574,9 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         // Use the filter method to iterate over all items in the data array
         // For each item, return true if the item should be included and false if the
         // item should NOT be included
-        searchedDevice = devicelists.filter {
-            return ($0.ip!.range(of: searchText, options: [.caseInsensitive]) != nil) || ($0.deviceName!.range(of: searchText, options: [.caseInsensitive]) != nil)
-        }
+        //searchedDevice = devicelists.filter {
+        //    return ($0.ip!.range(of: searchText, options: [.caseInsensitive]) != nil) || ($0.deviceName!.range(of: searchText, options: [.caseInsensitive]) != nil)
+        //}
         self.tableView.reloadData()
     }
 }
@@ -488,8 +589,8 @@ extension DetectDeviceViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        classicUrl  = devicelists[indexPath.row].ip
-        classicPort = devicelists[indexPath.row].port
+        classicUrl  = devicelists[indexPath.row].value(forKeyPath: "ip") as? String
+        classicPort = devicelists[indexPath.row].value(forKeyPath: "port") as? Int32
         if kDebugLog { print("SELECTED: \(String(describing: classicUrl)) - \(String(describing: classicPort))") }
         performSegue(withIdentifier: "SelectedSegue", sender: self)
     }

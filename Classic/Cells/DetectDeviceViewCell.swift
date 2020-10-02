@@ -10,6 +10,7 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 class DetectDeviceViewCell: UITableViewCell {
     
@@ -34,23 +35,15 @@ class DetectDeviceViewCell: UITableViewCell {
         selectedBackgroundView          = selectedView
     }
     
-    func configureDeviceCell(deviceList: ClassicDeviceLists) {
+    func configureDeviceCell(deviceList: NSManagedObject) {
         // Configure the cell...
         self.layer.cornerRadius = 10
-        //self.backgroundColor    = UIColor.darkGray
-        //self.translatesAutoresizingMaskIntoConstraints = false
-
-        //NSLayoutConstraint.activate([
-        //    self.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
-        //    self.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10),
-        //    self.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10),
-        //    self.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-        //])
         
-        ipLabel.text            = "IP: \(deviceList.visualUrl ?? "127.0.0.1")"
-        portLabel.text          = "Port: \(deviceList.port ?? 0)"
-        deviceNameLabel.text    = "Model: \(deviceList.deviceName ?? "CLASSIC")"
-        serialNumberLabel.text  = "Serial #: \(deviceList.serialNumber ?? "000000")"
+        //deviceList.value(forKeyPath: "deviceName") as? String
+        ipLabel.text            = "IP: \(deviceList.value(forKeyPath: "visualUrl") as? String ?? "127.0.0.1")"
+        portLabel.text          = "Port: \(deviceList.value(forKeyPath: "port") as? String ?? "0")"
+        deviceNameLabel.text    = "Model: \(deviceList.value(forKeyPath: "deviceName") as? String ?? "CLASSIC")"
+        serialNumberLabel.text  = "Serial #: \(deviceList.value(forKeyPath: "serialNumber") as? String ?? "000000")"
     }
     
     override func prepareForReuse() {

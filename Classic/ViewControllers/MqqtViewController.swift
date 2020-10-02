@@ -27,19 +27,18 @@ class MqqtViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
     var classicURL: NSString    = ""
     var classicPort: Int32      = 502
     
-    var reachability: Reachability?
+    //var reachability: Reachability?
     
     private var session = MQTTSession()!
     private var subscribed = false
-
+    
     convenience init() {
         self.init()
     }
     
     deinit {
-        stopNotifier()
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureGaugeViews()
@@ -53,7 +52,7 @@ class MqqtViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
         
         //MARK: First Connect to server
         connectDisconnect()
-        publish()
+        //publish()
     }
     
     @objc func appMovedToBackground() {
@@ -64,9 +63,9 @@ class MqqtViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if kDebugLog{ print("viewWillAppear") }
-        stopNotifier()
-        setupReachability(classicURL as String, useClosures: true)
-        startNotifier()
+        //stopNotifier()
+        //setupReachability(classicURL as String, useClosures: true)
+        //startNotifier()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -115,7 +114,7 @@ class MqqtViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
         return .lightContent
     }
     
-
+    
     func handleEvent(_ session: MQTTSession!, event eventCode: MQTTSessionEvent, error: Error!) {
         switch eventCode {
         case .connected:
@@ -146,13 +145,36 @@ class MqqtViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
     }
     
     func newMessage(_ session: MQTTSession!, data: Data!, onTopic topic: String!, qos: MQTTQosLevel, retained: Bool, mid: UInt32) {
-        if data != nil {
-            let decoder = JSONDecoder()
-            do {
-                let readings = try decoder.decode(MQTTDataReading.self, from: data)
-                print("READINGS: \(readings)")
-            } catch {
-                debugPrint("Error in JSON Parsing")
+        if (data != nil && topic != nil) {
+            //let str1 = String(decoding: data, as: UTF8.self)
+            //let str2 = topic
+            //print("DATAURA: \(str1)")
+            //print("TOPICURA: \(String(describing: str2))")
+            
+            if (topic.contains("info")) {
+                let decoder = JSONDecoder()
+                do {
+                    let info = try decoder.decode(MQTTDataInfo.self, from: data)
+                    print("INFO: \(info)")
+                    setValuesInfo(info: info)
+                } catch {
+                    debugPrint("Error in JSON Parsing")
+                }
+                return
+            } else if (topic.contains("readings")) {
+                let decoder = JSONDecoder()
+                do {
+                    let readings = try decoder.decode(MQTTDataReading.self, from: data)
+                    print("READINGS: \(readings)")
+                    setValues(readings: readings)
+                } catch {
+                    debugPrint("Error in JSON Parsing")
+                }
+                return
+            } else if (topic.contains("LWT")) {
+                
+            } else if (topic.contains("cmdn")) {
+                
             }
         }
     }
@@ -170,14 +192,14 @@ class MqqtViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
     func subscribeUnsubscribe() {
         if self.subscribed {
             print("Unsuscribed")
-            session.unsubscribeTopic(" /urayoan.miranda@gmail.com/CLASSIC250/stat/readings")
+            session.unsubscribeTopic(" /urayoan.miranda@gmail.com/CLASSIC250/#")
         } else {
             print("Suscribed")
-            session.subscribe(toTopic: "/urayoan.miranda@gmail.com/CLASSIC250/stat/readings", at: .atMostOnce)
+            session.subscribe(toTopic: "/urayoan.miranda@gmail.com/CLASSIC250/#", at: .atMostOnce)
         }
         
     }
-    func publish() {
+    @objc func publish() {
         print("PUBLISH")
         self.session.publishData(("{\"wake\"}").data(using: String.Encoding.utf8, allowLossyConversion: false),
                                  onTopic: "/urayoan.miranda@gmail.com/CLASSIC250/cmnd",
@@ -188,9 +210,13 @@ class MqqtViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
     func connectDisconnect() {
         switch self.session.status {
         case .connected:
+            //MARK: Desconecta
             self.session.disconnect()
         case .closed, .created, .error:
+            //MARK: Trata de conectarte
             self.session.connect()
+            self.publish()
+            self.createTimer()
         default:
             return
         }
@@ -206,57 +232,52 @@ class MqqtViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
         return UIColor(red: 11.0/255, green: 150.0/255, blue: 246.0/255, alpha: 1)
     }
     
-    func stopNotifier() {
-        reachability?.stopNotifier()
-        NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: nil)
-        reachability = nil
-    }
-    
-    func setupReachability(_ hostName: String?, useClosures: Bool) {
-        if (hostName == "demo") {
-            createTimer()
-        } else {
-            let reachability: Reachability?
-            if let hostName = hostName {
-                reachability = try? Reachability(hostname: hostName)
-            } else {
-                reachability = try? Reachability()
-            }
-            self.reachability = reachability
-            if kDebugLog { print("--- Set up with host name: \(String(describing: hostName))") }
-            if useClosures {
-                reachability?.whenReachable = { reachability in
-                    self.createTimer()
-                }
-                reachability?.whenUnreachable = { reachability in
-                    self.invalidateTimer()
-                    //self.swiftLibModbus!.disconnect()
-                }
-            } else {
-                NotificationCenter.default.addObserver(
-                    self,
-                    selector: #selector(reachabilityChanged(_:)),
-                    name: .reachabilityChanged,
-                    object: reachability
-                )
-            }
-        }
-    }
-    
     func createTimer() {
         // 1
         if timer == nil {
             // 2
-            timer = Timer.scheduledTimer(timeInterval: 1.0,
+            timer = Timer.scheduledTimer(timeInterval: 55.0,
                                          target: self,
-                                         selector: #selector(readValues),
+                                         selector: #selector(publish),
                                          userInfo: nil,
                                          repeats: true)
         }
     }
     
-    @objc func readValues() {
-       print("READ VALUES TODO")
+    func setValues(readings: MQTTDataReading) {
+        print("SET VALUES TO GAUGE \(readings)")
+        self.gaugeBatteryVoltsView.value    = Double(readings.BatVoltage!)
+        self.gaugeInputView.value           = Double(readings.PVVoltage!)
+        self.gaugeBatteryAmpsView.value     = Double(readings.BatCurrent!)
+        self.gaugeEnergyView.value          = Double(readings.EnergyToday!)
+        //MARK: Energy Today
+        self.gaugePowerView.value           = Double(readings.Power!)
+        
+        switch (readings.ChargeState) {
+        case 0:
+            self.stageButton.setTitle("Resting", for: .normal)
+        case 3:
+            self.stageButton.setTitle("Absorb", for: .normal)
+        case 4:
+            self.stageButton.setTitle("BulkMppt", for: .normal)
+        case 5:
+            self.stageButton.setTitle("Float", for: .normal)
+        case 6:
+            self.stageButton.setTitle("FloatMppt", for: .normal)
+        case 7:
+            self.stageButton.setTitle("Equalize", for: .normal)
+        case 10:
+            self.stageButton.setTitle("HyperVoc", for: .normal)
+        case 18:
+            self.stageButton.setTitle("EqMppt", for: .normal)
+        default:
+            if kDebugLog { print("Not Recognized") }
+            self.stageButton.setTitle("Unknown", for: .normal)
+        }
+    }
+    
+    func setValuesInfo(info: MQTTDataInfo) {
+        self.buttonDeviceDescription.setTitle(info.model, for: .normal)
     }
     
     func invalidateTimer() {
@@ -264,32 +285,9 @@ class MqqtViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
         timer = nil
     }
     
-    @objc func reachabilityChanged(_ note: Notification) {
-        let reachability = note.object as! Reachability
-        
-        if reachability.connection != .unavailable {
-            self.invalidateTimer()
-            //self.swiftLibModbus!.disconnect()
-        } else {
-            self.createTimer()
-        }
-    }
-    
-    func startNotifier() {
-        if kDebugLog { print("--- start notifier") }
-        do {
-            try reachability?.startNotifier()
-        } catch {
-            if kDebugLog { print("Unable to start notifier") }
-            return
-        }
-    }
-    
     func disconnectFromDevice() {
         if kDebugLog { print("Disconnect") }
         invalidateTimer()
-        //self.swiftLibModbus!.disconnect()
-        stopNotifier()
     }
     
     func configureGaugeViews() {
