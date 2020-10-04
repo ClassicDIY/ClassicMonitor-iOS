@@ -38,7 +38,7 @@ class DetectDeviceViewCell: UITableViewCell {
     func configureDeviceCell(deviceList: NSManagedObject) {
         // Configure the cell...
         self.layer.cornerRadius = 10
-        print("PUERTO EN EL CELL: \(String(describing: deviceList.value(forKeyPath: "port")))")
+        //print("PUERTO EN EL CELL: \(String(describing: deviceList.value(forKeyPath: "port")))")
         //deviceList.value(forKeyPath: "deviceName") as? String
         ipLabel.text            = "IP: \(deviceList.value(forKeyPath: "visualUrl") ?? "127.0.0.1")"
         portLabel.text          = "Port: \(deviceList.value(forKeyPath: "port") ?? "0")"

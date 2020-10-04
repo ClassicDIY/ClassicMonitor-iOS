@@ -188,28 +188,36 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                 
                 // 2
                 let entity = NSEntityDescription.entity(forEntityName: "DeviceData", in: managedContext)!
-                
                 let device = NSManagedObject(entity: entity, insertInto: managedContext)
                 
-                // 3
-                device.setValue("\(lsb3).\(msb3).\(lsb2).\(msb2)", forKeyPath: "ip")
-                device.setValue("\(lsb3).\(msb3).\(lsb2).\(msb2)", forKeyPath: "visualUrl")
-                device.setValue(Int32(signal.thirdSignal), forKeyPath: "port")
-                device.setValue(deviceModel, forKeyPath: "deviceName")
-                device.setValue("000000", forKeyPath: "serialNumber")
-                device.setValue("", forKeyPath: "mqttUser")
-                device.setValue("", forKeyPath: "mqttPassword")
-                device.setValue(false, forKeyPath: "isMQTT")
-                device.setValue("", forKeyPath: "mqttTopic")
+                let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "DeviceData")
+                fetchRequest.predicate = NSPredicate(format: "deviceName == %@", deviceModel!)
+                let res = try! managedContext.fetch(fetchRequest)
                 
+                // 3
+                //MARK: To do not add nothing
+                if (res.count == 0) {
+                    device.setValue("\(lsb3).\(msb3).\(lsb2).\(msb2)", forKeyPath: "ip")
+                    device.setValue("\(lsb3).\(msb3).\(lsb2).\(msb2)", forKeyPath: "visualUrl")
+                    device.setValue(Int32(signal.thirdSignal), forKeyPath: "port")
+                    device.setValue(deviceModel, forKeyPath: "deviceName")
+                    device.setValue("000000", forKeyPath: "serialNumber")
+                    device.setValue("", forKeyPath: "mqttUser")
+                    device.setValue("", forKeyPath: "mqttPassword")
+                    device.setValue(false, forKeyPath: "isMQTT")
+                    device.setValue("", forKeyPath: "mqttTopic")
+                } else {
+                    if kDebugLog { print("Es igual o parece igual") }
+                    print("Es igual o parece igual")
+                    return
+                }
+                
+                //print("VALOR DE RES: \(res)")
                 // 4
                 do {
-                  try managedContext.save()
-                    if (!self.devicelists.contains(device)) {
-                        self.devicelists.append(device)
-                    } else {
-                        if kDebugLog { print("Es igual o parece igual") }
-                    }
+                    try managedContext.save()
+                    self.devicelists.append(device)
+                    self.tableView.reloadData()
                 } catch let error as NSError {
                     print("Could not save. \(error), \(error.userInfo)")
                 }
@@ -464,9 +472,10 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
             
             // 4
             do {
-              try managedContext.save()
                 if (!self.devicelists.contains(device)) {
+                    try managedContext.save()
                     self.devicelists.append(device)
+                    self.tableView.reloadData()
                 } else {
                     if kDebugLog { print("Es igual o parece igual") }
                 }
@@ -496,7 +505,6 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                     
                     // 2
                     let entity = NSEntityDescription.entity(forEntityName: "DeviceData", in: managedContext)!
-                    
                     let device = NSManagedObject(entity: entity, insertInto: managedContext)
                     
                     // 3
@@ -508,7 +516,17 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                     device.setValue(MQTTUser, forKeyPath: "mqttUser")
                     device.setValue(MQTTPassword, forKeyPath: "mqttPassword")
                     device.setValue(true, forKeyPath: "isMQTT")
-                    device.setValue(MQTTTopic, forKeyPath: "mqttTopic")
+                    
+                    //MARK: Check the topic starts and end with /
+                    if (MQTTTopic.starts(with: "/") && MQTTTopic[MQTTTopic.index(before: MQTTTopic.endIndex)] == "/") {
+                        device.setValue(MQTTTopic, forKeyPath: "mqttTopic")
+                    } else if (MQTTTopic.starts(with: "/") && MQTTTopic[MQTTTopic.index(before: MQTTTopic.endIndex)] != "/") {
+                        device.setValue("\(MQTTTopic)/", forKeyPath: "mqttTopic")
+                    } else if (!MQTTTopic.starts(with: "/") && MQTTTopic[MQTTTopic.index(before: MQTTTopic.endIndex)] == "/")  {
+                        device.setValue("/\(MQTTTopic)", forKeyPath: "mqttTopic")
+                    } else if(!MQTTTopic.starts(with: "/") && MQTTTopic[MQTTTopic.index(before: MQTTTopic.endIndex)] != "/") {
+                        device.setValue("/\(MQTTTopic)/", forKeyPath: "mqttTopic")
+                    }
                     
                     // 4
                     do {
@@ -609,6 +627,20 @@ extension DetectDeviceViewController: UITableViewDelegate {
         }
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+            //We need to create a context from this container
+            let managedContext = appDelegate.persistentContainer.viewContext
+            managedContext.delete(devicelists[indexPath.row])
+            devicelists.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            appDelegate.saveContext()
+        } else if editingStyle == .insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+        }
+    }
+    
     //*****************************************************************
     // MARK: - Segue
     //*****************************************************************
@@ -619,7 +651,7 @@ extension DetectDeviceViewController: UITableViewDelegate {
             viewController.classicURL   = classicUrl! as NSString
             viewController.classicPort  = classicPort!
         } else if (segue.identifier == "SelectedSegueMQTT") {
-            let mqttViewController          = segue.destination as! MqqtViewController
+            let mqttViewController          = segue.destination as! PageViewControllerMQTT
             mqttViewController.classicURL   = classicUrl!
             mqttViewController.classicPort  = classicPort!
             mqttViewController.mqttUser     = mqttUser!

@@ -9,14 +9,42 @@
 
 import UIKit
 
+protocol PageViewControllerDelegate: class {
+    
+    /**
+     Called when the number of pages is updated.
+     
+     - parameter tutorialPageViewController: the TutorialPageViewController instance
+     - parameter count: the total number of pages.
+     */
+    func pageViewController(tutorialPageViewController: PageViewControllerMQTT, didUpdatePageCount count: Int)
+    
+    /**
+     Called when the current index is updated.
+     
+     - parameter tutorialPageViewController: the TutorialPageViewController instance
+     - parameter index: the index of the currently visible page.
+     */
+    func pageViewController(tutorialPageViewController: PageViewControllerMQTT, didUpdatePageIndex index: Int)
+    
+}
 
 
-class PageViewController: UIPageViewController {
-        
+class PageViewControllerMQTT: UIPageViewController {
+    
+    weak var pageDelegate: PageViewControllerDelegate?
+    
+    var classicURL: String      = ""
+    var classicPort: Int32      = 1883
+    var mqttUser: String        = ""
+    var mqttPassword: String    = ""
+    var mqttTopic: String       = ""
+    var classicName: String     = ""
+
     private(set) lazy var orderedViewControllers: [UIViewController] = {
         return [
-            self.newColoredViewController(color: "Green"),
-            self.newColoredViewController(color: "Red")
+            self.newViewController(color: "Green"),
+            self.newViewController(color: "Red")
         ]
     }()
     
@@ -24,6 +52,11 @@ class PageViewController: UIPageViewController {
         super.viewDidLoad()
         dataSource  = self
         
+        if let initialViewController = orderedViewControllers.first {
+            scrollToViewController(viewController: initialViewController)
+        }
+        
+        //MARK: Do not deleted, for future tests
         //let appearance = UIPageControl.appearance(whenContainedInInstancesOf: [UIPageViewController.self])
         //appearance.pageIndicatorTintColor = UIColor.white
         //appearance.currentPageIndicatorTintColor = UIColor.white
@@ -48,7 +81,7 @@ class PageViewController: UIPageViewController {
         }
     }
     
-    private func newColoredViewController(color: String) -> UIViewController {
+    private func newViewController(color: String) -> UIViewController {
         return UIStoryboard(name: "Main", bundle: nil) .
             instantiateViewController(withIdentifier: "\(color)ViewController")
     }
@@ -70,6 +103,34 @@ class PageViewController: UIPageViewController {
         }
         
         return orderedViewControllers[previousIndex]
+    }
+    
+    /**
+     Scrolls to the given 'viewController' page.
+     
+     - parameter viewController: the view controller to show.
+     */
+    private func scrollToViewController(viewController: UIViewController,
+                                        direction: UIPageViewController.NavigationDirection = .forward) {
+        setViewControllers([viewController],
+            direction: direction,
+            animated: true,
+            completion: { (finished) -> Void in
+                // Setting the view controller programmatically does not fire
+                // any delegate methods, so we have to manually notify the
+                // 'tutorialDelegate' of the new index.
+                self.notifyDelegateOfNewIndex()
+        })
+    }
+    
+    /**
+     Notifies '_tutorialDelegate' that the current page index was updated.
+     */
+    private func notifyDelegateOfNewIndex() {
+        if let firstViewController = viewControllers?.first,
+            let index = orderedViewControllers.firstIndex(of: firstViewController) {
+                pageDelegate?.pageViewController(tutorialPageViewController: self, didUpdatePageIndex: index)
+        }
     }
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
@@ -94,7 +155,7 @@ class PageViewController: UIPageViewController {
 }
 
 // MARK: UIPageViewControllerDataSource
-extension PageViewController: UIPageViewControllerDataSource {
+extension PageViewControllerMQTT: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let viewControllerIndex = orderedViewControllers.firstIndex(of: viewController) else {
             return nil
@@ -149,5 +210,16 @@ extension PageViewController: UIPageViewControllerDataSource {
         
         return firstViewControllerIndex
     }
+}
+
+extension PageViewControllerMQTT: UIPageViewControllerDelegate {
+    
+    func pageViewController(_ pageViewController: UIPageViewController,
+        didFinishAnimating finished: Bool,
+        previousViewControllers: [UIViewController],
+        transitionCompleted completed: Bool) {
+        notifyDelegateOfNewIndex()
+    }
+    
 }
 

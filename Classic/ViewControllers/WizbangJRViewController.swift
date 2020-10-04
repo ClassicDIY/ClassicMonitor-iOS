@@ -11,6 +11,7 @@ import UIKit
 class WizbangJRViewController: UIViewController, GaugeCenterViewDelegate {
 
     @IBOutlet weak var gaugeWizbangJR: GaugeCenterView!
+    @IBOutlet var battery: BatteryView!
 
     //MARK: Demo variables
     var velocity: Double        = 0
@@ -95,5 +96,6 @@ class WizbangJRViewController: UIViewController, GaugeCenterViewDelegate {
         let randomDouble = Double.random(in: -16..<16)
         velocity = randomDouble
         gaugeWizbangJR.value        = velocity
+        battery.level = Int(velocity.rounded() + 55)
     }
 }

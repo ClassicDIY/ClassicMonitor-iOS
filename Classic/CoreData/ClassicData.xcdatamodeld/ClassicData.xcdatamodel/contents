@@ -10,6 +10,11 @@
         <attribute name="port" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="serialNumber" optional="YES" attributeType="String"/>
         <attribute name="visualUrl" optional="YES" attributeType="String"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="deviceName"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <elements>
         <element name="DeviceData" positionX="-122.9296875" positionY="-1120.921875" width="128" height="178"/>

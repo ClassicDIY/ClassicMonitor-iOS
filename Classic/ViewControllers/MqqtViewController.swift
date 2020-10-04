@@ -55,6 +55,10 @@ class MqqtViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
         session.clientId        = "Classic_Monitor"
         session.delegate        = self
         
+        //MARK: To check if app goes to background
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self,selector: #selector(appMovedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
+        
         //MARK: First Connect to server
         connectDisconnect()
         //publish()
@@ -86,7 +90,7 @@ class MqqtViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
     }
     
     override var preferredStatusBarStyle : UIStatusBarStyle {
-        print("Prefered Barstatus Style")
+        if kDebugLog { print("Prefered Barstatus Style") }
         view.backgroundColor = UIColor(white: 0.1, alpha: 1)
         //MARK: Power
         gaugePowerView.ringBackgroundColor = .black
@@ -259,22 +263,24 @@ class MqqtViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
         self.gaugePowerView.value           = Double(readings.Power!)
         
         switch (readings.ChargeState) {
+        case -1:
+            self.stageButton.setTitle("", for: .normal)
         case 0:
             self.stageButton.setTitle("Resting", for: .normal)
         case 3:
             self.stageButton.setTitle("Absorb", for: .normal)
         case 4:
-            self.stageButton.setTitle("BulkMppt", for: .normal)
+            self.stageButton.setTitle("Bulk MPPT", for: .normal)
         case 5:
             self.stageButton.setTitle("Float", for: .normal)
         case 6:
-            self.stageButton.setTitle("FloatMppt", for: .normal)
+            self.stageButton.setTitle("Float MPPT", for: .normal)
         case 7:
-            self.stageButton.setTitle("Equalize", for: .normal)
+            self.stageButton.setTitle("Equalized", for: .normal)
         case 10:
             self.stageButton.setTitle("HyperVoc", for: .normal)
         case 18:
-            self.stageButton.setTitle("EqMppt", for: .normal)
+            self.stageButton.setTitle("Equalizing", for: .normal)
         default:
             if kDebugLog { print("Not Recognized") }
             self.stageButton.setTitle("Unknown", for: .normal)

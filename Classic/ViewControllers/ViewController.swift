@@ -364,7 +364,7 @@ class ViewController: UIViewController, GaugeViewDelegate {
             DataManager.readRegistersValues(classicURL: classicURL as NSString, classicPort: classicPort, device: 1, startAddress: 4100, count: 44) { array, error in
                 //print("ENTRO AL DATAMANAGER: \(String(describing: array))")
                 if error != nil {
-                    print("Error nil - ViewControllers: \(String(describing: error))")
+                    if kDebugLog { print("Error nil - ViewControllers: \(String(describing: error))") }
                 } else {
                     if kDebugLog { print("Received Data 1: \(String(describing: array))") }
                     
@@ -438,30 +438,24 @@ class ViewController: UIViewController, GaugeViewDelegate {
                     
                     if kDebugLog { print("Charge Stage: \((comboChargeStage >> 8) & 0xFF)") }
                     switch ((comboChargeStage >> 8) & 0xFF) {
+                    case -1:
+                        self.stageButton.setTitle("", for: .normal)
                     case 0:
-                        if kDebugLog { print("Classic 150: \(unitId >> 8 & 0xFF)") }
                         self.stageButton.setTitle("Resting", for: .normal)
                     case 3:
-                        if kDebugLog { print("Classic 200: \(unitId >> 8 & 0xFF)") }
                         self.stageButton.setTitle("Absorb", for: .normal)
                     case 4:
-                        if kDebugLog { print("Classic 250: \(unitId >> 8 & 0xFF)") }
-                        self.stageButton.setTitle("BulkMppt", for: .normal)
+                        self.stageButton.setTitle("Bulk MPPT", for: .normal)
                     case 5:
-                        if kDebugLog { print("Classic 250 KS: \(unitId >> 8 & 0xFF)") }
                         self.stageButton.setTitle("Float", for: .normal)
                     case 6:
-                        if kDebugLog { print("Classic 150: \(unitId >> 8 & 0xFF)") }
-                        self.stageButton.setTitle("FloatMppt", for: .normal)
+                        self.stageButton.setTitle("Float MPPT", for: .normal)
                     case 7:
-                        if kDebugLog { print("Classic 200: \(unitId >> 8 & 0xFF)") }
-                        self.stageButton.setTitle("Equalize", for: .normal)
+                        self.stageButton.setTitle("Equalized", for: .normal)
                     case 10:
-                        if kDebugLog { print("Classic 250: \(unitId >> 8 & 0xFF)") }
                         self.stageButton.setTitle("HyperVoc", for: .normal)
                     case 18:
-                        if kDebugLog { print("Classic 250 KS: \(unitId >> 8 & 0xFF)") }
-                        self.stageButton.setTitle("EqMppt", for: .normal)
+                        self.stageButton.setTitle("Equalizing", for: .normal)
                     default:
                         if kDebugLog { print("Not Recognized") }
                         self.stageButton.setTitle("Unknown", for: .normal)

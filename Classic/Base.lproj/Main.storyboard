@@ -130,6 +130,11 @@
                                     <outlet property="delegate" destination="QhX-jn-QHk" id="yrM-rt-tZD"/>
                                 </connections>
                             </searchBar>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CYu-ca-Zpt">
+                                <rect key="frame" x="34" y="51" width="44" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="DEMO"/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Ydu-Db-XD2"/>
                         <constraints>
@@ -151,74 +156,33 @@
                         <outlet property="searchController" destination="YYv-ac-0hQ" id="uNE-Ve-w4d"/>
                         <outlet property="tableView" destination="sdf-2B-Vpx" id="9Bq-Gj-gxx"/>
                         <segue destination="aYZ-oX-wru" kind="presentation" identifier="SelectedSegue" modalPresentationStyle="fullScreen" id="mCg-Pa-TSK"/>
-                        <segue destination="Tt0-x3-B68" kind="presentation" identifier="SelectedSegueMQTT" modalPresentationStyle="fullScreen" id="St6-3D-TJP"/>
+                        <segue destination="4i2-QT-QYg" kind="presentation" identifier="SelectedSegueMQTT" modalPresentationStyle="fullScreen" id="FTe-vG-s45"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g5s-sV-tUu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="294" y="-7"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="RK2-QA-E5P">
-            <objects>
-                <viewController id="Jxf-vW-Y7W" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="61h-4R-vze">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zHv-1S-2pA" customClass="BatteryView" customModule="Classic_Monitor" customModuleProvider="target">
-                                <rect key="frame" x="16" y="348" width="343" height="170"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="batteryLevel">
-                                        <real key="value" value="0.5"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="level">
-                                        <integer key="value" value="75"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="lowThreshold">
-                                        <integer key="value" value="25"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="gradientThreshold">
-                                        <integer key="value" value="50"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isVertical" value="YES"/>
-                                </userDefinedRuntimeAttributes>
-                            </view>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="Cdr-dY-boO"/>
-                        <color key="backgroundColor" red="0.12165830280000001" green="0.12915611269999999" blue="0.1411797702" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="03D-6L-fMc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-896.79999999999995" y="-582.26600985221683"/>
-        </scene>
-        <!--Page View Controller-->
+        <!--Page View ControllerMQTT-->
         <scene sceneID="REQ-1J-LEU">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" interfaceStyle="dark" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="4i2-QT-QYg" customClass="PageViewController" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController"/>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" interfaceStyle="dark" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="4i2-QT-QYg" customClass="PageViewControllerMQTT" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UXY-Sm-6Ke" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="295" y="-683"/>
+            <point key="canvasLocation" x="1177" y="-683"/>
         </scene>
         <!--WizbangJR Readings-->
         <scene sceneID="0hU-If-ARu">
             <objects>
-                <viewController storyboardIdentifier="RedViewController" id="sd2-qE-60F" userLabel="WizbangJR Readings" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RedViewController" id="sd2-qE-60F" userLabel="WizbangJR Readings" customClass="WizbangJRViewController" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="JeP-Ia-ff0">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YTv-AY-uh2" customClass="GaugeCenterView" customModule="Classic_Monitor" customModuleProvider="target">
-                                <rect key="frame" x="32.666666666666657" y="251" width="310" height="310"/>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YTv-AY-uh2" customClass="GaugeCenterView" customModule="Classic_Monitor" customModuleProvider="target">
+                                <rect key="frame" x="32" y="145" width="310" height="310"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="YTv-AY-uh2" secondAttribute="height" multiplier="1:1" id="0tN-yE-JQo"/>
-                                    <constraint firstAttribute="width" constant="310" id="MXZ-fv-Hi8"/>
-                                    <constraint firstAttribute="height" constant="310" id="SuJ-Ze-jOP"/>
-                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="valueTextColor">
                                         <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -226,32 +190,45 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fmB-fE-kjI">
-                                <rect key="frame" x="164" y="630" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <segue destination="ZLE-qY-BHy" kind="unwind" unwindAction="unwindFromPresentedViewControllerWithSegue:" id="7qc-Dy-JlP"/>
-                                </connections>
-                            </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="svE-c4-lus" customClass="BatteryView" customModule="Classic_Monitor" customModuleProvider="target">
+                                <rect key="frame" x="42" y="602" width="291" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isVertical" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="level">
+                                        <integer key="value" value="74"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="lowThreshold">
+                                        <integer key="value" value="40"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="gradientThreshold">
+                                        <integer key="value" value="60"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="highLevelColor">
+                                        <color key="value" systemColor="systemGreenColor"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="lowLevelColor">
+                                        <color key="value" systemColor="systemRedColor"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="25B-03-uLa"/>
                         <color key="backgroundColor" red="0.12165830280000001" green="0.12915611269999999" blue="0.1411797702" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        <constraints>
-                            <constraint firstItem="YTv-AY-uh2" firstAttribute="centerY" secondItem="JeP-Ia-ff0" secondAttribute="centerY" id="fH9-UR-gEg"/>
-                            <constraint firstItem="YTv-AY-uh2" firstAttribute="centerX" secondItem="JeP-Ia-ff0" secondAttribute="centerX" id="fuq-4U-oLp"/>
-                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="battery" destination="svE-c4-lus" id="qv2-zr-fAT"/>
+                        <outlet property="gaugeWizbangJR" destination="YTv-AY-uh2" id="9Ag-Ex-gdZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IPg-qV-8UI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="ZLE-qY-BHy" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1943" y="-683"/>
+            <point key="canvasLocation" x="2548" y="-683"/>
         </scene>
         <!--Classic 250 Readings-->
         <scene sceneID="34t-ls-YO6">
             <objects>
-                <viewController storyboardIdentifier="GreenViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="aYZ-oX-wru" userLabel="Classic 250 Readings" customClass="ViewController" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OrangeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="aYZ-oX-wru" userLabel="Classic 250 Readings" customClass="ViewController" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="L9D-rg-dHL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -288,7 +265,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </button>
                             <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sns-nV-MM8" userLabel="Gauge View Battery Volts" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
-                                <rect key="frame" x="211" y="82" width="148" height="147"/>
+                                <rect key="frame" x="210" y="82" width="149" height="147"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <userDefinedRuntimeAttributes>
@@ -298,12 +275,12 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e0A-mn-JM3" userLabel="Button Battery">
-                                <rect key="frame" x="211" y="82" width="148" height="147"/>
+                                <rect key="frame" x="210" y="82" width="149" height="147"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </button>
                             <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oHz-tC-8rg" userLabel="Gauge View Power Center" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
-                                <rect key="frame" x="24" y="251" width="309" height="310"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="30" y="251" width="310" height="310"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ground_fault" translatesAutoresizingMaskIntoConstraints="NO" id="fsN-Sf-SQz">
                                         <rect key="frame" x="181" y="206" width="30" height="30"/>
@@ -352,7 +329,7 @@
                                 </state>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EYu-Fj-dMe" userLabel="Center Button">
-                                <rect key="frame" x="24" y="251" width="309" height="310"/>
+                                <rect key="frame" x="29" y="251" width="310" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </button>
                         </subviews>
@@ -379,7 +356,7 @@
         <!--Classic 250 MQTT Readings-->
         <scene sceneID="VeL-I6-5cV">
             <objects>
-                <viewController storyboardIdentifier="OrangeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Tt0-x3-B68" userLabel="Classic 250 MQTT Readings" customClass="MqqtViewController" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GreenViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Tt0-x3-B68" userLabel="Classic 250 MQTT Readings" customClass="MqqtViewController" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="Ie6-QS-Fij">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -416,7 +393,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </button>
                             <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qmR-gH-XUN" userLabel="Gauge View Battery Volts" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
-                                <rect key="frame" x="211" y="82" width="148" height="147"/>
+                                <rect key="frame" x="210" y="82" width="149" height="147"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <userDefinedRuntimeAttributes>
@@ -426,15 +403,15 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HTS-sr-yHw" userLabel="Button Battery">
-                                <rect key="frame" x="211" y="82" width="148" height="147"/>
+                                <rect key="frame" x="210" y="82" width="149" height="147"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </button>
                             <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XeR-6n-EKc" userLabel="Gauge View Power Center" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
-                                <rect key="frame" x="24" y="251" width="309" height="310"/>
+                                <rect key="frame" x="28" y="251" width="310" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ground_fault" translatesAutoresizingMaskIntoConstraints="NO" id="PRc-eD-m4I">
-                                        <rect key="frame" x="181" y="206" width="30" height="30"/>
+                                        <rect key="frame" x="183" y="206" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
@@ -480,7 +457,7 @@
                                 </state>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z4I-FS-3fl" userLabel="Center Button">
-                                <rect key="frame" x="24" y="251" width="309" height="310"/>
+                                <rect key="frame" x="28" y="251" width="309" height="310"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </button>
                         </subviews>
@@ -502,7 +479,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="60E-7i-QpY" sceneMemberID="firstResponder"/>
                 <exit id="6OC-FX-X5U" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1177" y="-683"/>
+            <point key="canvasLocation" x="1844" y="-683"/>
         </scene>
     </scenes>
     <resources>
@@ -510,6 +487,12 @@
         <image name="ground_fault" width="10" height="10"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
