@@ -64,6 +64,7 @@ class PageViewControllerMQTT: UIPageViewController {
         //appearance.backgroundStyle = .minimal
 
         if let firstViewController = orderedViewControllers.first {
+
             setViewControllers([firstViewController],
                                direction: .forward,
                                animated: true,
@@ -91,28 +92,8 @@ class PageViewControllerMQTT: UIPageViewController {
     }
 
     private func newViewController(name: String) -> UIViewController {
-        
         return UIStoryboard(name: "Main", bundle: nil) .
             instantiateViewController(withIdentifier: name) as UIViewController
-    }
-
-    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-
-        guard let viewControllerIndex = orderedViewControllers.firstIndex(of: viewController) else {
-            return nil
-        }
-
-        let previousIndex = viewControllerIndex - 1
-
-        guard previousIndex >= 0 else {
-            return nil
-        }
-
-        guard orderedViewControllers.count > previousIndex else {
-            return nil
-        }
-
-        return orderedViewControllers[previousIndex]
     }
 
     /**
@@ -141,30 +122,11 @@ class PageViewControllerMQTT: UIPageViewController {
             pageDelegate?.pageViewController(pageViewController: self, didUpdatePageIndex: index)
         }
     }
-
-    func pageViewController(pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-
-        guard let viewControllerIndex = orderedViewControllers.firstIndex(of: viewController) else {
-            return nil
-        }
-
-        let nextIndex = viewControllerIndex + 1
-        let orderedViewControllersCount = orderedViewControllers.count
-
-        guard orderedViewControllersCount != nextIndex else {
-            return nil
-        }
-
-        guard orderedViewControllersCount > nextIndex else {
-            return nil
-        }
-
-        return orderedViewControllers[nextIndex]
-    }
 }
 
 // MARK: UIPageViewControllerDataSource
 extension PageViewControllerMQTT: UIPageViewControllerDataSource {
+    
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let viewControllerIndex = orderedViewControllers.firstIndex(of: viewController) else {
             return nil
@@ -229,5 +191,6 @@ extension PageViewControllerMQTT: UIPageViewControllerDelegate {
                             transitionCompleted completed: Bool) {
         notifyDelegateOfNewIndex()
     }
+
 }
 
