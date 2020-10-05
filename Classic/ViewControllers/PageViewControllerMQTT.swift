@@ -64,7 +64,6 @@ class PageViewControllerMQTT: UIPageViewController {
         //appearance.backgroundStyle = .minimal
 
         if let firstViewController = orderedViewControllers.first {
-
             setViewControllers([firstViewController],
                                direction: .forward,
                                animated: true,
@@ -143,7 +142,7 @@ class PageViewControllerMQTT: UIPageViewController {
         }
     }
 
-    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+    func pageViewController(pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
 
         guard let viewControllerIndex = orderedViewControllers.firstIndex(of: viewController) else {
             return nil
@@ -230,6 +229,5 @@ extension PageViewControllerMQTT: UIPageViewControllerDelegate {
                             transitionCompleted completed: Bool) {
         notifyDelegateOfNewIndex()
     }
-
 }
 
