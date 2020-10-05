@@ -180,7 +180,7 @@ extension Int {
         if level >= 0 && level <= .fullBattery {
             let levelInset = (isVertical ? levelFrame.height : levelFrame.width) * CGFloat(.fullBattery - level) / CGFloat(Int.fullBattery)
             (_, levelFrame) = levelFrame.divided(atDistance: levelInset, from: direction)
-            noLevelLabel.text = nil
+            noLevelLabel.text = "\(level)"
             accessibilityValue = level.description
         } else {
             noLevelLabel.text = noLevelText

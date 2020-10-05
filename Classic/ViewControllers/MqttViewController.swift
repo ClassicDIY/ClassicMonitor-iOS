@@ -45,21 +45,12 @@ class MqttViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("VEIEW DID LOAD MqttViewController")
-        
-        session.transport       = MQTTCFSocketTransport()
-        session.transport.host  = classicURL
-        session.transport.port  = UInt32(classicPort)
-        session.userName        = mqttUser //"urayoan.miranda@gmail.com"
-        session.password        = mqttPassword//"8d2176c3"
-        session.clientId        = "Classic_Monitor"
-        session.delegate        = self
+        print("VIEW DID LOAD MqttViewController")
+        configureGaugeViews()
         //stopNotifier()
         //setupReachability(classicURL as String, useClosures: true)
         //startNotifier()
-        print("Recived Parameters MqttViewController: \(classicURL) - \(classicPort) - \(mqttUser) - \(mqttPassword) - \(mqttTopic) - \(classicName)")
         //MARK: First Connect to server
-        connectDisconnect()
         
         //MARK: To check if app goes to background
         let notificationCenter = NotificationCenter.default
@@ -74,8 +65,18 @@ class MqttViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if kDebugLog{ print("viewWillAppear MqttViewController") }
-        print("viewWillAppear MqttViewController")
+        print("Received Parameters MqttViewController: \(classicURL) - \(classicPort) - \(mqttUser) - \(mqttPassword) - \(mqttTopic) - \(classicName)")
+        self.buttonDeviceDescription.setTitle("Connecting to broker", for: .normal)
+        self.stageButton.setTitle("Loading Stage", for: .normal)
         
+        session.transport       = MQTTCFSocketTransport()
+        session.transport.host  = classicURL
+        session.transport.port  = UInt32(classicPort)
+        session.userName        = mqttUser //"urayoan.miranda@gmail.com"
+        session.password        = mqttPassword//"8d2176c3"
+        session.clientId        = "Classic_Monitor"
+        session.delegate        = self
+        connectDisconnect()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -91,36 +92,7 @@ class MqttViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
     }
     
     override var preferredStatusBarStyle : UIStatusBarStyle {
-        if kDebugLog { print("Prefered Barstatus Style") }
-        view.backgroundColor = UIColor(white: 0.1, alpha: 1)
-        //MARK: Power
-        gaugePowerView.ringBackgroundColor                  = .black
-        gaugePowerView.valueTextColor                       = .white
-        gaugePowerView.unitOfMeasurementTextColor           = UIColor(white: 0.7, alpha: 1)
-        gaugePowerView.setNeedsDisplay()
-        //MARK: Energy
-        gaugeEnergyView.ringBackgroundColor                 = .black
-        gaugeEnergyView.valueTextColor                      = .white
-        gaugeEnergyView.unitOfMeasurementTextColor          = UIColor(white: 0.7, alpha: 1)
-        gaugeEnergyView.setNeedsDisplay()
-        //MARK: Battery Volts
-        gaugeBatteryVoltsView.ringBackgroundColor           = .black
-        gaugeBatteryVoltsView.valueTextColor                = .white
-        gaugeBatteryVoltsView.unitOfMeasurementTextColor    = UIColor(white: 0.7, alpha: 1)
-        gaugeBatteryVoltsView.setNeedsDisplay()
-        
-        //MARK: Battery Amps
-        gaugeBatteryAmpsView.ringBackgroundColor            = .black
-        gaugeBatteryAmpsView.valueTextColor                 = .white
-        gaugeBatteryAmpsView.unitOfMeasurementTextColor     = UIColor(white: 0.7, alpha: 1)
-        gaugeBatteryAmpsView.setNeedsDisplay()
-        
-        //MARK: Input Volts
-        gaugeInputView.ringBackgroundColor                  = .black
-        gaugeInputView.valueTextColor                       = .white
-        gaugeInputView.unitOfMeasurementTextColor           = UIColor(white: 0.7, alpha: 1)
-        gaugeInputView.setNeedsDisplay()
-        configureGaugeViews()
+        print("Prefered Barstatus Style MqttViewController MqttViewController")
         return .lightContent
     }
     
@@ -299,10 +271,41 @@ class MqttViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
     
     func disconnectFromDevice() {
         if kDebugLog { print("Disconnect") }
+        connectDisconnect()
         invalidateTimer()
     }
     
     func configureGaugeViews() {
+        print("MQTT PAGE GAUGE VIEWS CONFIGURE")
+        view.backgroundColor = UIColor(white: 0.1, alpha: 1)
+        //MARK: Power
+        gaugePowerView.ringBackgroundColor = .black
+        gaugePowerView.valueTextColor = .white
+        gaugePowerView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
+        gaugePowerView.setNeedsDisplay()
+        //MARK: Energy
+        gaugeEnergyView.ringBackgroundColor = .black
+        gaugeEnergyView.valueTextColor = .white
+        gaugeEnergyView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
+        gaugeEnergyView.setNeedsDisplay()
+        //MARK: Battery Volts
+        gaugeBatteryVoltsView.ringBackgroundColor = .black
+        gaugeBatteryVoltsView.valueTextColor = .white
+        gaugeBatteryVoltsView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
+        gaugeBatteryVoltsView.setNeedsDisplay()
+        
+        //MARK: Battery Amps
+        gaugeBatteryAmpsView.ringBackgroundColor = .black
+        gaugeBatteryAmpsView.valueTextColor = .white
+        gaugeBatteryAmpsView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
+        gaugeBatteryAmpsView.setNeedsDisplay()
+        
+        //MARK: Input Volts
+        gaugeInputView.ringBackgroundColor = .black
+        gaugeInputView.valueTextColor = .white
+        gaugeInputView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
+        gaugeInputView.setNeedsDisplay()
+        
         //MARK: Configure Buttons
         buttonDeviceDescription.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 20) ?? UIFont.systemFont(ofSize: 20)
         buttonDeviceDescription.setTitleColor(UIColor(white: 0.7, alpha: 1), for: .normal)

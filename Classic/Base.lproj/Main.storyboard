@@ -130,11 +130,6 @@
                                     <outlet property="delegate" destination="QhX-jn-QHk" id="yrM-rt-tZD"/>
                                 </connections>
                             </searchBar>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CYu-ca-Zpt">
-                                <rect key="frame" x="34" y="51" width="44" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="DEMO"/>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Ydu-Db-XD2"/>
                         <constraints>
@@ -161,7 +156,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g5s-sV-tUu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-884" y="-72"/>
+            <point key="canvasLocation" x="28" y="-307"/>
         </scene>
         <!--Page View ControllerMQTT-->
         <scene sceneID="REQ-1J-LEU">
@@ -169,7 +164,7 @@
                 <pageViewController storyboardIdentifier="PageViewControllerMQTT" autoresizesArchivedViewToFullSize="NO" interfaceStyle="dark" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="4i2-QT-QYg" customClass="PageViewControllerMQTT" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UXY-Sm-6Ke" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="450" y="-750"/>
+            <point key="canvasLocation" x="1178" y="-750"/>
         </scene>
         <!--WizbangJR Readings-->
         <scene sceneID="0hU-If-ARu">
@@ -181,7 +176,7 @@
                         <subviews>
                             <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YTv-AY-uh2" customClass="GaugeCenterView" customModule="Classic_Monitor" customModuleProvider="target">
                                 <rect key="frame" x="32" y="145" width="310" height="310"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="valueTextColor">
@@ -192,11 +187,11 @@
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="svE-c4-lus" customClass="BatteryView" customModule="Classic_Monitor" customModuleProvider="target">
                                 <rect key="frame" x="42" y="602" width="291" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isVertical" value="NO"/>
                                     <userDefinedRuntimeAttribute type="number" keyPath="level">
-                                        <integer key="value" value="74"/>
+                                        <integer key="value" value="0"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="lowThreshold">
                                         <integer key="value" value="40"/>
@@ -210,20 +205,31 @@
                                     <userDefinedRuntimeAttribute type="color" keyPath="lowLevelColor">
                                         <color key="value" systemColor="systemRedColor"/>
                                     </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="noLevelColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="SOC" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WvC-rJ-KmE">
+                                <rect key="frame" x="16" y="531" width="343" height="21"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="25B-03-uLa"/>
                         <color key="backgroundColor" red="0.12165830280000001" green="0.12915611269999999" blue="0.1411797702" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </view>
                     <connections>
                         <outlet property="battery" destination="svE-c4-lus" id="qv2-zr-fAT"/>
+                        <outlet property="batterySOC" destination="WvC-rJ-KmE" id="voM-jD-61V"/>
                         <outlet property="gaugeWizbangJR" destination="YTv-AY-uh2" id="9Ag-Ex-gdZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IPg-qV-8UI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2657" y="-750"/>
+            <point key="canvasLocation" x="2656.8000000000002" y="-750"/>
         </scene>
         <!--Classic 250 Readings-->
         <scene sceneID="34t-ls-YO6">
@@ -351,7 +357,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1pT-kl-Tw3" sceneMemberID="firstResponder"/>
                 <exit id="nBf-Xy-X8T" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1884" y="-40"/>
+            <point key="canvasLocation" x="1884" y="-44"/>
         </scene>
         <!--Classic 250 MQTT Readings-->
         <scene sceneID="VeL-I6-5cV">

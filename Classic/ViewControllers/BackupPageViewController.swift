@@ -8,6 +8,7 @@
 ////https://spin.atomicobject.com/2015/12/23/swift-uipageviewcontroller-tutorial/
 //
 //import UIKit
+//import Foundation
 //
 //protocol PageViewControllerDelegate: class {
 //
@@ -96,25 +97,6 @@
 //            instantiateViewController(withIdentifier: name) as UIViewController
 //    }
 //
-//    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-//
-//        guard let viewControllerIndex = orderedViewControllers.firstIndex(of: viewController) else {
-//            return nil
-//        }
-//
-//        let previousIndex = viewControllerIndex - 1
-//
-//        guard previousIndex >= 0 else {
-//            return nil
-//        }
-//
-//        guard orderedViewControllers.count > previousIndex else {
-//            return nil
-//        }
-//
-//        return orderedViewControllers[previousIndex]
-//    }
-//
 //    /**
 //     Scrolls to the given 'viewController' page.
 //
@@ -141,30 +123,11 @@
 //            pageDelegate?.pageViewController(pageViewController: self, didUpdatePageIndex: index)
 //        }
 //    }
-//
-//    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-//
-//        guard let viewControllerIndex = orderedViewControllers.firstIndex(of: viewController) else {
-//            return nil
-//        }
-//
-//        let nextIndex = viewControllerIndex + 1
-//        let orderedViewControllersCount = orderedViewControllers.count
-//
-//        guard orderedViewControllersCount != nextIndex else {
-//            return nil
-//        }
-//
-//        guard orderedViewControllersCount > nextIndex else {
-//            return nil
-//        }
-//
-//        return orderedViewControllers[nextIndex]
-//    }
 //}
 //
 //// MARK: UIPageViewControllerDataSource
 //extension PageViewControllerMQTT: UIPageViewControllerDataSource {
+//    
 //    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
 //        guard let viewControllerIndex = orderedViewControllers.firstIndex(of: viewController) else {
 //            return nil
@@ -229,6 +192,5 @@
 //                            transitionCompleted completed: Bool) {
 //        notifyDelegateOfNewIndex()
 //    }
-//
 //}
 //

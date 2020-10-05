@@ -101,11 +101,13 @@ class ViewController: UIViewController, GaugeViewDelegate {
         gaugePowerView.valueTextColor = .white
         gaugePowerView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
         gaugePowerView.setNeedsDisplay()
+        
         //MARK: Energy
         gaugeEnergyView.ringBackgroundColor = .black
         gaugeEnergyView.valueTextColor = .white
         gaugeEnergyView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
         gaugeEnergyView.setNeedsDisplay()
+        
         //MARK: Battery Volts
         gaugeBatteryVoltsView.ringBackgroundColor = .black
         gaugeBatteryVoltsView.valueTextColor = .white
