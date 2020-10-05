@@ -14,7 +14,7 @@
 		65307385251E6BB4005949E2 /* WizbangJRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65307384251E6BB4005949E2 /* WizbangJRViewController.swift */; };
 		6546D2172527E95A00379578 /* BatteryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6546D2162527E95A00379578 /* BatteryView.swift */; };
 		654B1D572526904A00B38452 /* BatteryLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654B1D562526904A00B38452 /* BatteryLevelView.swift */; };
-		65528B3D25254D8F004CA8DB /* MqqtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65528B3C25254D8F004CA8DB /* MqqtViewController.swift */; };
+		65528B3D25254D8F004CA8DB /* MqttViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65528B3C25254D8F004CA8DB /* MqttViewController.swift */; };
 		655CC3A8250A5A9200A0D6D0 /* modbus-tcp.c in Sources */ = {isa = PBXBuildFile; fileRef = 655CC39F250A5A9200A0D6D0 /* modbus-tcp.c */; };
 		655CC3A9250A5A9200A0D6D0 /* modbus-version.h.in in Resources */ = {isa = PBXBuildFile; fileRef = 655CC3A1250A5A9200A0D6D0 /* modbus-version.h.in */; };
 		655CC3AA250A5A9200A0D6D0 /* modbus-rtu.c in Sources */ = {isa = PBXBuildFile; fileRef = 655CC3A4250A5A9200A0D6D0 /* modbus-rtu.c */; };
@@ -38,6 +38,7 @@
 		65A04DC52513941400E9ABDB /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A04DC42513941400E9ABDB /* DataManager.swift */; };
 		65A3887E2512A45B00379D78 /* ClassicData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 65A3887C2512A45B00379D78 /* ClassicData.xcdatamodeld */; };
 		65B44D412509ACEE0079A3C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65B44D402509ACEE0079A3C8 /* LaunchScreen.storyboard */; };
+		65BFE302252B562E00F108AA /* BackupPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BFE301252B562E00F108AA /* BackupPageViewController.swift */; };
 		65DA6786251C129000C4962E /* MQTTDataInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DA6785251C129000C4962E /* MQTTDataInfo.swift */; };
 		A4F78B4298D572731A394381 /* Pods_Classic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA99D76AF696B0065EA3DE99 /* Pods_Classic.framework */; };
 /* End PBXBuildFile section */
@@ -51,7 +52,7 @@
 		65307384251E6BB4005949E2 /* WizbangJRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WizbangJRViewController.swift; sourceTree = "<group>"; };
 		6546D2162527E95A00379578 /* BatteryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryView.swift; sourceTree = "<group>"; };
 		654B1D562526904A00B38452 /* BatteryLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryLevelView.swift; sourceTree = "<group>"; };
-		65528B3C25254D8F004CA8DB /* MqqtViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MqqtViewController.swift; sourceTree = "<group>"; };
+		65528B3C25254D8F004CA8DB /* MqttViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MqttViewController.swift; sourceTree = "<group>"; };
 		655536892508597700B7DE1B /* Classic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Classic.entitlements; sourceTree = "<group>"; };
 		655CC39D250A5A9100A0D6D0 /* modbus-rtu-private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-rtu-private.h"; sourceTree = "<group>"; };
 		655CC39E250A5A9100A0D6D0 /* modbus-tcp-private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-tcp-private.h"; sourceTree = "<group>"; };
@@ -87,6 +88,7 @@
 		65A04DC42513941400E9ABDB /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		65A3887D2512A45B00379D78 /* ClassicData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClassicData.xcdatamodel; sourceTree = "<group>"; };
 		65B44D402509ACEE0079A3C8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		65BFE301252B562E00F108AA /* BackupPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupPageViewController.swift; sourceTree = "<group>"; };
 		65DA6785251C129000C4962E /* MQTTDataInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTDataInfo.swift; sourceTree = "<group>"; };
 		DA99D76AF696B0065EA3DE99 /* Pods_Classic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Classic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF6CFEDBAC207EAB6F59AD3B /* Pods-Classic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Classic.release.xcconfig"; path = "Target Support Files/Pods-Classic/Pods-Classic.release.xcconfig"; sourceTree = "<group>"; };
@@ -214,7 +216,8 @@
 				658D4BB025279B22008C874A /* BeforeCoreData.swift */,
 				6513E8A2251AE0DF00C77214 /* PageViewControllerMQTT.swift */,
 				65307384251E6BB4005949E2 /* WizbangJRViewController.swift */,
-				65528B3C25254D8F004CA8DB /* MqqtViewController.swift */,
+				65528B3C25254D8F004CA8DB /* MqttViewController.swift */,
+				65BFE301252B562E00F108AA /* BackupPageViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -377,7 +380,7 @@
 				658EC249250CED4A00F1ACAF /* Signal.swift in Sources */,
 				65A3887E2512A45B00379D78 /* ClassicData.xcdatamodeld in Sources */,
 				655CC3AB250A5A9200A0D6D0 /* modbus-data.c in Sources */,
-				65528B3D25254D8F004CA8DB /* MqqtViewController.swift in Sources */,
+				65528B3D25254D8F004CA8DB /* MqttViewController.swift in Sources */,
 				658EB55C250AF5D20071D8FA /* Reachability.swift in Sources */,
 				657A8D3A2506AE4B006B2BD0 /* ViewController.swift in Sources */,
 				6546D2172527E95A00379578 /* BatteryView.swift in Sources */,
@@ -396,6 +399,7 @@
 				657A8D362506AE4B006B2BD0 /* AppDelegate.swift in Sources */,
 				65307382251E6965005949E2 /* GaugeCenterView.swift in Sources */,
 				658D4BB125279B22008C874A /* BeforeCoreData.swift in Sources */,
+				65BFE302252B562E00F108AA /* BackupPageViewController.swift in Sources */,
 				657A8D382506AE4B006B2BD0 /* SceneDelegate.swift in Sources */,
 				657A8D642506B2B0006B2BD0 /* SwiftLibModbus.swift in Sources */,
 			);

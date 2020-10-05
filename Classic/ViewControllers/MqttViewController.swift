@@ -10,7 +10,7 @@
 import UIKit
 import MQTTClient
 
-class MqqtViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelegate  {
+class MqttViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelegate {
     
     @IBOutlet weak var gaugePowerView:          GaugeView!
     @IBOutlet weak var gaugeEnergyView:         GaugeView!
@@ -45,8 +45,8 @@ class MqqtViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Recived Parameters: \(classicURL) - \(classicPort) - \(mqttUser) - \(mqttPassword) - \(mqttTopic) - \(classicName)")
-        configureGaugeViews()
+        print("VEIEW DID LOAD MqttViewController")
+        
         session.transport       = MQTTCFSocketTransport()
         session.transport.host  = classicURL
         session.transport.port  = UInt32(classicPort)
@@ -54,14 +54,16 @@ class MqqtViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
         session.password        = mqttPassword//"8d2176c3"
         session.clientId        = "Classic_Monitor"
         session.delegate        = self
+        //stopNotifier()
+        //setupReachability(classicURL as String, useClosures: true)
+        //startNotifier()
+        print("Recived Parameters MqttViewController: \(classicURL) - \(classicPort) - \(mqttUser) - \(mqttPassword) - \(mqttTopic) - \(classicName)")
+        //MARK: First Connect to server
+        connectDisconnect()
         
         //MARK: To check if app goes to background
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self,selector: #selector(appMovedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
-        
-        //MARK: First Connect to server
-        connectDisconnect()
-        //publish()
     }
     
     @objc func appMovedToBackground() {
@@ -71,10 +73,9 @@ class MqqtViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if kDebugLog{ print("viewWillAppear") }
-        //stopNotifier()
-        //setupReachability(classicURL as String, useClosures: true)
-        //startNotifier()
+        if kDebugLog{ print("viewWillAppear MqttViewController") }
+        print("viewWillAppear MqttViewController")
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -93,33 +94,33 @@ class MqqtViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
         if kDebugLog { print("Prefered Barstatus Style") }
         view.backgroundColor = UIColor(white: 0.1, alpha: 1)
         //MARK: Power
-        gaugePowerView.ringBackgroundColor = .black
-        gaugePowerView.valueTextColor = .white
-        gaugePowerView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
+        gaugePowerView.ringBackgroundColor                  = .black
+        gaugePowerView.valueTextColor                       = .white
+        gaugePowerView.unitOfMeasurementTextColor           = UIColor(white: 0.7, alpha: 1)
         gaugePowerView.setNeedsDisplay()
         //MARK: Energy
-        gaugeEnergyView.ringBackgroundColor = .black
-        gaugeEnergyView.valueTextColor = .white
-        gaugeEnergyView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
+        gaugeEnergyView.ringBackgroundColor                 = .black
+        gaugeEnergyView.valueTextColor                      = .white
+        gaugeEnergyView.unitOfMeasurementTextColor          = UIColor(white: 0.7, alpha: 1)
         gaugeEnergyView.setNeedsDisplay()
         //MARK: Battery Volts
-        gaugeBatteryVoltsView.ringBackgroundColor = .black
-        gaugeBatteryVoltsView.valueTextColor = .white
-        gaugeBatteryVoltsView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
+        gaugeBatteryVoltsView.ringBackgroundColor           = .black
+        gaugeBatteryVoltsView.valueTextColor                = .white
+        gaugeBatteryVoltsView.unitOfMeasurementTextColor    = UIColor(white: 0.7, alpha: 1)
         gaugeBatteryVoltsView.setNeedsDisplay()
         
         //MARK: Battery Amps
-        gaugeBatteryAmpsView.ringBackgroundColor = .black
-        gaugeBatteryAmpsView.valueTextColor = .white
-        gaugeBatteryAmpsView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
+        gaugeBatteryAmpsView.ringBackgroundColor            = .black
+        gaugeBatteryAmpsView.valueTextColor                 = .white
+        gaugeBatteryAmpsView.unitOfMeasurementTextColor     = UIColor(white: 0.7, alpha: 1)
         gaugeBatteryAmpsView.setNeedsDisplay()
         
         //MARK: Input Volts
-        gaugeInputView.ringBackgroundColor = .black
-        gaugeInputView.valueTextColor = .white
-        gaugeInputView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
+        gaugeInputView.ringBackgroundColor                  = .black
+        gaugeInputView.valueTextColor                       = .white
+        gaugeInputView.unitOfMeasurementTextColor           = UIColor(white: 0.7, alpha: 1)
         gaugeInputView.setNeedsDisplay()
-        
+        configureGaugeViews()
         return .lightContent
     }
     

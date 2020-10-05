@@ -23,12 +23,17 @@ class WizbangJRViewController: UIViewController, GaugeCenterViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        createTimer()
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        createTimer()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        print("viewWillDisappear WizbangJRViewController")
         invalidateTimer()
     }
     

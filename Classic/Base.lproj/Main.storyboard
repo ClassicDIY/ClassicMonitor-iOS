@@ -156,25 +156,25 @@
                         <outlet property="searchController" destination="YYv-ac-0hQ" id="uNE-Ve-w4d"/>
                         <outlet property="tableView" destination="sdf-2B-Vpx" id="9Bq-Gj-gxx"/>
                         <segue destination="aYZ-oX-wru" kind="presentation" identifier="SelectedSegue" modalPresentationStyle="fullScreen" id="mCg-Pa-TSK"/>
-                        <segue destination="4i2-QT-QYg" kind="presentation" identifier="SelectedSegueMQTT" modalPresentationStyle="fullScreen" id="FTe-vG-s45"/>
+                        <segue destination="4i2-QT-QYg" kind="presentation" identifier="SelectedSegueMQTT" modalPresentationStyle="fullScreen" id="Bng-FJ-YQd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g5s-sV-tUu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="294" y="-7"/>
+            <point key="canvasLocation" x="-884" y="-72"/>
         </scene>
         <!--Page View ControllerMQTT-->
         <scene sceneID="REQ-1J-LEU">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" interfaceStyle="dark" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="4i2-QT-QYg" customClass="PageViewControllerMQTT" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController"/>
+                <pageViewController storyboardIdentifier="PageViewControllerMQTT" autoresizesArchivedViewToFullSize="NO" interfaceStyle="dark" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="4i2-QT-QYg" customClass="PageViewControllerMQTT" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UXY-Sm-6Ke" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1177" y="-683"/>
+            <point key="canvasLocation" x="450" y="-750"/>
         </scene>
         <!--WizbangJR Readings-->
         <scene sceneID="0hU-If-ARu">
             <objects>
-                <viewController storyboardIdentifier="RedViewController" id="sd2-qE-60F" userLabel="WizbangJR Readings" customClass="WizbangJRViewController" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WizbangJRViewController" id="sd2-qE-60F" userLabel="WizbangJR Readings" customClass="WizbangJRViewController" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="JeP-Ia-ff0">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -223,7 +223,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IPg-qV-8UI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2548" y="-683"/>
+            <point key="canvasLocation" x="2657" y="-750"/>
         </scene>
         <!--Classic 250 Readings-->
         <scene sceneID="34t-ls-YO6">
@@ -351,12 +351,12 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1pT-kl-Tw3" sceneMemberID="firstResponder"/>
                 <exit id="nBf-Xy-X8T" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1176.8" y="-7.389162561576355"/>
+            <point key="canvasLocation" x="1884" y="-40"/>
         </scene>
         <!--Classic 250 MQTT Readings-->
         <scene sceneID="VeL-I6-5cV">
             <objects>
-                <viewController storyboardIdentifier="GreenViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Tt0-x3-B68" userLabel="Classic 250 MQTT Readings" customClass="MqqtViewController" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MqttViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Tt0-x3-B68" userLabel="Classic 250 MQTT Readings" customClass="MqttViewController" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="Ie6-QS-Fij">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -479,7 +479,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="60E-7i-QpY" sceneMemberID="firstResponder"/>
                 <exit id="6OC-FX-X5U" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1844" y="-683"/>
+            <point key="canvasLocation" x="1884" y="-750"/>
         </scene>
     </scenes>
     <resources>
