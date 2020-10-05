@@ -8,6 +8,7 @@
 //https://spin.atomicobject.com/2015/12/23/swift-uipageviewcontroller-tutorial/
 
 import UIKit
+import Foundation
 
 protocol PageViewControllerDelegate: class {
 
@@ -191,6 +192,5 @@ extension PageViewControllerMQTT: UIPageViewControllerDelegate {
                             transitionCompleted completed: Bool) {
         notifyDelegateOfNewIndex()
     }
-
 }
 
