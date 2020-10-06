@@ -10,7 +10,7 @@
 import UIKit
 import MQTTClient
 
-class MqttViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelegate {
+class MqttViewController: UIViewController, GaugeViewDelegate {
     
     @IBOutlet weak var gaugePowerView:          GaugeView!
     @IBOutlet weak var gaugeEnergyView:         GaugeView!
@@ -94,111 +94,6 @@ class MqttViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
         return .lightContent
     }
     
-    
-    func handleEvent(_ session: MQTTSession!, event eventCode: MQTTSessionEvent, error: Error!) {
-        switch eventCode {
-        case .connected:
-            //self.status.text = "Connected"
-            print("MQTT Connected")
-            publish()
-            suscribe()
-        case .connectionClosed:
-            //self.status.text = "Closed"
-            print("MQTT Closed")
-            unSuscribe()
-        case .connectionClosedByBroker:
-            //self.status.text = "Closed by Broker"
-            print("MQTT Closed by Broker")
-        case .connectionError:
-            //self.status.text = "Error"
-            print("MQTT Error")
-        case .connectionRefused:
-            //self.status.text = "Refused"
-            print("MQTT Refused")
-        case .protocolError:
-            //self.status.text = "Protocol Error"
-            print("MQTT Protocol Error")
-        @unknown default:
-            print("MQTT Unkown")
-            return
-        }
-    }
-    
-    func newMessage(_ session: MQTTSession!, data: Data!, onTopic topic: String!, qos: MQTTQosLevel, retained: Bool, mid: UInt32) {
-        if (data != nil && topic != nil) {
-            //let str1 = String(decoding: data, as: UTF8.self)
-            //let str2 = topic
-            //print("DATAURA: \(str1)")
-            //print("TOPICURA: \(String(describing: str2))")
-            
-            if (topic.contains("info")) {
-                let decoder = JSONDecoder()
-                do {
-                    let info = try decoder.decode(MQTTDataInfo.self, from: data)
-                    print("INFO: \(info)")
-                    setValuesInfo(info: info)
-                } catch {
-                    debugPrint("Error in JSON Parsing")
-                }
-                return
-            } else if (topic.contains("readings")) {
-                let decoder = JSONDecoder()
-                do {
-                    let readings = try decoder.decode(MQTTDataReading.self, from: data)
-                    print("READINGS: \(readings)")
-                    setValues(readings: readings)
-                } catch {
-                    debugPrint("Error in JSON Parsing")
-                }
-                return
-            } else if (topic.contains("LWT")) {
-                
-            } else if (topic.contains("cmdn")) {
-                
-            }
-        }
-    }
-    
-    func subAckReceived(_ session: MQTTSession!, msgID: UInt16, grantedQoss qoss: [NSNumber]!) {
-        print("Subscribed")
-    }
-    
-    func unsubAckReceived(_ session: MQTTSession!, msgID: UInt16) {
-        print("Unsubscribed")
-    }
-    
-    func suscribe() {
-        session.subscribe(toTopic: "\(mqttTopic)#", at: .atMostOnce)
-    }
-    
-    func unSuscribe() {
-        session.unsubscribeTopic("\(mqttTopic)#")
-    }
-    
-    @objc func publish() {
-        print("PUBLISH TO TOPIC: \(mqttTopic)\(classicName)/cmnd")
-        self.session.publishData(("{\"wake\"}").data(using: String.Encoding.utf8, allowLossyConversion: false),
-                                 onTopic: "\(mqttTopic)\(classicName)/cmnd",
-                                 retain: false,
-                                 qos: .atMostOnce)
-    }
-    
-    func connectDisconnect() {
-        switch self.session.status {
-        case .connected:
-            //MARK: Desconecta
-            self.session.disconnect()
-            self.invalidateTimer()
-        case .closed, .created, .error:
-            //MARK: Trata de conectarte
-            self.session.connect()
-            self.publish()
-            self.createTimer()
-        default:
-            return
-        }
-    }
-    
     func ringStokeColor(gaugeView: GaugeView, value: Double) -> UIColor {
         if value >= gaugeView.limitValue {
             return UIColor(red: 1, green: 59.0/255, blue: 48.0/255, alpha: 1)
@@ -207,76 +102,6 @@ class MqttViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
         //    return UIColor(red: 76.0/255, green: 217.0/255, blue: 100.0/255, alpha: 1)
         //}
         return UIColor(red: 11.0/255, green: 150.0/255, blue: 246.0/255, alpha: 1)
-    }
-    
-    func createTimer() {
-        // 1
-        if timer == nil {
-            // 2
-            timer = Timer.scheduledTimer(timeInterval: 55.0,
-                                         target: self,
-                                         selector: #selector(publish),
-                                         userInfo: nil,
-                                         repeats: true)
-        } else {
-            invalidateTimer()
-            timer = Timer.scheduledTimer(timeInterval: 55.0,
-                                         target: self,
-                                         selector: #selector(publish),
-                                         userInfo: nil,
-                                         repeats: true)
-        }
-    }
-    
-    func setValues(readings: MQTTDataReading) {
-        print("SET VALUES TO GAUGE \(readings)")
-        self.gaugeBatteryVoltsView.value    = Double(readings.BatVoltage!)
-        self.gaugeInputView.value           = Double(readings.PVVoltage!)
-        self.gaugeBatteryAmpsView.value     = Double(readings.BatCurrent!)
-        self.gaugeEnergyView.value          = Double(readings.EnergyToday!)
-        //MARK: Energy Today
-        self.gaugePowerView.value           = Double(readings.Power!)
-        
-        switch (readings.ChargeState) {
-        case -1:
-            self.stageButton.setTitle("", for: .normal)
-        case 0:
-            self.stageButton.setTitle("Resting", for: .normal)
-        case 3:
-            self.stageButton.setTitle("Absorb", for: .normal)
-        case 4:
-            self.stageButton.setTitle("Bulk MPPT", for: .normal)
-        case 5:
-            self.stageButton.setTitle("Float", for: .normal)
-        case 6:
-            self.stageButton.setTitle("Float MPPT", for: .normal)
-        case 7:
-            self.stageButton.setTitle("Equalized", for: .normal)
-        case 10:
-            self.stageButton.setTitle("HyperVoc", for: .normal)
-        case 18:
-            self.stageButton.setTitle("Equalizing", for: .normal)
-        default:
-            if kDebugLog { print("Not Recognized") }
-            self.stageButton.setTitle("Unknown", for: .normal)
-        }
-    }
-    
-    func setValuesInfo(info: MQTTDataInfo) {
-        self.buttonDeviceDescription.setTitle(info.model, for: .normal)
-    }
-    
-    func invalidateTimer() {
-        if timer != nil {
-            timer?.invalidate()
-            timer = nil
-        }
-    }
-    
-    func disconnectFromDevice() {
-        if kDebugLog { print("Disconnect") }
-        connectDisconnect()
-        invalidateTimer()
     }
     
     func configureGaugeViews() {
@@ -406,5 +231,182 @@ class MqttViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
         gaugeInputView.unitOfMeasurement = "Volts"
         
         //getChargerConnectValues()
+    }
+}
+
+
+extension MqttViewController: MQTTSessionDelegate {
+    func handleEvent(_ session: MQTTSession!, event eventCode: MQTTSessionEvent, error: Error!) {
+        switch eventCode {
+        case .connected:
+            //self.status.text = "Connected"
+            print("MQTT Connected")
+            publish()
+            suscribe()
+        case .connectionClosed:
+            //self.status.text = "Closed"
+            print("MQTT Closed")
+            unSuscribe()
+        case .connectionClosedByBroker:
+            //self.status.text = "Closed by Broker"
+            print("MQTT Closed by Broker")
+        case .connectionError:
+            //self.status.text = "Error"
+            print("MQTT Error")
+        case .connectionRefused:
+            //self.status.text = "Refused"
+            print("MQTT Refused")
+        case .protocolError:
+            //self.status.text = "Protocol Error"
+            print("MQTT Protocol Error")
+        @unknown default:
+            print("MQTT Unkown")
+            return
+        }
+    }
+    
+    func newMessage(_ session: MQTTSession!, data: Data!, onTopic topic: String!, qos: MQTTQosLevel, retained: Bool, mid: UInt32) {
+        if (data != nil && topic != nil) {
+            //let str1 = String(decoding: data, as: UTF8.self)
+            //let str2 = topic
+            //print("DATAURA: \(str1)")
+            //print("TOPICURA: \(String(describing: str2))")
+            
+            if (topic.contains("info")) {
+                let decoder = JSONDecoder()
+                do {
+                    let info = try decoder.decode(MQTTDataInfo.self, from: data)
+                    print("INFO: \(info)")
+                    setValuesInfo(info: info)
+                } catch {
+                    debugPrint("Error in JSON Parsing")
+                }
+                return
+            } else if (topic.contains("readings")) {
+                let decoder = JSONDecoder()
+                do {
+                    let readings = try decoder.decode(MQTTDataReading.self, from: data)
+                    print("READINGS: \(readings)")
+                    setValues(readings: readings)
+                } catch {
+                    debugPrint("Error in JSON Parsing")
+                }
+                return
+            } else if (topic.contains("LWT")) {
+                
+            } else if (topic.contains("cmdn")) {
+                
+            }
+        }
+    }
+    
+    func subAckReceived(_ session: MQTTSession!, msgID: UInt16, grantedQoss qoss: [NSNumber]!) {
+        print("Subscribed")
+    }
+    
+    func unsubAckReceived(_ session: MQTTSession!, msgID: UInt16) {
+        print("Unsubscribed")
+    }
+    
+    func suscribe() {
+        session.subscribe(toTopic: "\(mqttTopic)#", at: .atMostOnce)
+    }
+    
+    func unSuscribe() {
+        session.unsubscribeTopic("\(mqttTopic)#")
+    }
+    
+    @objc func publish() {
+        print("PUBLISH TO TOPIC: \(mqttTopic)\(classicName)/cmnd")
+        self.session.publishData(("{\"wake\"}").data(using: String.Encoding.utf8, allowLossyConversion: false),
+                                 onTopic: "\(mqttTopic)\(classicName)/cmnd",
+                                 retain: false,
+                                 qos: .atMostOnce)
+    }
+    
+    func connectDisconnect() {
+        switch self.session.status {
+        case .connected:
+            //MARK: Desconecta
+            self.session.disconnect()
+            self.invalidateTimer()
+        case .closed, .created, .error:
+            //MARK: Trata de conectarte
+            self.session.connect()
+            self.publish()
+            self.createTimer()
+        default:
+            return
+        }
+    }
+    
+    func setValues(readings: MQTTDataReading) {
+        print("SET VALUES TO GAUGE \(readings)")
+        self.gaugeBatteryVoltsView.value    = Double(readings.BatVoltage!)
+        self.gaugeInputView.value           = Double(readings.PVVoltage!)
+        self.gaugeBatteryAmpsView.value     = Double(readings.BatCurrent!)
+        self.gaugeEnergyView.value          = Double(readings.EnergyToday!)
+        //MARK: Energy Today
+        self.gaugePowerView.value           = Double(readings.Power!)
+        
+        switch (readings.ChargeState) {
+        case -1:
+            self.stageButton.setTitle("", for: .normal)
+        case 0:
+            self.stageButton.setTitle("Resting", for: .normal)
+        case 3:
+            self.stageButton.setTitle("Absorb", for: .normal)
+        case 4:
+            self.stageButton.setTitle("Bulk MPPT", for: .normal)
+        case 5:
+            self.stageButton.setTitle("Float", for: .normal)
+        case 6:
+            self.stageButton.setTitle("Float MPPT", for: .normal)
+        case 7:
+            self.stageButton.setTitle("Equalized", for: .normal)
+        case 10:
+            self.stageButton.setTitle("HyperVoc", for: .normal)
+        case 18:
+            self.stageButton.setTitle("Equalizing", for: .normal)
+        default:
+            if kDebugLog { print("Not Recognized") }
+            self.stageButton.setTitle("Unknown", for: .normal)
+        }
+    }
+    
+    func setValuesInfo(info: MQTTDataInfo) {
+        self.buttonDeviceDescription.setTitle(info.model, for: .normal)
+    }
+    
+    func createTimer() {
+        // 1
+        if timer == nil {
+            // 2
+            timer = Timer.scheduledTimer(timeInterval: 55.0,
+                                         target: self,
+                                         selector: #selector(publish),
+                                         userInfo: nil,
+                                         repeats: true)
+        } else {
+            invalidateTimer()
+            timer = Timer.scheduledTimer(timeInterval: 55.0,
+                                         target: self,
+                                         selector: #selector(publish),
+                                         userInfo: nil,
+                                         repeats: true)
+        }
+    }
+    
+    func invalidateTimer() {
+        if timer != nil {
+            timer?.invalidate()
+            timer = nil
+        }
+    }
+    
+    func disconnectFromDevice() {
+        if kDebugLog { print("Disconnect") }
+        connectDisconnect()
+        invalidateTimer()
     }
 }

@@ -99,52 +99,6 @@ class WizbangJRViewController: UIViewController, GaugeCenterViewDelegate {
         gaugeWizbangJR.unitOfMeasurement        = "Amps"
         
     }
-    
-    func createTimer() {
-        // 1
-        if timer == nil {
-            // 2
-            timer = Timer.scheduledTimer(timeInterval: 55.0,
-                                         target: self,
-                                         selector: #selector(publish),
-                                         userInfo: nil,
-                                         repeats: true)
-        } else {
-            invalidateTimer()
-            timer = Timer.scheduledTimer(timeInterval: 55.0,
-                                         target: self,
-                                         selector: #selector(publish),
-                                         userInfo: nil,
-                                         repeats: true)
-        }
-    }
-    
-    func invalidateTimer() {
-        if timer != nil {
-            timer?.invalidate()
-            timer = nil
-        }
-    }
-    
-    func disconnectFromDevice() {
-        if kDebugLog { print("Disconnect") }
-        connectDisconnect()
-        invalidateTimer()
-    }
-    
-    func setValues(readings: MQTTDataReading) {
-        print("SET VALUES TO GAUGE \(readings)")
-        let batteryCurrent  = readings.WhizbangBatCurrent
-        //let batteryVolts    = readings.BatVoltage
-        //self.gaugeWizbangJR.value   = Double(batteryCurrent!) * Double(batteryVolts!)
-        self.gaugeWizbangJR.value   = Double(batteryCurrent!)
-        self.battery.level          = readings.SOC!
-        self.batterySOC.text        = "\(readings.SOC ?? 0)%"
-    }
-    
-    func setValuesInfo(info: MQTTDataInfo) {
-        //self.buttonDeviceDescription.setTitle(info.model, for: .normal)
-    }
 }
 
 extension WizbangJRViewController: MQTTSessionDelegate {
@@ -250,5 +204,51 @@ extension WizbangJRViewController: MQTTSessionDelegate {
         default:
             return
         }
+    }
+    
+    func createTimer() {
+        // 1
+        if timer == nil {
+            // 2
+            timer = Timer.scheduledTimer(timeInterval: 55.0,
+                                         target: self,
+                                         selector: #selector(publish),
+                                         userInfo: nil,
+                                         repeats: true)
+        } else {
+            invalidateTimer()
+            timer = Timer.scheduledTimer(timeInterval: 55.0,
+                                         target: self,
+                                         selector: #selector(publish),
+                                         userInfo: nil,
+                                         repeats: true)
+        }
+    }
+    
+    func invalidateTimer() {
+        if timer != nil {
+            timer?.invalidate()
+            timer = nil
+        }
+    }
+    
+    func disconnectFromDevice() {
+        if kDebugLog { print("Disconnect") }
+        connectDisconnect()
+        invalidateTimer()
+    }
+    
+    func setValues(readings: MQTTDataReading) {
+        print("SET VALUES TO GAUGE \(readings)")
+        let batteryCurrent  = readings.WhizbangBatCurrent
+        //let batteryVolts    = readings.BatVoltage
+        //self.gaugeWizbangJR.value   = Double(batteryCurrent!) * Double(batteryVolts!)
+        self.gaugeWizbangJR.value   = Double(batteryCurrent!)
+        self.battery.level          = readings.SOC!
+        self.batterySOC.text        = "\(readings.SOC ?? 0)%"
+    }
+    
+    func setValuesInfo(info: MQTTDataInfo) {
+        //self.buttonDeviceDescription.setTitle(info.model, for: .normal)
     }
 }
