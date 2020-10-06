@@ -51,37 +51,37 @@ open class GaugeCenterView: UIView {
     
     
     /// The number of divisions.
-    @IBInspectable public var numOfDivisions: Int = 6
+    @IBInspectable public var numOfDivisions: Int           = 6
     
     /// The number of subdivisions.
-    @IBInspectable public var numOfSubDivisions: Int = 10
+    @IBInspectable public var numOfSubDivisions: Int        = 10
     
     /// The thickness of the ring.
-    @IBInspectable public var ringThickness: Double = 15
+    @IBInspectable public var ringThickness: Double         = 15
     
     /// The background color of the ring.
-    @IBInspectable public var ringBackgroundColor: UIColor = UIColor.black
+    @IBInspectable public var ringBackgroundColor: UIColor  = UIColor.black
     
     /// The divisions radius.
-    @IBInspectable public var divisionsRadius: Double = 1.25
+    @IBInspectable public var divisionsRadius: Double       = 1.25
     
     /// The divisions color.
-    @IBInspectable public var divisionsColor: UIColor = UIColor(white: 0.5, alpha: 1)
+    @IBInspectable public var divisionsColor: UIColor       = UIColor(white: 0.5, alpha: 1)
     
     /// The padding between ring and divisions.
-    @IBInspectable public var divisionsPadding: Double = 12
+    @IBInspectable public var divisionsPadding: Double      = 12
     
     /// The subdivisions radius.
-    @IBInspectable public var subDivisionsRadius: Double = 0.75
+    @IBInspectable public var subDivisionsRadius: Double    = 0.75
     
     /// The subdivisions color.
-    @IBInspectable public var subDivisionsColor: UIColor = UIColor(white: 0.5, alpha: 0.5)
+    @IBInspectable public var subDivisionsColor: UIColor    = UIColor(white: 0.5, alpha: 0.5)
     
     /// A boolean indicates whether to show limit dot.
-    @IBInspectable public var showLimitDot: Bool = true
+    @IBInspectable public var showLimitDot: Bool            = true
     
     /// The radius of limit dot.
-    @IBInspectable public var limitDotRadius: Double = 2
+    @IBInspectable public var limitDotRadius: Double        = 2
     
     /// The color of limit dot.
     @IBInspectable public var limitDotColor: UIColor = .red
@@ -240,13 +240,21 @@ open class GaugeCenterView: UIView {
             layer.addSublayer(progressLayer)
         }
         var smoothedPath: UIBezierPath?
-        if (value >= 0) {
+        if (value > 0) {
             //print("Value mayor que cero \(value)")
             smoothedPath = UIBezierPath(arcCenter: progressLayer.position,
                                             radius: CGFloat(ringRadius),
                                             startAngle: CGFloat(centerAngle),
                                             endAngle: CGFloat(endAngle),
                                             clockwise: true)
+        }
+        else if (value == 0) {
+            //print("Value menor que cero \(value)")
+            smoothedPath = UIBezierPath(arcCenter: progressLayer.position,
+                                            radius: CGFloat(ringRadius),
+                                            startAngle: CGFloat(centerAngle),
+                                            endAngle: CGFloat(centerAngle),
+                                            clockwise: false)
         }
         else if (value < 0 ) {
             //print("Value menor que cero \(value)")

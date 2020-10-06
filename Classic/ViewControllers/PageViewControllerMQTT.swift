@@ -52,12 +52,13 @@ class PageViewControllerMQTT: UIPageViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Recived Parameters PageViewControllerMQTT: \(classicURL) - \(classicPort) - \(mqttUser) - \(mqttPassword) - \(mqttTopic) - \(classicName)")
-        dataSource  = self
-        delegate    = self
+        print("Received Parameters PageViewControllerMQTT: \(classicURL) - \(classicPort) - \(mqttUser) - \(mqttPassword) - \(mqttTopic) - \(classicName)")
+        dataSource              = self
+        delegate                = self
         
-        let firstVC = storyboard?.instantiateViewController(withIdentifier: "MqttViewController") as! MqttViewController
-        let secondVC = storyboard?.instantiateViewController(withIdentifier: "WizbangJRViewController") as! WizbangJRViewController
+        let firstVC             = storyboard?.instantiateViewController(withIdentifier: "MqttViewController") as! MqttViewController
+        let secondVC            = storyboard?.instantiateViewController(withIdentifier: "WizbangJRViewController") as! WizbangJRViewController
+        let thirdVC             = storyboard?.instantiateViewController(withIdentifier: "ConsumptionViewController") as! ConsumptionViewController
         
         //MARK: Parameters set here to child view
         firstVC.classicURL      = self.classicURL
@@ -75,8 +76,17 @@ class PageViewControllerMQTT: UIPageViewController {
         secondVC.mqttTopic      = self.mqttTopic
         secondVC.classicName    = self.classicName
         
+        //MARK: Parameters set here to child view
+        thirdVC.classicURL     = self.classicURL
+        thirdVC.classicPort    = self.classicPort
+        thirdVC.mqttUser       = self.mqttUser
+        thirdVC.mqttPassword   = self.mqttPassword
+        thirdVC.mqttTopic      = self.mqttTopic
+        thirdVC.classicName    = self.classicName
+        
         orderedViewControllers.append(firstVC)
         orderedViewControllers.append(secondVC)
+        orderedViewControllers.append(thirdVC)
         
         if let initialViewController = orderedViewControllers.first {
             scrollToViewController(viewController: initialViewController)
@@ -98,6 +108,7 @@ class PageViewControllerMQTT: UIPageViewController {
         pageDelegate?.pageViewController(pageViewController: self,didUpdatePageCount: orderedViewControllers.count)
     }
     
+    
     override var preferredStatusBarStyle : UIStatusBarStyle {
         print("Prefered Barstatus Style")
         view.backgroundColor = UIColor(white: 0.1, alpha: 1)
@@ -114,11 +125,6 @@ class PageViewControllerMQTT: UIPageViewController {
             }
         }
     }
-    
-//    private func newViewController(name: String) -> UIViewController {
-//        return UIStoryboard(name: "Main", bundle: nil) .
-//            instantiateViewController(withIdentifier: name) as UIViewController
-//    }
     
     /**
      Scrolls to the given 'viewController' page.

@@ -32,9 +32,7 @@ class MqttViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
     var classicName: String     = ""
     
     //var reachability: Reachability?
-    
-    private var session = MQTTSession()!
-    private var subscribed = false
+    private var session         = MQTTSession()!
     
     convenience init() {
         self.init()
@@ -66,7 +64,7 @@ class MqttViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
         super.viewWillAppear(animated)
         if kDebugLog{ print("viewWillAppear MqttViewController") }
         print("Received Parameters MqttViewController: \(classicURL) - \(classicPort) - \(mqttUser) - \(mqttPassword) - \(mqttTopic) - \(classicName)")
-        self.buttonDeviceDescription.setTitle("Connecting to broker", for: .normal)
+        self.buttonDeviceDescription.setTitle("Connecting to Broker", for: .normal)
         self.stageButton.setTitle("Loading Stage", for: .normal)
         
         session.transport       = MQTTCFSocketTransport()
@@ -103,11 +101,11 @@ class MqttViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
             //self.status.text = "Connected"
             print("MQTT Connected")
             publish()
-            subscribeUnsubscribe()
+            suscribe()
         case .connectionClosed:
             //self.status.text = "Closed"
             print("MQTT Closed")
-            subscribeUnsubscribe()
+            unSuscribe()
         case .connectionClosedByBroker:
             //self.status.text = "Closed by Broker"
             print("MQTT Closed by Broker")
@@ -162,25 +160,21 @@ class MqttViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
     }
     
     func subAckReceived(_ session: MQTTSession!, msgID: UInt16, grantedQoss qoss: [NSNumber]!) {
-        self.subscribed                 = true
         print("Subscribed")
     }
     
     func unsubAckReceived(_ session: MQTTSession!, msgID: UInt16) {
-        self.subscribed                 = false
         print("Unsubscribed")
     }
     
-    func subscribeUnsubscribe() {
-        if self.subscribed {
-            print("Unsuscribed")
-            session.unsubscribeTopic("\(mqttTopic)#")
-        } else {
-            print("Suscribed")
-            session.subscribe(toTopic: "\(mqttTopic)#", at: .atMostOnce)
-        }
-        
+    func suscribe() {
+        session.subscribe(toTopic: "\(mqttTopic)#", at: .atMostOnce)
     }
+    
+    func unSuscribe() {
+        session.unsubscribeTopic("\(mqttTopic)#")
+    }
+    
     @objc func publish() {
         print("PUBLISH TO TOPIC: \(mqttTopic)\(classicName)/cmnd")
         self.session.publishData(("{\"wake\"}").data(using: String.Encoding.utf8, allowLossyConversion: false),
@@ -194,6 +188,7 @@ class MqttViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
         case .connected:
             //MARK: Desconecta
             self.session.disconnect()
+            self.invalidateTimer()
         case .closed, .created, .error:
             //MARK: Trata de conectarte
             self.session.connect()
@@ -218,6 +213,13 @@ class MqttViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
         // 1
         if timer == nil {
             // 2
+            timer = Timer.scheduledTimer(timeInterval: 55.0,
+                                         target: self,
+                                         selector: #selector(publish),
+                                         userInfo: nil,
+                                         repeats: true)
+        } else {
+            invalidateTimer()
             timer = Timer.scheduledTimer(timeInterval: 55.0,
                                          target: self,
                                          selector: #selector(publish),
@@ -265,8 +267,10 @@ class MqttViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
     }
     
     func invalidateTimer() {
-        timer?.invalidate()
-        timer = nil
+        if timer != nil {
+            timer?.invalidate()
+            timer = nil
+        }
     }
     
     func disconnectFromDevice() {
@@ -278,6 +282,10 @@ class MqttViewController: UIViewController, MQTTSessionDelegate, GaugeViewDelega
     func configureGaugeViews() {
         print("MQTT PAGE GAUGE VIEWS CONFIGURE")
         view.backgroundColor = UIColor(white: 0.1, alpha: 1)
+        //MARK: Configure Buttons
+        buttonDeviceDescription.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 20) ?? UIFont.systemFont(ofSize: 20)
+        buttonDeviceDescription.setTitleColor(UIColor(white: 0.7, alpha: 1), for: .normal)
+        
         //MARK: Power
         gaugePowerView.ringBackgroundColor = .black
         gaugePowerView.valueTextColor = .white

@@ -28,7 +28,6 @@
 		657A8D3F2506AE4E006B2BD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 657A8D3E2506AE4E006B2BD0 /* Assets.xcassets */; };
 		657A8D642506B2B0006B2BD0 /* SwiftLibModbus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657A8D632506B2B0006B2BD0 /* SwiftLibModbus.swift */; };
 		658199592509166C00BAB8C7 /* ClassicMonitor-Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658199582509166C00BAB8C7 /* ClassicMonitor-Settings.swift */; };
-		658D4BB125279B22008C874A /* BeforeCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658D4BB025279B22008C874A /* BeforeCoreData.swift */; };
 		658EB55C250AF5D20071D8FA /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658EB55B250AF5D20071D8FA /* Reachability.swift */; };
 		658EC243250C8F4000F1ACAF /* DetectDeviceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658EC242250C8F4000F1ACAF /* DetectDeviceViewController.swift */; };
 		658EC249250CED4A00F1ACAF /* Signal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658EC248250CED4A00F1ACAF /* Signal.swift */; };
@@ -37,8 +36,9 @@
 		658EC25225102C6C00F1ACAF /* NothingFoundCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 658EC25125102C6C00F1ACAF /* NothingFoundCell.xib */; };
 		65A04DC52513941400E9ABDB /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A04DC42513941400E9ABDB /* DataManager.swift */; };
 		65A3887E2512A45B00379D78 /* ClassicData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 65A3887C2512A45B00379D78 /* ClassicData.xcdatamodeld */; };
+		65B060C5252CD70800D76442 /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B060C4252CD70800D76442 /* TabViewController.swift */; };
 		65B44D412509ACEE0079A3C8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65B44D402509ACEE0079A3C8 /* LaunchScreen.storyboard */; };
-		65BFE302252B562E00F108AA /* BackupPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BFE301252B562E00F108AA /* BackupPageViewController.swift */; };
+		65BFE305252BABDE00F108AA /* ConsumptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BFE304252BABDE00F108AA /* ConsumptionViewController.swift */; };
 		65DA6786251C129000C4962E /* MQTTDataInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65DA6785251C129000C4962E /* MQTTDataInfo.swift */; };
 		A4F78B4298D572731A394381 /* Pods_Classic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA99D76AF696B0065EA3DE99 /* Pods_Classic.framework */; };
 /* End PBXBuildFile section */
@@ -78,7 +78,6 @@
 		657A8D5F2506B292006B2BD0 /* modbus-version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-version.h"; sourceTree = "<group>"; };
 		657A8D632506B2B0006B2BD0 /* SwiftLibModbus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftLibModbus.swift; sourceTree = "<group>"; };
 		658199582509166C00BAB8C7 /* ClassicMonitor-Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ClassicMonitor-Settings.swift"; sourceTree = "<group>"; };
-		658D4BB025279B22008C874A /* BeforeCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeforeCoreData.swift; sourceTree = "<group>"; };
 		658EB55B250AF5D20071D8FA /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		658EC242250C8F4000F1ACAF /* DetectDeviceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectDeviceViewController.swift; sourceTree = "<group>"; };
 		658EC248250CED4A00F1ACAF /* Signal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Signal.swift; sourceTree = "<group>"; };
@@ -87,8 +86,9 @@
 		658EC25125102C6C00F1ACAF /* NothingFoundCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NothingFoundCell.xib; sourceTree = "<group>"; };
 		65A04DC42513941400E9ABDB /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		65A3887D2512A45B00379D78 /* ClassicData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ClassicData.xcdatamodel; sourceTree = "<group>"; };
+		65B060C4252CD70800D76442 /* TabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
 		65B44D402509ACEE0079A3C8 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		65BFE301252B562E00F108AA /* BackupPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupPageViewController.swift; sourceTree = "<group>"; };
+		65BFE304252BABDE00F108AA /* ConsumptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsumptionViewController.swift; sourceTree = "<group>"; };
 		65DA6785251C129000C4962E /* MQTTDataInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MQTTDataInfo.swift; sourceTree = "<group>"; };
 		DA99D76AF696B0065EA3DE99 /* Pods_Classic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Classic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF6CFEDBAC207EAB6F59AD3B /* Pods-Classic.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Classic.release.xcconfig"; path = "Target Support Files/Pods-Classic/Pods-Classic.release.xcconfig"; sourceTree = "<group>"; };
@@ -213,11 +213,11 @@
 			children = (
 				657A8D392506AE4B006B2BD0 /* ViewController.swift */,
 				658EC242250C8F4000F1ACAF /* DetectDeviceViewController.swift */,
-				658D4BB025279B22008C874A /* BeforeCoreData.swift */,
 				6513E8A2251AE0DF00C77214 /* PageViewControllerMQTT.swift */,
 				65307384251E6BB4005949E2 /* WizbangJRViewController.swift */,
 				65528B3C25254D8F004CA8DB /* MqttViewController.swift */,
-				65BFE301252B562E00F108AA /* BackupPageViewController.swift */,
+				65BFE304252BABDE00F108AA /* ConsumptionViewController.swift */,
+				65B060C4252CD70800D76442 /* TabViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -395,11 +395,11 @@
 				658EC24D250D4A4400F1ACAF /* DetectDeviceViewCell.swift in Sources */,
 				658EC25025101E9700F1ACAF /* ClassicDeviceLists.swift in Sources */,
 				65A04DC52513941400E9ABDB /* DataManager.swift in Sources */,
+				65BFE305252BABDE00F108AA /* ConsumptionViewController.swift in Sources */,
 				65307385251E6BB4005949E2 /* WizbangJRViewController.swift in Sources */,
 				657A8D362506AE4B006B2BD0 /* AppDelegate.swift in Sources */,
 				65307382251E6965005949E2 /* GaugeCenterView.swift in Sources */,
-				658D4BB125279B22008C874A /* BeforeCoreData.swift in Sources */,
-				65BFE302252B562E00F108AA /* BackupPageViewController.swift in Sources */,
+				65B060C5252CD70800D76442 /* TabViewController.swift in Sources */,
 				657A8D382506AE4B006B2BD0 /* SceneDelegate.swift in Sources */,
 				657A8D642506B2B0006B2BD0 /* SwiftLibModbus.swift in Sources */,
 			);

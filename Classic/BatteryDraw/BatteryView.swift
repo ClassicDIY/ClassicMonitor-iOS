@@ -177,10 +177,11 @@ extension Int {
     
     private func layoutLevel() {
         var levelFrame = bodyOutline.bounds.insetBy(dx: bodyOutline.borderWidth, dy: bodyOutline.borderWidth)
+        //MARK: Always show level text
         if level >= 0 && level <= .fullBattery {
             let levelInset = (isVertical ? levelFrame.height : levelFrame.width) * CGFloat(.fullBattery - level) / CGFloat(Int.fullBattery)
             (_, levelFrame) = levelFrame.divided(atDistance: levelInset, from: direction)
-            noLevelLabel.text = "\(level)"
+            noLevelLabel.text = nil
             accessibilityValue = level.description
         } else {
             noLevelLabel.text = noLevelText

@@ -1,21 +1,22 @@
 //
-//  WizbangJRViewController.swift
+//  ConsumptionViewController.swift
 //  Classic
 //
-//  Created by Urayoan Miranda on 9/25/20.
+//  Created by Urayoan Miranda on 10/5/20.
 //  Copyright © 2020 Urayoan Miranda. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import MQTTClient
 
-class WizbangJRViewController: UIViewController, GaugeCenterViewDelegate {
-
-    @IBOutlet weak var gaugeWizbangJR:              GaugeCenterView!
-    @IBOutlet var battery:                          BatteryView!
-    @IBOutlet weak var batterySOC:                  UILabel!
+class ConsumptionViewController: UIViewController, GaugeViewDelegate, MQTTSessionDelegate {
+    
+    @IBOutlet weak var gaugeConsumptionView:        GaugeView!
     @IBOutlet weak var buttonDeviceDescription:     UIButton!
-
+        
+    var timeDelta: Double       = 10.0/24 //MARK: For the timer to read
+    var timer: Timer?           = nil
     
     var classicURL: String      = ""
     var classicPort: Int32      = 1883
@@ -24,25 +25,27 @@ class WizbangJRViewController: UIViewController, GaugeCenterViewDelegate {
     var mqttTopic: String       = ""
     var classicName: String     = ""
     
-    private var session         = MQTTSession()!
-
-    //MARK: Demo variables
-    var velocity: Double        = 0
-    var acceleration: Double    = 4
-    //MARK: End Demo Variables
+    //var reachability: Reachability?
     
-    var timeDelta: Double       = 10.0/24 //MARK: For the timer to read
-    var timer: Timer?           = nil
-
+    private var session = MQTTSession()!
+    private var subscribed = false
+    
+    convenience init() {
+        self.init()
+    }
+    
+    deinit {
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        print("VIEW DID LOAD ConsumptionViewController")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureGaugeViews()
-        print("Received Parameters MqttViewController: \(classicURL) - \(classicPort) - \(mqttUser) - \(mqttPassword) - \(mqttTopic) - \(classicName)")
+        print("Received Parameters ConsumptionViewController: \(classicURL) - \(classicPort) - \(mqttUser) - \(mqttPassword) - \(mqttTopic) - \(classicName)")
         session.transport       = MQTTCFSocketTransport()
         session.transport.host  = classicURL
         session.transport.port  = UInt32(classicPort)
@@ -59,47 +62,6 @@ class WizbangJRViewController: UIViewController, GaugeCenterViewDelegate {
         disconnectFromDevice()
     }
     
-    override var preferredStatusBarStyle : UIStatusBarStyle {
-        print("Prefered Barstatus Style")
-        return .lightContent
-    }
-    
-    func ringStokeColor(gaugeView: GaugeCenterView, value: Double) -> UIColor {
-        if value >= gaugeView.limitValue {
-            return UIColor(red: 1, green: 59.0/255, blue: 48.0/255, alpha: 1)
-        }
-        return UIColor(red: 11.0/255, green: 150.0/255, blue: 246.0/255, alpha: 1)
-    }
-    
-    func configureGaugeViews() {
-        //MARK: Configure Buttons
-        buttonDeviceDescription.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 20) ?? UIFont.systemFont(ofSize: 20)
-        buttonDeviceDescription.setTitleColor(UIColor(white: 0.7, alpha: 1), for: .normal)
-        
-        //MARK: Gauge WizbangJR View
-        view.backgroundColor = UIColor(white: 0.1, alpha: 1)
-        //MARK: Power
-        gaugeWizbangJR.ringBackgroundColor = .black
-        gaugeWizbangJR.valueTextColor = .white
-        gaugeWizbangJR.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
-        gaugeWizbangJR.setNeedsDisplay()
-        
-        let screenMinSize = min(UIScreen.main.bounds.size.width, UIScreen.main.bounds.size.height)
-        let ratio = Double(screenMinSize)/320
-        gaugeWizbangJR.divisionsRadius          = 1.25 * ratio
-        gaugeWizbangJR.subDivisionsRadius       = (1.25 - 0.5) * ratio
-        gaugeWizbangJR.ringThickness            = 12 * ratio
-        gaugeWizbangJR.valueFont                = UIFont(name: GaugeView.defaultFontName, size: CGFloat(140 * ratio))!
-        gaugeWizbangJR.unitOfMeasurementFont    = UIFont(name: GaugeView.defaultFontName, size: CGFloat(16 * ratio))!
-        gaugeWizbangJR.minMaxValueFont          = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(12 * ratio))!
-        // Update gauge view
-        gaugeWizbangJR.minValue                 = -16
-        gaugeWizbangJR.maxValue                 = 16
-        gaugeWizbangJR.limitValue               = 0
-        gaugeWizbangJR.unitOfMeasurement        = "Amps"
-        
-    }
-    
     func createTimer() {
         // 1
         if timer == nil {
@@ -109,20 +71,74 @@ class WizbangJRViewController: UIViewController, GaugeCenterViewDelegate {
                                          selector: #selector(publish),
                                          userInfo: nil,
                                          repeats: true)
-        } else {
-            invalidateTimer()
-            timer = Timer.scheduledTimer(timeInterval: 55.0,
-                                         target: self,
-                                         selector: #selector(publish),
-                                         userInfo: nil,
-                                         repeats: true)
         }
     }
     
-    func invalidateTimer() {
-        if timer != nil {
-            timer?.invalidate()
-            timer = nil
+    func ringStokeColor(gaugeView: GaugeView, value: Double) -> UIColor {
+        if value >= gaugeView.limitValue {
+            return UIColor(red: 1, green: 59.0/255, blue: 48.0/255, alpha: 1)
+        }
+        //if nightModeSwitch.isOn {
+        //    return UIColor(red: 76.0/255, green: 217.0/255, blue: 100.0/255, alpha: 1)
+        //}
+        return UIColor(red: 11.0/255, green: 150.0/255, blue: 246.0/255, alpha: 1)
+    }
+    
+    @objc func publish() {
+        print("PUBLISH TO TOPIC: \(mqttTopic)\(classicName)/cmnd")
+        self.session.publishData(("{\"wake\"}").data(using: String.Encoding.utf8, allowLossyConversion: false),
+                                 onTopic: "\(mqttTopic)\(classicName)/cmnd",
+                                 retain: false,
+                                 qos: .atMostOnce)
+    }
+    
+    func configureGaugeViews() {
+        print("MQTT PAGE GAUGE VIEWS CONFIGURE")
+        view.backgroundColor = UIColor(white: 0.1, alpha: 1)
+        //MARK: Power
+        gaugeConsumptionView.ringBackgroundColor        = .black
+        gaugeConsumptionView.valueTextColor             = .white
+        gaugeConsumptionView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
+        gaugeConsumptionView.setNeedsDisplay()
+        
+        //MARK: Configure Buttons
+        buttonDeviceDescription.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 20) ?? UIFont.systemFont(ofSize: 20)
+        buttonDeviceDescription.setTitleColor(UIColor(white: 0.7, alpha: 1), for: .normal)
+        
+        // Configure gauge view
+        //MARK: Gauge Power View
+        let screenMinSize = min(UIScreen.main.bounds.size.width, UIScreen.main.bounds.size.height)
+        let ratio = Double(screenMinSize)/320
+        gaugeConsumptionView.divisionsRadius          = 1.25 * ratio
+        gaugeConsumptionView.subDivisionsRadius       = (1.25 - 0.5) * ratio
+        gaugeConsumptionView.ringThickness            = 6 * ratio
+        //print("RING THICKNESS: \(6 * ratio)")
+        gaugeConsumptionView.valueFont                = UIFont(name: GaugeView.defaultFontName, size: CGFloat(80 * ratio))!
+        gaugeConsumptionView.unitOfMeasurementFont    = UIFont(name: GaugeView.defaultFontName, size: CGFloat(12 * ratio))!
+        gaugeConsumptionView.minMaxValueFont          = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(12 * ratio))!
+        gaugeConsumptionView.upperTextFont            = UIFont(name: GaugeView.defaultFontName, size: CGFloat(24 * ratio))!
+        //powerLabel.font = UIFont(name: GaugeView.defaultFontName, size: CGFloat(24 * ratio))!
+        //powerLabel.textColor = UIColor(white: 0.7, alpha: 1)
+        // Update gauge view
+        gaugeConsumptionView.minValue                 = 0
+        gaugeConsumptionView.maxValue                 = 3500
+        gaugeConsumptionView.limitValue               = 0
+        gaugeConsumptionView.unitOfMeasurement        = "Watts"
+    }
+    
+    func connectDisconnect() {
+        switch self.session.status {
+        case .connected:
+            //MARK: Desconecta
+            self.session.disconnect()
+            self.invalidateTimer()
+        case .closed, .created, .error:
+            //MARK: Trata de conectarte
+            self.session.connect()
+            self.publish()
+            self.createTimer()
+        default:
+            return
         }
     }
     
@@ -132,33 +148,36 @@ class WizbangJRViewController: UIViewController, GaugeCenterViewDelegate {
         invalidateTimer()
     }
     
-    func setValues(readings: MQTTDataReading) {
-        print("SET VALUES TO GAUGE \(readings)")
-        let batteryCurrent  = readings.WhizbangBatCurrent
-        //let batteryVolts    = readings.BatVoltage
-        //self.gaugeWizbangJR.value   = Double(batteryCurrent!) * Double(batteryVolts!)
-        self.gaugeWizbangJR.value   = Double(batteryCurrent!)
-        self.battery.level          = readings.SOC!
-        self.batterySOC.text        = "\(readings.SOC ?? 0)%"
+    func invalidateTimer() {
+        if timer != nil {
+            timer?.invalidate()
+            timer = nil
+        }
     }
     
     func setValuesInfo(info: MQTTDataInfo) {
         //self.buttonDeviceDescription.setTitle(info.model, for: .normal)
     }
-}
-
-extension WizbangJRViewController: MQTTSessionDelegate {
+    
+    func setValues(readings: MQTTDataReading) {
+        print("SET VALUES TO GAUGE \(readings)")
+        let batteryCurrent  = readings.WhizbangBatCurrent
+        let loadCurrent     = readings.BatCurrent! - batteryCurrent!
+        let batteryVolts    = readings.BatVoltage
+        self.gaugeConsumptionView.value    = Double(loadCurrent * batteryVolts!)
+    }
+    
     func handleEvent(_ session: MQTTSession!, event eventCode: MQTTSessionEvent, error: Error!) {
         switch eventCode {
         case .connected:
             //self.status.text = "Connected"
             print("MQTT Connected")
             publish()
-            subscribe()
+            suscribe()
         case .connectionClosed:
             //self.status.text = "Closed"
             print("MQTT Closed")
-            unSubscribe()
+            unSuscribe()
         case .connectionClosedByBroker:
             //self.status.text = "Closed by Broker"
             print("MQTT Closed by Broker")
@@ -179,10 +198,6 @@ extension WizbangJRViewController: MQTTSessionDelegate {
     
     func newMessage(_ session: MQTTSession!, data: Data!, onTopic topic: String!, qos: MQTTQosLevel, retained: Bool, mid: UInt32) {
         if (data != nil && topic != nil) {
-            //let str1 = String(decoding: data, as: UTF8.self)
-            //let str2 = topic
-            //print("DATAURA: \(str1)")
-            //print("TOPICURA: \(String(describing: str2))")
             
             if (topic.contains("info")) {
                 let decoder = JSONDecoder()
@@ -220,35 +235,11 @@ extension WizbangJRViewController: MQTTSessionDelegate {
         print("Unsubscribed")
     }
     
-    func subscribe() {
+    func suscribe() {
         session.subscribe(toTopic: "\(mqttTopic)#", at: .atMostOnce)
     }
     
-    func unSubscribe() {
+    func unSuscribe() {
         session.unsubscribeTopic("\(mqttTopic)#")
-    }
-    
-    @objc func publish() {
-        print("PUBLISH TO TOPIC: \(mqttTopic)\(classicName)/cmnd")
-        self.session.publishData(("{\"wake\"}").data(using: String.Encoding.utf8, allowLossyConversion: false),
-                                 onTopic: "\(mqttTopic)\(classicName)/cmnd",
-                                 retain: false,
-                                 qos: .atMostOnce)
-    }
-    
-    func connectDisconnect() {
-        switch self.session.status {
-        case .connected:
-            //MARK: Desconecta
-            self.session.disconnect()
-            self.invalidateTimer()
-        case .closed, .created, .error:
-            //MARK: Trata de conectarte
-            self.session.connect()
-            self.publish()
-            self.createTimer()
-        default:
-            return
-        }
     }
 }
