@@ -57,7 +57,7 @@ open class GaugeCenterView: UIView {
     @IBInspectable public var numOfSubDivisions: Int        = 10
     
     /// The thickness of the ring.
-    @IBInspectable public var ringThickness: Double         = 15
+    @IBInspectable public var ringThickness: Double         = 7 //original 15
     
     /// The background color of the ring.
     @IBInspectable public var ringBackgroundColor: UIColor  = UIColor.black
@@ -90,7 +90,7 @@ open class GaugeCenterView: UIView {
     @IBInspectable public var valueFont: UIFont = UIFont(name: defaultFontName, size: 140) ?? UIFont.systemFont(ofSize: 140)
     
     /// Text color of value label.
-    @IBInspectable public var valueTextColor: UIColor = UIColor(white: 0.1, alpha: 1)
+    @IBInspectable public var valueTextColor: UIColor = UIColor(white: 0.7, alpha: 1)//UIColor(white: 0.1, alpha: 1)
     
     /// A boolean indicates whether to show min/max value.
     @IBInspectable public var showMinMaxValue: Bool = true
@@ -104,14 +104,24 @@ open class GaugeCenterView: UIView {
     /// A boolean indicates whether to show unit of measurement.
     @IBInspectable public var showUnitOfMeasurement: Bool = true
     
+    @IBInspectable public var showUpperText: Bool                   = true
+    
     /// The unit of measurement.
-    @IBInspectable public var unitOfMeasurement: String = "km/h"
+    @IBInspectable public var unitOfMeasurement: String = "kw/h"
+    
+    /// The upper label.
+    @IBInspectable public var upperText: String                     = "Upper Label"
     
     /// Font of unit of measurement label.
-    @IBInspectable public var unitOfMeasurementFont: UIFont = UIFont(name: defaultFontName, size: 16) ?? UIFont.systemFont(ofSize: 16)
+    @IBInspectable public var unitOfMeasurementFont: UIFont = UIFont(name: defaultFontName, size: 10) ?? UIFont.systemFont(ofSize: 10)
+    
+    @IBInspectable public var upperTextFont: UIFont                 = UIFont(name: defaultFontName, size: 14) ?? UIFont.systemFont(ofSize: 14)
     
     /// Text color of unit of measurement label.
     @IBInspectable public var unitOfMeasurementTextColor: UIColor = UIColor(white: 0.3, alpha: 1)
+    
+    /// Text color of unit of measurement label.
+    @IBInspectable public var upperTextColor: UIColor               = UIColor(white: 0.7, alpha: 1)
     
     /// The receiver of all gauge view delegate callbacks.
     public weak var delegate: GaugeCenterViewDelegate? = nil
@@ -144,6 +154,14 @@ open class GaugeCenterView: UIView {
         let label = UILabel()
         label.backgroundColor           = UIColor.clear
         label.textAlignment             = .center
+        label.adjustsFontSizeToFitWidth = true
+        return label
+    }()
+    
+    lazy var upperTextLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = UIColor.clear
+        label.textAlignment = .center
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -325,6 +343,27 @@ open class GaugeCenterView: UIView {
                                               y: valueLabel.frame.maxY - 10,
                                               width: valueLabel.frame.width,
                                               height: 20)
+        
+        // Upper Text Label
+        if upperTextLabel.superview == nil {
+            addSubview(upperTextLabel)
+        }
+        
+        var number: CGFloat = 20
+        if (UIDevice.current.userInterfaceIdiom == .pad) {
+            number = 28
+        } else if (UIDevice.current.userInterfaceIdiom == .phone) {
+            number = 10
+        }
+        upperTextLabel.text                 = upperText
+        upperTextLabel.font                 = upperTextFont
+        upperTextLabel.minimumScaleFactor   = 10/upperTextFont.pointSize
+        upperTextLabel.textColor            = upperTextColor
+        upperTextLabel.isHidden             = !showUpperText
+        upperTextLabel.frame                = CGRect(x: valueLabel.frame.origin.x,
+                                                     y: valueLabel.frame.minY / frame.height + number,
+                                                     width: valueLabel.frame.width,
+                                                     height: 50)
     }
     
     public func strokeGauge() {

@@ -64,7 +64,7 @@ extension Int {
     // swiftlint:enable redundant_type_annotation
     
     /// label shown over battery when the level is undefined or out of range
-    @IBInspectable open dynamic var noLevelText: String? = "?"
+    @IBInspectable open dynamic var noLevelText: String? = "???"
     
     @IBInspectable open dynamic var borderColor: UIColor = .foreground {
         didSet {
@@ -236,17 +236,35 @@ extension CALayer {
 extension UIColor {
     static var background: UIColor {
         if #available(iOS 13, *) {
-            return .systemBackground
+            return .black
         } else {
-            return .white
+            return .black
         }
     }
     
     static var foreground: UIColor {
         if #available(iOS 13, *) {
-            return .label
+            return .white
         } else {
-            return .black
+            return .white
         }
     }
 }
+
+//extension UIColor {
+//    static var background: UIColor {
+//        if #available(iOS 13, *) {
+//            return .systemBackground
+//        } else {
+//            return .white
+//        }
+//    }
+//
+//    static var foreground: UIColor {
+//        if #available(iOS 13, *) {
+//            return .label
+//        } else {
+//            return .black
+//        }
+//    }
+//}

@@ -72,6 +72,7 @@ class WizbangJRViewController: UIViewController, GaugeCenterViewDelegate {
     }
     
     func configureGaugeViews() {
+        battery.borderWidth = 7
         //MARK: Configure Buttons
         buttonDeviceDescription.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 20) ?? UIFont.systemFont(ofSize: 20)
         buttonDeviceDescription.setTitleColor(UIColor(white: 0.7, alpha: 1), for: .normal)
@@ -88,10 +89,11 @@ class WizbangJRViewController: UIViewController, GaugeCenterViewDelegate {
         let ratio = Double(screenMinSize)/320
         gaugeWizbangJR.divisionsRadius          = 1.25 * ratio
         gaugeWizbangJR.subDivisionsRadius       = (1.25 - 0.5) * ratio
-        gaugeWizbangJR.ringThickness            = 12 * ratio
-        gaugeWizbangJR.valueFont                = UIFont(name: GaugeView.defaultFontName, size: CGFloat(140 * ratio))!
-        gaugeWizbangJR.unitOfMeasurementFont    = UIFont(name: GaugeView.defaultFontName, size: CGFloat(16 * ratio))!
+        gaugeWizbangJR.upperText                = "Power"
+        gaugeWizbangJR.valueFont                = UIFont(name: GaugeView.defaultFontName, size: CGFloat(80 * ratio))!
+        gaugeWizbangJR.unitOfMeasurementFont    = UIFont(name: GaugeView.defaultFontName, size: CGFloat(12 * ratio))!
         gaugeWizbangJR.minMaxValueFont          = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(12 * ratio))!
+        gaugeWizbangJR.upperTextFont            = UIFont(name: GaugeView.defaultFontName, size: CGFloat(24 * ratio))!
         // Update gauge view
         gaugeWizbangJR.minValue                 = -16
         gaugeWizbangJR.maxValue                 = 16

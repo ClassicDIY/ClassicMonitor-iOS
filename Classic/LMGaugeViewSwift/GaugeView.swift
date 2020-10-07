@@ -60,7 +60,7 @@ open class GaugeView: UIView {
     @IBInspectable public var ringThickness: Double = 7//MARK: Original 15
     
     /// The background color of the ring.
-    @IBInspectable public var ringBackgroundColor: UIColor = UIColor(white: 0.9, alpha: 1)
+    @IBInspectable public var ringBackgroundColor: UIColor = UIColor.black
     
     /// The divisions radius.
     @IBInspectable public var divisionsRadius: Double = 1.25
@@ -107,7 +107,7 @@ open class GaugeView: UIView {
     @IBInspectable public var showUpperText: Bool                   = true
     
     /// The unit of measurement.
-    @IBInspectable public var unitOfMeasurement: String             = "km/h"
+    @IBInspectable public var unitOfMeasurement: String             = "kw/h"
     
     /// The upper label.
     @IBInspectable public var upperText: String                     = "Upper Label"
@@ -116,7 +116,7 @@ open class GaugeView: UIView {
     @IBInspectable public var unitOfMeasurementFont: UIFont         = UIFont(name: defaultFontName, size: 10) ?? UIFont.systemFont(ofSize: 10)
     
     /// Font of unit of measurement label.
-    @IBInspectable public var upperTextFont: UIFont                 = UIFont(name: defaultFontName, size: 16) ?? UIFont.systemFont(ofSize: 16)
+    @IBInspectable public var upperTextFont: UIFont                 = UIFont(name: defaultFontName, size: 14) ?? UIFont.systemFont(ofSize: 14)
     
     /// Text color of unit of measurement label.
     @IBInspectable public var unitOfMeasurementTextColor: UIColor   = UIColor(white: 0.7, alpha: 1)
