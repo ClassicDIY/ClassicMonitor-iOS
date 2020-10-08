@@ -59,13 +59,16 @@ class ViewController: UIViewController, GaugeViewDelegate {
         super.viewDidLoad()
         if kDebugLog { print("Recived Parameter: \(classicURL) - \(classicPort)") }
         // Do any additional setup after loading the view.
-        configureGaugeViews()
-        self.buttonDeviceDescription.setTitle("Connecting to device", for: .normal)
-        self.stageButton.setTitle("Loading Stage", for: .normal)
-        //MARK: Para verificar cuando cae en el background
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self,selector: #selector(appMovedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
-        //getChargerConnectValues()
+
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        if UIDevice.current.orientation.isLandscape {
+            print("Landscape")
+        } else {
+            print("Portrait")
+        }
     }
     
     @objc func appMovedToBackground() {
@@ -76,6 +79,12 @@ class ViewController: UIViewController, GaugeViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if kDebugLog{ print("viewWillAppear") }
+        configureGaugeViews()
+        self.buttonDeviceDescription.setTitle("Connecting to device", for: .normal)
+        self.stageButton.setTitle("Loading Stage", for: .normal)
+        //MARK: Para verificar cuando cae en el background
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self,selector: #selector(appMovedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
         stopNotifier()
         setupReachability(classicURL as String, useClosures: true)
         startNotifier()
@@ -95,37 +104,6 @@ class ViewController: UIViewController, GaugeViewDelegate {
     
     override var preferredStatusBarStyle : UIStatusBarStyle {
         print("Prefered Barstatus Style")
-        view.backgroundColor = UIColor(white: 0.1, alpha: 1)
-        //MARK: Power
-        gaugePowerView.ringBackgroundColor = .black
-        gaugePowerView.valueTextColor = .white
-        gaugePowerView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
-        gaugePowerView.setNeedsDisplay()
-        
-        //MARK: Energy
-        gaugeEnergyView.ringBackgroundColor = .black
-        gaugeEnergyView.valueTextColor = .white
-        gaugeEnergyView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
-        gaugeEnergyView.setNeedsDisplay()
-        
-        //MARK: Battery Volts
-        gaugeBatteryVoltsView.ringBackgroundColor = .black
-        gaugeBatteryVoltsView.valueTextColor = .white
-        gaugeBatteryVoltsView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
-        gaugeBatteryVoltsView.setNeedsDisplay()
-        
-        //MARK: Battery Amps
-        gaugeBatteryAmpsView.ringBackgroundColor = .black
-        gaugeBatteryAmpsView.valueTextColor = .white
-        gaugeBatteryAmpsView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
-        gaugeBatteryAmpsView.setNeedsDisplay()
-        
-        //MARK: Input Volts
-        gaugeInputView.ringBackgroundColor = .black
-        gaugeInputView.valueTextColor = .white
-        gaugeInputView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
-        gaugeInputView.setNeedsDisplay()
-        
         return .lightContent
     }
     
@@ -244,6 +222,36 @@ class ViewController: UIViewController, GaugeViewDelegate {
     }
     
     func configureGaugeViews() {
+        view.backgroundColor = UIColor(white: 0.1, alpha: 1)
+        //MARK: Power
+        gaugePowerView.ringBackgroundColor = .black
+        gaugePowerView.valueTextColor = .white
+        gaugePowerView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
+        gaugePowerView.setNeedsDisplay()
+        
+        //MARK: Energy
+        gaugeEnergyView.ringBackgroundColor = .black
+        gaugeEnergyView.valueTextColor = .white
+        gaugeEnergyView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
+        gaugeEnergyView.setNeedsDisplay()
+        
+        //MARK: Battery Volts
+        gaugeBatteryVoltsView.ringBackgroundColor = .black
+        gaugeBatteryVoltsView.valueTextColor = .white
+        gaugeBatteryVoltsView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
+        gaugeBatteryVoltsView.setNeedsDisplay()
+        
+        //MARK: Battery Amps
+        gaugeBatteryAmpsView.ringBackgroundColor = .black
+        gaugeBatteryAmpsView.valueTextColor = .white
+        gaugeBatteryAmpsView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
+        gaugeBatteryAmpsView.setNeedsDisplay()
+        
+        //MARK: Input Volts
+        gaugeInputView.ringBackgroundColor = .black
+        gaugeInputView.valueTextColor = .white
+        gaugeInputView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
+        gaugeInputView.setNeedsDisplay()
         //MARK: Configure Buttons
         buttonDeviceDescription.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 20) ?? UIFont.systemFont(ofSize: 20)
         buttonDeviceDescription.setTitleColor(UIColor(white: 0.7, alpha: 1), for: .normal)

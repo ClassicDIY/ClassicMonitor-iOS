@@ -39,6 +39,7 @@ class MqttViewController: UIViewController, GaugeViewDelegate {
     }
     
     deinit {
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
     override func viewDidLoad() {
@@ -52,7 +53,56 @@ class MqttViewController: UIViewController, GaugeViewDelegate {
         
         //MARK: To check if app goes to background
         let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self,selector: #selector(appMovedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
+
+    }
+    
+    @objc func rotated() {
+        switch UIDevice.current.orientation {
+        case .unknown:
+            print("unknown")
+        case .portrait:
+            print("Portrait")
+            gaugePowerView.transform        = .identity//CGAffineTransform(rotationAngle: CGFloat.pi*2)
+            gaugeEnergyView.transform       = .identity//CGAffineTransform(rotationAngle: CGFloat.pi*2)
+            gaugeInputView.transform        = CGAffineTransform(rotationAngle: CGFloat.pi*2)
+            gaugeBatteryAmpsView.transform  = CGAffineTransform(rotationAngle: CGFloat.pi*2)
+            gaugeBatteryVoltsView.transform = CGAffineTransform(rotationAngle: CGFloat.pi*2)
+            stageButton.transform           = CGAffineTransform(rotationAngle: CGFloat.pi*2)
+        case .portraitUpsideDown:
+            print("Upside Down")
+            gaugePowerView.transform        = CGAffineTransform(rotationAngle: CGFloat.pi)
+            gaugeEnergyView.transform       = CGAffineTransform(rotationAngle: CGFloat.pi)
+            gaugeInputView.transform        = CGAffineTransform(rotationAngle: CGFloat.pi)
+            gaugeBatteryAmpsView.transform  = CGAffineTransform(rotationAngle: CGFloat.pi)
+            gaugeBatteryVoltsView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+            stageButton.transform           = CGAffineTransform(rotationAngle: CGFloat.pi)
+        case .landscapeLeft:
+            print("Landscape MqttViewController")
+            //gaugePowerView.rotate(value: CGFloat.pi/2)
+            gaugePowerView.transform        = CGAffineTransform(rotationAngle: CGFloat.pi/2)
+            gaugeEnergyView.transform       = CGAffineTransform(rotationAngle: CGFloat.pi/2)
+            gaugeInputView.transform        = CGAffineTransform(rotationAngle: CGFloat.pi/2)
+            gaugeBatteryAmpsView.transform  = CGAffineTransform(rotationAngle: CGFloat.pi/2)
+            gaugeBatteryVoltsView.transform = CGAffineTransform(rotationAngle: CGFloat.pi/2)
+            stageButton.transform           = CGAffineTransform(rotationAngle: CGFloat.pi/2)
+            return
+        case .landscapeRight:
+            print("Landscape MqttViewController")
+            gaugePowerView.transform        = CGAffineTransform(rotationAngle: CGFloat.pi*3/2)
+            gaugeEnergyView.transform       = CGAffineTransform(rotationAngle: CGFloat.pi*3/2)
+            gaugeInputView.transform        = CGAffineTransform(rotationAngle: CGFloat.pi*3/2)
+            gaugeBatteryAmpsView.transform  = CGAffineTransform(rotationAngle: CGFloat.pi*3/2)
+            gaugeBatteryVoltsView.transform = CGAffineTransform(rotationAngle: CGFloat.pi*3/2)
+            stageButton.transform           = CGAffineTransform(rotationAngle: CGFloat.pi*3/2)
+        case .faceUp:
+            print("Face Up")
+        case .faceDown:
+            print("Face Down")
+        @unknown default:
+            return
+        }
     }
     
     @objc func appMovedToBackground() {

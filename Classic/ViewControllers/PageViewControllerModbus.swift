@@ -10,14 +10,14 @@
 import UIKit
 import Foundation
 
-protocol PageViewControllerDelegateMQTT: class {
+protocol PageViewControllerDelegateModbus: class {
     /**
      Called when the number of pages is updated.
      
      - parameter tutorialPageViewController: the TutorialPageViewController instance
      - parameter count: the total number of pages.
      */
-    func pageViewController(pageViewController: PageViewControllerMQTT, didUpdatePageCount count: Int)
+    func pageViewController(pageViewController: PageViewControllerModbus, didUpdatePageCount count: Int)
     
     /**
      Called when the current index is updated.
@@ -25,14 +25,14 @@ protocol PageViewControllerDelegateMQTT: class {
      - parameter tutorialPageViewController: the TutorialPageViewController instance
      - parameter index: the index of the currently visible page.
      */
-    func pageViewController(pageViewController: PageViewControllerMQTT, didUpdatePageIndex index: Int)
+    func pageViewController(pageViewController: PageViewControllerModbus, didUpdatePageIndex index: Int)
     
 }
 
 
-class PageViewControllerMQTT: UIPageViewController {
+class PageViewControllerModbus: UIPageViewController {
     
-    weak var pageDelegate: PageViewControllerDelegateMQTT?
+    weak var pageDelegate: PageViewControllerDelegateModbus?
     
     var classicURL: String      = ""
     var classicPort: Int32      = 1883
@@ -43,50 +43,39 @@ class PageViewControllerMQTT: UIPageViewController {
     
     var orderedViewControllers  = [UIViewController]()
     
-    //private(set) lazy var orderedViewControllers: [UIViewController] = {
-    //    return [
-    //        self.newViewController(name: "MqttViewController"),
-    //        self.newViewController(name: "WizbangJRViewController")
-    //    ]
-    //}()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Received Parameters PageViewControllerMQTT: \(classicURL) - \(classicPort) - \(mqttUser) - \(mqttPassword) - \(mqttTopic) - \(classicName)")
+        print("Received Parameters PageViewControllerModbus: \(classicURL) - \(classicPort) - \(mqttUser) - \(mqttPassword) - \(mqttTopic) - \(classicName)")
         dataSource              = self
         delegate                = self
         
-        let firstVC             = storyboard?.instantiateViewController(withIdentifier: "MqttViewController") as! MqttViewController
-        let secondVC            = storyboard?.instantiateViewController(withIdentifier: "WizbangJRViewController") as! WizbangJRViewController
-        let thirdVC             = storyboard?.instantiateViewController(withIdentifier: "ConsumptionViewController") as! ConsumptionViewController
+        let firstVC             = storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+        //let secondVC            = storyboard?.instantiateViewController(withIdentifier: "WizbangJRViewController") as! WizbangJRViewController
+        //let thirdVC             = storyboard?.instantiateViewController(withIdentifier: "ConsumptionViewController") as! ConsumptionViewController
         
         //MARK: Parameters set here to child view
-        firstVC.classicURL      = self.classicURL
+        firstVC.classicURL      = self.classicURL as NSString
         firstVC.classicPort     = self.classicPort
-        firstVC.mqttUser        = self.mqttUser
-        firstVC.mqttPassword    = self.mqttPassword
-        firstVC.mqttTopic       = self.mqttTopic
-        firstVC.classicName     = self.classicName
         
         //MARK: Parameters set here to child view
-        secondVC.classicURL     = self.classicURL
+        /*secondVC.classicURL     = self.classicURL
         secondVC.classicPort    = self.classicPort
         secondVC.mqttUser       = self.mqttUser
         secondVC.mqttPassword   = self.mqttPassword
         secondVC.mqttTopic      = self.mqttTopic
         secondVC.classicName    = self.classicName
-        
+
         //MARK: Parameters set here to child view
         thirdVC.classicURL     = self.classicURL
         thirdVC.classicPort    = self.classicPort
         thirdVC.mqttUser       = self.mqttUser
         thirdVC.mqttPassword   = self.mqttPassword
         thirdVC.mqttTopic      = self.mqttTopic
-        thirdVC.classicName    = self.classicName
+        thirdVC.classicName    = self.classicName*/
         
         orderedViewControllers.append(firstVC)
-        orderedViewControllers.append(secondVC)
-        orderedViewControllers.append(thirdVC)
+        //orderedViewControllers.append(secondVC)
+        //orderedViewControllers.append(thirdVC)
         
         if let initialViewController = orderedViewControllers.first {
             scrollToViewController(viewController: initialViewController)
@@ -155,7 +144,7 @@ class PageViewControllerMQTT: UIPageViewController {
 }
 
 // MARK: UIPageViewControllerDataSource
-extension PageViewControllerMQTT: UIPageViewControllerDataSource {
+extension PageViewControllerModbus: UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let viewControllerIndex = orderedViewControllers.firstIndex(of: viewController) else {
@@ -212,7 +201,7 @@ extension PageViewControllerMQTT: UIPageViewControllerDataSource {
     }
 }
 
-extension PageViewControllerMQTT: UIPageViewControllerDelegate {
+extension PageViewControllerModbus: UIPageViewControllerDelegate {
     
     func pageViewController(_ pageViewController: UIPageViewController,
                             didFinishAnimating finished: Bool,

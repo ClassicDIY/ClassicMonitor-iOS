@@ -51,6 +51,11 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         return UIRefreshControl()
     }()
     
+    deinit {
+        // Be a good citizen.
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //MARK: Configure Buttons
@@ -84,6 +89,16 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         
         //MARK: Load Core Data
         loadCoreData()
+        NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
+
+    }
+    
+    @objc func rotated() {
+        if UIDevice.current.orientation.isLandscape {
+            print("Landscape")
+        } else {
+            print("Portrait")
+        }
     }
     
     func loadCoreData() {
@@ -126,11 +141,6 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         if kDebugLog { print("Prefered Barstatus Style") }
         view.backgroundColor = UIColor(white: 0.1, alpha: 1)
         return .lightContent
-    }
-    
-    
-    deinit {
-        // Be a good citizen.
     }
     
     func setupConnection() {
@@ -275,6 +285,10 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         let alert = UIAlertController(title: "Classic Manual Entry", message: "Enter your Midnite Classic IP and Port", preferredStyle: .alert)
         
         //2. Add the text field. You can configure it however you need.
+        alert.addTextField(configurationHandler: { classicName in
+            classicName.placeholder = "Enter Device Name"
+        })
+        
         alert.addTextField(configurationHandler: { classicUrl in
             classicUrl.placeholder = "Enter the Classic URL"
         })
@@ -285,9 +299,9 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         
         // 3. Grab the value from the text field, and print it when the user clicks OK.
         alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { action in
-            if let classicUrl = alert.textFields?.first?.text, let classicPort = alert.textFields?.last?.text {
+            if let classicName = alert.textFields?.first?.text ,let classicUrl = alert.textFields?[1].text, let classicPort = alert.textFields?.last?.text {
                 if (classicUrl.count != 0 && classicPort.count != 0) {
-                    self.addManualEntryModbus(classicUrl: classicUrl, classicPort: classicPort)
+                    self.addManualEntryModbus(classicName: classicName, classicUrl: classicUrl, classicPort: classicPort)
                 } else {
                     let alert = UIAlertController(title: "Alert", message: "Please enter your Classic URL and Port.", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
@@ -351,7 +365,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         self.present(alert, animated: true, completion: nil)
     }
     
-    func addManualEntryModbus(classicUrl: String, classicPort: String) {
+    func addManualEntryModbus(classicName: String, classicUrl: String, classicPort: String) {
         if (classicUrl.lowercased() == "demo") {
             //0
             guard let appDelegate =
@@ -382,6 +396,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
               try managedContext.save()
                 if (!self.devicelists.contains(device)) {
                     self.devicelists.append(device)
+                    self.tableView.reloadData()
                 } else {
                     if kDebugLog { print("Es igual o parece igual") }
                 }
@@ -417,7 +432,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                     device.setValue(numAddress, forKeyPath: "ip")
                     device.setValue(classicUrl, forKeyPath: "visualUrl")
                     device.setValue(Int32(classicPort), forKeyPath: "port")
-                    device.setValue("Remote MQTT", forKeyPath: "deviceName")
+                    device.setValue(classicName, forKeyPath: "deviceName")
                     device.setValue("000000", forKeyPath: "serialNumber")
                     device.setValue("", forKeyPath: "mqttUser")
                     device.setValue("", forKeyPath: "mqttPassword")
@@ -429,6 +444,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                       try managedContext.save()
                         if (!self.devicelists.contains(device)) {
                             self.devicelists.append(device)
+                            self.tableView.reloadData()
                         } else {
                             if kDebugLog { print("Es igual o parece igual") }
                         }
@@ -437,7 +453,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                     }
                 }
             } else {
-                let alert = UIAlertController(title: "Alert", message: "Host does not resolve to and ip address.", preferredStyle: .alert)
+                let alert = UIAlertController(title: "Alert", message: "Host does not resolve to an ip address.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
                 self.present(alert, animated: true)
             }
@@ -533,6 +549,7 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
                       try managedContext.save()
                         if (!self.devicelists.contains(device)) {
                             self.devicelists.append(device)
+                            self.tableView.reloadData()
                         } else {
                             if kDebugLog { print("Es igual o parece igual") }
                         }
@@ -627,18 +644,43 @@ extension DetectDeviceViewController: UITableViewDelegate {
         }
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
+//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+//            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+//            //We need to create a context from this container
+//            let managedContext = appDelegate.persistentContainer.viewContext
+//            managedContext.delete(devicelists[indexPath.row])
+//            devicelists.remove(at: indexPath.row)
+//            tableView.deleteRows(at: [indexPath], with: .fade)
+//            appDelegate.saveContext()
+//        } else if editingStyle == .insert {
+//            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+//        }
+//    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let processInfo = ProcessInfo().globallyUniqueString
+        print("Globally Unique String \(processInfo)")
+        
+        let delete = UITableViewRowAction(style: .destructive, title: "Delete") { (action, indexPath) in
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
             //We need to create a context from this container
             let managedContext = appDelegate.persistentContainer.viewContext
-            managedContext.delete(devicelists[indexPath.row])
-            devicelists.remove(at: indexPath.row)
+            managedContext.delete(self.devicelists[indexPath.row])
+            self.devicelists.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             appDelegate.saveContext()
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+            self.tableView.reloadData()
         }
+        
+        let edit = UITableViewRowAction(style: .normal, title: "Edit") { (action, indexPath) in
+            let alert = UIAlertController(title: "Not Yet Implemented", message: "Needs to be implemented.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            self.present(alert, animated: true)
+        }
+        edit.backgroundColor = UIColor(red: 11.0/255, green: 150.0/255, blue: 246.0/255, alpha: 1)//UIColor.blue
+        
+        return [delete, edit]
     }
     
     //*****************************************************************
@@ -647,8 +689,8 @@ extension DetectDeviceViewController: UITableViewDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "SelectedSegue" {
-            let viewController          = segue.destination as! ViewController
-            viewController.classicURL   = classicUrl! as NSString
+            let viewController          = segue.destination as! PageViewControllerModbus
+            viewController.classicURL   = classicUrl!
             viewController.classicPort  = classicPort!
         } else if (segue.identifier == "SelectedSegueMQTT") {
             let mqttViewController          = segue.destination as! PageViewControllerMQTT

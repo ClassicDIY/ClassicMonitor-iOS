@@ -14,6 +14,7 @@
 		65307385251E6BB4005949E2 /* WizbangJRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65307384251E6BB4005949E2 /* WizbangJRViewController.swift */; };
 		6546D2172527E95A00379578 /* BatteryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6546D2162527E95A00379578 /* BatteryView.swift */; };
 		654B1D572526904A00B38452 /* BatteryLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654B1D562526904A00B38452 /* BatteryLevelView.swift */; };
+		654E3384252E836800C3BA9D /* PageViewControllerModbus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654E3383252E836800C3BA9D /* PageViewControllerModbus.swift */; };
 		65528B3D25254D8F004CA8DB /* MqttViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65528B3C25254D8F004CA8DB /* MqttViewController.swift */; };
 		655CC3A8250A5A9200A0D6D0 /* modbus-tcp.c in Sources */ = {isa = PBXBuildFile; fileRef = 655CC39F250A5A9200A0D6D0 /* modbus-tcp.c */; };
 		655CC3A9250A5A9200A0D6D0 /* modbus-version.h.in in Resources */ = {isa = PBXBuildFile; fileRef = 655CC3A1250A5A9200A0D6D0 /* modbus-version.h.in */; };
@@ -52,6 +53,7 @@
 		65307384251E6BB4005949E2 /* WizbangJRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WizbangJRViewController.swift; sourceTree = "<group>"; };
 		6546D2162527E95A00379578 /* BatteryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryView.swift; sourceTree = "<group>"; };
 		654B1D562526904A00B38452 /* BatteryLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryLevelView.swift; sourceTree = "<group>"; };
+		654E3383252E836800C3BA9D /* PageViewControllerModbus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewControllerModbus.swift; sourceTree = "<group>"; };
 		65528B3C25254D8F004CA8DB /* MqttViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MqttViewController.swift; sourceTree = "<group>"; };
 		655536892508597700B7DE1B /* Classic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Classic.entitlements; sourceTree = "<group>"; };
 		655CC39D250A5A9100A0D6D0 /* modbus-rtu-private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "modbus-rtu-private.h"; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 				657A8D392506AE4B006B2BD0 /* ViewController.swift */,
 				658EC242250C8F4000F1ACAF /* DetectDeviceViewController.swift */,
 				6513E8A2251AE0DF00C77214 /* PageViewControllerMQTT.swift */,
+				654E3383252E836800C3BA9D /* PageViewControllerModbus.swift */,
 				65307384251E6BB4005949E2 /* WizbangJRViewController.swift */,
 				65528B3C25254D8F004CA8DB /* MqttViewController.swift */,
 				65BFE304252BABDE00F108AA /* ConsumptionViewController.swift */,
@@ -394,6 +397,7 @@
 				655CC3A8250A5A9200A0D6D0 /* modbus-tcp.c in Sources */,
 				658EC24D250D4A4400F1ACAF /* DetectDeviceViewCell.swift in Sources */,
 				658EC25025101E9700F1ACAF /* ClassicDeviceLists.swift in Sources */,
+				654E3384252E836800C3BA9D /* PageViewControllerModbus.swift in Sources */,
 				65A04DC52513941400E9ABDB /* DataManager.swift in Sources */,
 				65BFE305252BABDE00F108AA /* ConsumptionViewController.swift in Sources */,
 				65307385251E6BB4005949E2 /* WizbangJRViewController.swift in Sources */,

@@ -25,7 +25,7 @@ class DetectDeviceViewCell: UITableViewCell {
         ipLabel.textColor               = UIColor(white: 0.7, alpha: 1)
         portLabel.font                  = UIFont(name: GaugeView.defaultFontName, size: 20)
         portLabel.textColor             = UIColor(white: 0.7, alpha: 1)
-        deviceNameLabel.font            = UIFont(name: GaugeView.defaultFontName, size: 20)
+        deviceNameLabel.font            = UIFont(name: GaugeView.defaultFontName, size: 22)
         deviceNameLabel.textColor       = UIColor(white: 0.7, alpha: 1)
         serialNumberLabel.font          = UIFont(name: GaugeView.defaultFontName, size: 20)
         serialNumberLabel.textColor     = UIColor(white: 0.7, alpha: 1)
@@ -42,7 +42,7 @@ class DetectDeviceViewCell: UITableViewCell {
         //deviceList.value(forKeyPath: "deviceName") as? String
         ipLabel.text            = "IP: \(deviceList.value(forKeyPath: "visualUrl") ?? "127.0.0.1")"
         portLabel.text          = "Port: \(deviceList.value(forKeyPath: "port") ?? "0")"
-        deviceNameLabel.text    = "Model: \(deviceList.value(forKeyPath: "deviceName") ?? "CLASSIC")"
+        deviceNameLabel.text    = "Name: \(deviceList.value(forKeyPath: "deviceName") ?? "CLASSIC")"
         serialNumberLabel.text  = "Serial #: \(deviceList.value(forKeyPath: "serialNumber") ?? "000000")"
     }
     

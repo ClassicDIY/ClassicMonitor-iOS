@@ -95,8 +95,8 @@ class WizbangJRViewController: UIViewController, GaugeCenterViewDelegate {
         gaugeWizbangJR.minMaxValueFont          = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(12 * ratio))!
         gaugeWizbangJR.upperTextFont            = UIFont(name: GaugeView.defaultFontName, size: CGFloat(24 * ratio))!
         // Update gauge view
-        gaugeWizbangJR.minValue                 = -16
-        gaugeWizbangJR.maxValue                 = 16
+        gaugeWizbangJR.minValue                 = -32
+        gaugeWizbangJR.maxValue                 = 32
         gaugeWizbangJR.limitValue               = 0
         gaugeWizbangJR.unitOfMeasurement        = "Amps"
         
