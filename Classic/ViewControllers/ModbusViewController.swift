@@ -182,8 +182,6 @@ class ModbusViewController: UIViewController, GaugeViewDelegate {
         self.buttonDeviceDescription.setTitle("Connecting to device", for: .normal)
         self.stageButton.setTitle("Loading Stage", for: .normal)
         //MARK: Para verificar cuando cae en el background
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self,selector: #selector(appMovedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
         stopNotifier()
         setupReachability(classicURL as String, useClosures: true)
         startNotifier()

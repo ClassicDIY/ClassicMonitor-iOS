@@ -65,20 +65,23 @@ class WizbangJRViewControllerMqtt: UIViewController, GaugeCenterViewDelegate {
             print("Portrait")
             gaugeWizbangJR.rotateCustom(rotation: CGFloat.pi*2, duration: 1.0, options: selectedCurve.animationOption)
             battery.rotateCustom(rotation: CGFloat.pi*2, duration: 1.0, options: selectedCurve.animationOption)
+            batterySOC.rotateCustom(rotation: CGFloat.pi*2, duration: 1.0, options: selectedCurve.animationOption)
         case .portraitUpsideDown:
             print("Upside Down")
             gaugeWizbangJR.rotateCustom(rotation: CGFloat.pi, duration: 1.0, options: selectedCurve.animationOption)
             battery.rotateCustom(rotation: CGFloat.pi, duration: 1.0, options: selectedCurve.animationOption)
+            batterySOC.rotateCustom(rotation: CGFloat.pi, duration: 1.0, options: selectedCurve.animationOption)
         case .landscapeLeft:
             print("Landscape MqttViewController")
             //gaugePowerView.rotate(value: CGFloat.pi/2)
             gaugeWizbangJR.rotateCustom(rotation: CGFloat.pi/2, duration: 1.0, options: selectedCurve.animationOption)
             battery.rotateCustom(rotation: CGFloat.pi/2, duration: 1.0, options: selectedCurve.animationOption)
-            return
+            batterySOC.rotateCustom(rotation: CGFloat.pi/2, duration: 1.0, options: selectedCurve.animationOption)
         case .landscapeRight:
             print("Landscape MqttViewController")
             gaugeWizbangJR.rotateCustom(rotation: CGFloat.pi*3/2, duration: 1.0, options: selectedCurve.animationOption)
             battery.rotateCustom(rotation: CGFloat.pi*3/2, duration: 1.0, options: selectedCurve.animationOption)
+            batterySOC.rotateCustom(rotation: CGFloat.pi*3/2, duration: 1.0, options: selectedCurve.animationOption)
         case .faceUp:
             print("Face Up")
         case .faceDown:
@@ -142,7 +145,7 @@ class WizbangJRViewControllerMqtt: UIViewController, GaugeCenterViewDelegate {
         gaugeWizbangJR.valueFont                = UIFont(name: GaugeView.defaultFontName, size: CGFloat(80 * ratio))!
         gaugeWizbangJR.unitOfMeasurementFont    = UIFont(name: GaugeView.defaultFontName, size: CGFloat(12 * ratio))!
         gaugeWizbangJR.minMaxValueFont          = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(12 * ratio))!
-        gaugeWizbangJR.upperTextFont            = UIFont(name: GaugeView.defaultFontName, size: CGFloat(24 * ratio))!
+        gaugeWizbangJR.upperTextFont            = UIFont(name: GaugeView.defaultFontName, size: CGFloat(18 * ratio))!
         // Update gauge view
         gaugeWizbangJR.minValue                 = -32
         gaugeWizbangJR.maxValue                 = 32

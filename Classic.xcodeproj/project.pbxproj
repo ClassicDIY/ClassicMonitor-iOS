@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		65049F40252FF79F00B38B59 /* WizbangJRViewControllerModbus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65049F3F252FF79F00B38B59 /* WizbangJRViewControllerModbus.swift */; };
+		65049F43252FF7BA00B38B59 /* ConsumptionViewControllerModbus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65049F42252FF7BA00B38B59 /* ConsumptionViewControllerModbus.swift */; };
 		65091C4425197E2900B94E06 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65091C4325197E2900B94E06 /* NetworkExtension.framework */; };
 		650B9305250882B4002017BE /* GaugeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650B9304250882B4002017BE /* GaugeView.swift */; };
 		6513E8A3251AE0DF00C77214 /* PageViewControllerMqtt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6513E8A2251AE0DF00C77214 /* PageViewControllerMqtt.swift */; };
@@ -48,6 +50,8 @@
 
 /* Begin PBXFileReference section */
 		47E5A8D95641E141F34489A4 /* Pods-Classic.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Classic.debug.xcconfig"; path = "Target Support Files/Pods-Classic/Pods-Classic.debug.xcconfig"; sourceTree = "<group>"; };
+		65049F3F252FF79F00B38B59 /* WizbangJRViewControllerModbus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WizbangJRViewControllerModbus.swift; sourceTree = "<group>"; };
+		65049F42252FF7BA00B38B59 /* ConsumptionViewControllerModbus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsumptionViewControllerModbus.swift; sourceTree = "<group>"; };
 		65091C4325197E2900B94E06 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		650B9304250882B4002017BE /* GaugeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GaugeView.swift; sourceTree = "<group>"; };
 		6513E8A2251AE0DF00C77214 /* PageViewControllerMqtt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewControllerMqtt.swift; sourceTree = "<group>"; };
@@ -226,6 +230,8 @@
 				65528B3C25254D8F004CA8DB /* MqttViewController.swift */,
 				65BFE304252BABDE00F108AA /* ConsumptionViewControllerMqtt.swift */,
 				65B060C4252CD70800D76442 /* TabViewController.swift */,
+				65049F3F252FF79F00B38B59 /* WizbangJRViewControllerModbus.swift */,
+				65049F42252FF7BA00B38B59 /* ConsumptionViewControllerModbus.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -400,11 +406,13 @@
 				65528B3D25254D8F004CA8DB /* MqttViewController.swift in Sources */,
 				658EB55C250AF5D20071D8FA /* Reachability.swift in Sources */,
 				657A8D3A2506AE4B006B2BD0 /* ModbusViewController.swift in Sources */,
+				65049F43252FF7BA00B38B59 /* ConsumptionViewControllerModbus.swift in Sources */,
 				6546D2172527E95A00379578 /* BatteryView.swift in Sources */,
 				655CC3AC250A5A9200A0D6D0 /* modbus.c in Sources */,
 				658EC243250C8F4000F1ACAF /* DetectDeviceViewController.swift in Sources */,
 				655CC3AA250A5A9200A0D6D0 /* modbus-rtu.c in Sources */,
 				657301C32523A7E000AF868D /* MQTTDataReading.swift in Sources */,
+				65049F40252FF79F00B38B59 /* WizbangJRViewControllerModbus.swift in Sources */,
 				658199592509166C00BAB8C7 /* ClassicMonitor-Settings.swift in Sources */,
 				654B1D572526904A00B38452 /* BatteryLevelView.swift in Sources */,
 				6513E8A3251AE0DF00C77214 /* PageViewControllerMqtt.swift in Sources */,

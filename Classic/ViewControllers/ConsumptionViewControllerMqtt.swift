@@ -14,6 +14,11 @@ class ConsumptionViewControllerMqtt: UIViewController, GaugeViewDelegate, MQTTSe
     
     @IBOutlet weak var gaugeConsumptionView:        GaugeView!
     @IBOutlet weak var buttonDeviceDescription:     UIButton!
+    
+    @IBOutlet weak var centerButtonHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var centerButtonWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var centerGaugeWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var centerGaugeHeightConstraint: NSLayoutConstraint!
         
     var timeDelta: Double       = 10.0/24 //MARK: For the timer to read
     var timer: Timer?           = nil
@@ -43,10 +48,55 @@ class ConsumptionViewControllerMqtt: UIViewController, GaugeViewDelegate, MQTTSe
     override func viewDidLoad() {
         super.viewDidLoad()
         print("VIEW DID LOAD ConsumptionViewController")
+        optimizeForDeviceSize()
         //MARK: To check if app goes to background
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+    
+    func optimizeForDeviceSize() {
+        // Adjust album size to fit iPhone 4s, 6s & 6s+
+        let deviceHeight = self.view.bounds.height
+        print("Device Height \(deviceHeight)")
+        if deviceHeight == 480 { //iPhone 4
+            centerGaugeWidthConstraint.constant     = 180
+            centerGaugeHeightConstraint.constant    = 180
+            centerButtonWidthConstraint.constant    = 180
+            centerButtonHeightConstraint.constant   = 180
+            view.updateConstraints()
+        }
+        else if deviceHeight == 568 { //MARK: iPhone 5
+            centerGaugeWidthConstraint.constant     = 200
+            centerGaugeHeightConstraint.constant    = 200
+            centerButtonWidthConstraint.constant    = 200
+            centerButtonHeightConstraint.constant   = 200
+            view.updateConstraints()
+        }
+        else if deviceHeight == 667 {
+            centerGaugeWidthConstraint.constant     = 260
+            centerGaugeHeightConstraint.constant    = 260
+            centerButtonWidthConstraint.constant    = 260
+            centerButtonHeightConstraint.constant   = 260
+            view.updateConstraints()
+        }
+        else if deviceHeight == 896 { //MARK: iPhone 11 Pro
+            centerGaugeWidthConstraint.constant     = 370
+            centerGaugeHeightConstraint.constant    = 370
+            centerButtonWidthConstraint.constant    = 370
+            centerButtonHeightConstraint.constant   = 370
+            view.updateConstraints()
+        }
+        else if deviceHeight == 1024 { //MARK: iPhone 11 Pro
+            centerGaugeWidthConstraint.constant     = 430
+            centerGaugeHeightConstraint.constant    = 430
+            centerButtonWidthConstraint.constant    = 430
+            centerButtonHeightConstraint.constant   = 430
+            view.updateConstraints()
+        }
+        //else if deviceHeight > 667 {
+        //    view.updateConstraints()
+        //}
     }
     
     @objc func appMovedToBackground() {
@@ -155,7 +205,7 @@ class ConsumptionViewControllerMqtt: UIViewController, GaugeViewDelegate, MQTTSe
         gaugeConsumptionView.valueFont                = UIFont(name: GaugeView.defaultFontName, size: CGFloat(80 * ratio))!
         gaugeConsumptionView.unitOfMeasurementFont    = UIFont(name: GaugeView.defaultFontName, size: CGFloat(12 * ratio))!
         gaugeConsumptionView.minMaxValueFont          = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(12 * ratio))!
-        gaugeConsumptionView.upperTextFont            = UIFont(name: GaugeView.defaultFontName, size: CGFloat(24 * ratio))!
+        gaugeConsumptionView.upperTextFont            = UIFont(name: GaugeView.defaultFontName, size: CGFloat(18 * ratio))!
         //powerLabel.font = UIFont(name: GaugeView.defaultFontName, size: CGFloat(24 * ratio))!
         //powerLabel.textColor = UIColor(white: 0.7, alpha: 1)
         // Update gauge view

@@ -263,7 +263,7 @@ class MqttViewController: UIViewController, GaugeViewDelegate {
         gaugePowerView.valueFont                    = UIFont(name: GaugeView.defaultFontName, size: CGFloat(80 * ratio))!
         gaugePowerView.unitOfMeasurementFont        = UIFont(name: GaugeView.defaultFontName, size: CGFloat(12 * ratio))!
         gaugePowerView.minMaxValueFont              = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(12 * ratio))!
-        gaugePowerView.upperTextFont                = UIFont(name: GaugeView.defaultFontName, size: CGFloat(14 * ratio))!
+        gaugePowerView.upperTextFont                = UIFont(name: GaugeView.defaultFontName, size: CGFloat(18 * ratio))!
         //powerLabel.font = UIFont(name: GaugeView.defaultFontName, size: CGFloat(24 * ratio))!
         //powerLabel.textColor = UIColor(white: 0.7, alpha: 1)
         // Update gauge view

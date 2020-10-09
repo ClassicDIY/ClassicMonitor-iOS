@@ -50,8 +50,8 @@ class PageViewControllerModbus: UIPageViewController {
         delegate                = self
         
         let firstVC             = storyboard?.instantiateViewController(withIdentifier: "ModbusViewController") as! ModbusViewController
-        //let secondVC            = storyboard?.instantiateViewController(withIdentifier: "WizbangJRViewController") as! WizbangJRViewController
-        //let thirdVC             = storyboard?.instantiateViewController(withIdentifier: "ConsumptionViewController") as! ConsumptionViewController
+        let secondVC            = storyboard?.instantiateViewController(withIdentifier: "WizbangJRViewControllerModbus") as! WizbangJRViewControllerModbus
+        let thirdVC             = storyboard?.instantiateViewController(withIdentifier: "ConsumptionViewControllerModbus") as! ConsumptionViewControllerModbus
         
         //MARK: Parameters set here to child view
         firstVC.classicURL      = self.classicURL as NSString
@@ -74,8 +74,8 @@ class PageViewControllerModbus: UIPageViewController {
         thirdVC.classicName    = self.classicName*/
         
         orderedViewControllers.append(firstVC)
-        //orderedViewControllers.append(secondVC)
-        //orderedViewControllers.append(thirdVC)
+        orderedViewControllers.append(secondVC)
+        orderedViewControllers.append(thirdVC)
         
         if let initialViewController = orderedViewControllers.first {
             scrollToViewController(viewController: initialViewController)

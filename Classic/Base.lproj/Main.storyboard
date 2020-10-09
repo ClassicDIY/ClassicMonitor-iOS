@@ -43,7 +43,7 @@
                                     <constraint firstItem="I64-gs-fWW" firstAttribute="centerY" secondItem="Bzg-hc-J7r" secondAttribute="centerY" id="yDA-ts-pzl"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" indicatorStyle="black" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="28" estimatedSectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sdf-2B-Vpx">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" indicatorStyle="black" keyboardDismissMode="interactive" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sdf-2B-Vpx">
                                 <rect key="frame" x="10" y="137" width="355" height="641"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -165,18 +165,51 @@
             </objects>
             <point key="canvasLocation" x="1178" y="-750"/>
         </scene>
-        <!--WizbangJR Readings-->
+        <!--WizbangJR Readings Mqtt-->
         <scene sceneID="0hU-If-ARu">
             <objects>
-                <viewController storyboardIdentifier="WizbangJRViewControllerMqtt" id="sd2-qE-60F" userLabel="WizbangJR Readings" customClass="WizbangJRViewControllerMqtt" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WizbangJRViewControllerMqtt" id="sd2-qE-60F" userLabel="WizbangJR Readings Mqtt" customClass="WizbangJRViewControllerMqtt" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="JeP-Ia-ff0">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YTv-AY-uh2" customClass="GaugeCenterView" customModule="Classic_Monitor" customModuleProvider="target">
-                                <rect key="frame" x="32" y="145" width="311" height="311"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PBQ-Qn-Ndm" userLabel="Top View">
+                                <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ULs-eP-njh">
+                                        <rect key="frame" x="20" y="0.0" width="21" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="PAA-tO-9CJ"/>
+                                        </constraints>
+                                        <state key="normal" image="back-3"/>
+                                        <connections>
+                                            <segue destination="Ylt-z4-gkV" kind="unwind" unwindAction="unwindFromPresentedViewControllerWithSegue:" id="se0-5u-dcz"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B7M-eX-D1g">
+                                        <rect key="frame" x="133.66666666666666" y="7" width="108" height="30"/>
+                                        <state key="normal" title="State of Charge">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="ULs-eP-njh" firstAttribute="top" secondItem="PBQ-Qn-Ndm" secondAttribute="top" id="AbQ-8E-bz7"/>
+                                    <constraint firstAttribute="bottom" secondItem="ULs-eP-njh" secondAttribute="bottom" id="Bmv-Dc-gpw"/>
+                                    <constraint firstItem="B7M-eX-D1g" firstAttribute="centerY" secondItem="PBQ-Qn-Ndm" secondAttribute="centerY" id="KYC-I5-fSY"/>
+                                    <constraint firstItem="B7M-eX-D1g" firstAttribute="centerX" secondItem="PBQ-Qn-Ndm" secondAttribute="centerX" id="gvT-1S-qgw"/>
+                                    <constraint firstAttribute="height" constant="44" id="pUZ-cX-77o"/>
+                                    <constraint firstItem="ULs-eP-njh" firstAttribute="leading" secondItem="PBQ-Qn-Ndm" secondAttribute="leading" constant="20" id="wV4-7V-gjH"/>
+                                </constraints>
+                            </view>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YTv-AY-uh2" customClass="GaugeCenterView" customModule="Classic_Monitor" customModuleProvider="target">
+                                <rect key="frame" x="20" y="113.66666666666669" width="335" height="335"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="YTv-AY-uh2" secondAttribute="height" multiplier="1:1" id="LAA-Nz-vi3"/>
+                                    <constraint firstAttribute="width" constant="335" id="WYS-j4-vTv"/>
+                                    <constraint firstAttribute="height" constant="335" id="cAS-iK-1H7"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="valueTextColor">
                                         <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -190,61 +223,66 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Power"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="svE-c4-lus" customClass="BatteryView" customModule="Classic_Monitor" customModuleProvider="target">
-                                <rect key="frame" x="42" y="572" width="291" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M1y-m1-Ifr" userLabel="Bottom View">
+                                <rect key="frame" x="0.0" y="456.66666666666674" width="375" height="321.33333333333326"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="???" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WvC-rJ-KmE">
-                                        <rect key="frame" x="-26" y="53" width="343" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="svE-c4-lus" customClass="BatteryView" customModule="Classic_Monitor" customModuleProvider="target">
+                                        <rect key="frame" x="42" y="95.999999999999943" width="291" height="128"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isVertical" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="level">
+                                                <integer key="value" value="0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="lowThreshold">
+                                                <integer key="value" value="40"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="gradientThreshold">
+                                                <integer key="value" value="60"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="highLevelColor">
+                                                <color key="value" systemColor="systemGreenColor"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="lowLevelColor">
+                                                <color key="value" systemColor="systemRedColor"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="noLevelColor">
+                                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="7"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="???" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WvC-rJ-KmE">
+                                        <rect key="frame" x="168" y="144.99999999999994" width="39" height="31"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isVertical" value="NO"/>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="level">
-                                        <integer key="value" value="0"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="lowThreshold">
-                                        <integer key="value" value="40"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="gradientThreshold">
-                                        <integer key="value" value="60"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="highLevelColor">
-                                        <color key="value" systemColor="systemGreenColor"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="lowLevelColor">
-                                        <color key="value" systemColor="systemRedColor"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="noLevelColor">
-                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="7"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
+                                <constraints>
+                                    <constraint firstItem="svE-c4-lus" firstAttribute="top" secondItem="M1y-m1-Ifr" secondAttribute="top" constant="96" id="IfU-Fc-UIA"/>
+                                    <constraint firstAttribute="bottom" secondItem="svE-c4-lus" secondAttribute="bottom" constant="97.329999999999998" id="KSP-iT-1Tj"/>
+                                    <constraint firstItem="WvC-rJ-KmE" firstAttribute="centerY" secondItem="M1y-m1-Ifr" secondAttribute="centerY" id="a9x-ko-RCk"/>
+                                    <constraint firstAttribute="trailing" secondItem="svE-c4-lus" secondAttribute="trailing" constant="42" id="f9t-Ii-aSz"/>
+                                    <constraint firstItem="WvC-rJ-KmE" firstAttribute="centerX" secondItem="M1y-m1-Ifr" secondAttribute="centerX" id="oD7-8i-fNn"/>
+                                    <constraint firstItem="svE-c4-lus" firstAttribute="leading" secondItem="M1y-m1-Ifr" secondAttribute="leading" constant="42" id="sQz-QQ-D8w"/>
+                                </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ULs-eP-njh">
-                                <rect key="frame" x="20" y="37" width="44" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="back-3"/>
-                                <connections>
-                                    <segue destination="Ylt-z4-gkV" kind="unwind" unwindAction="unwindFromPresentedViewControllerWithSegue:" id="se0-5u-dcz"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B7M-eX-D1g">
-                                <rect key="frame" x="70" y="43" width="241" height="30"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="State of Charge">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="25B-03-uLa"/>
                         <color key="backgroundColor" red="0.12165830280000001" green="0.12915611269999999" blue="0.1411797702" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="YTv-AY-uh2" firstAttribute="centerY" secondItem="JeP-Ia-ff0" secondAttribute="centerY" constant="-125" id="5BW-8G-bIQ"/>
+                            <constraint firstItem="PBQ-Qn-Ndm" firstAttribute="leading" secondItem="25B-03-uLa" secondAttribute="leading" id="CfX-dO-ljH"/>
+                            <constraint firstItem="PBQ-Qn-Ndm" firstAttribute="trailing" secondItem="25B-03-uLa" secondAttribute="trailing" id="DNY-CR-6Wr"/>
+                            <constraint firstItem="M1y-m1-Ifr" firstAttribute="trailing" secondItem="25B-03-uLa" secondAttribute="trailing" id="G2G-al-zFe"/>
+                            <constraint firstItem="PBQ-Qn-Ndm" firstAttribute="top" secondItem="25B-03-uLa" secondAttribute="top" id="H0C-Qz-9dv"/>
+                            <constraint firstItem="M1y-m1-Ifr" firstAttribute="bottom" secondItem="25B-03-uLa" secondAttribute="bottom" id="KGI-Vc-UR8"/>
+                            <constraint firstItem="YTv-AY-uh2" firstAttribute="centerX" secondItem="JeP-Ia-ff0" secondAttribute="centerX" id="L9s-Ad-Tbz"/>
+                            <constraint firstItem="M1y-m1-Ifr" firstAttribute="leading" secondItem="25B-03-uLa" secondAttribute="leading" id="MZN-hY-CNU"/>
+                            <constraint firstItem="M1y-m1-Ifr" firstAttribute="top" secondItem="YTv-AY-uh2" secondAttribute="bottom" constant="8" id="o7H-jb-GM8"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="battery" destination="svE-c4-lus" id="qv2-zr-fAT"/>
@@ -744,128 +782,6 @@
             </objects>
             <point key="canvasLocation" x="1884" y="-750"/>
         </scene>
-        <!--Consumption MQTT-->
-        <scene sceneID="Z9K-DI-fXx">
-            <objects>
-                <viewController storyboardIdentifier="ConsumptionViewControllerMqtt" useStoryboardIdentifierAsRestorationIdentifier="YES" id="hOZ-IX-75M" userLabel="Consumption MQTT" customClass="ConsumptionViewControllerMqtt" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="HQj-Hc-OWH">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q99-PG-VX1">
-                                <rect key="frame" x="70" y="43" width="241" height="30"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Consumption">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d8N-j1-VkV" userLabel="Button Return">
-                                <rect key="frame" x="20" y="37" width="44" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="back-3">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <segue destination="tMZ-po-sWK" kind="unwind" unwindAction="unwindFromPresentedViewControllerWithSegue:" id="oou-XL-qn8"/>
-                                </connections>
-                            </button>
-                            <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1pp-Dm-SI3" userLabel="Gauge View Energy" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
-                                <rect key="frame" x="20" y="82" width="144" height="147"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="stringFormat" value="%.1f"/>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Energy"/>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
-                                </userDefinedRuntimeAttributes>
-                            </view>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xfd-Rb-8UP" userLabel="Button Energy">
-                                <rect key="frame" x="20" y="82" width="144" height="147"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                            </button>
-                            <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cbL-Uu-PO5" userLabel="Gauge View Battery Volts" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
-                                <rect key="frame" x="210" y="82" width="149" height="147"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="stringFormat" value="%.1f"/>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Battery"/>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
-                                </userDefinedRuntimeAttributes>
-                            </view>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JMW-wt-a2M" userLabel="Button Battery">
-                                <rect key="frame" x="210" y="82" width="149" height="147"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                            </button>
-                            <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4M0-bR-wym" userLabel="Gauge View Input" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
-                                <rect key="frame" x="20" y="632" width="144" height="146"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Input"/>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
-                                </userDefinedRuntimeAttributes>
-                            </view>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="enK-dO-lcy" userLabel="Button Input">
-                                <rect key="frame" x="20" y="632" width="144" height="146"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
-                            </button>
-                            <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xqd-bK-rth" userLabel="Gauge View Battery Amps" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
-                                <rect key="frame" x="206" y="632" width="149" height="146"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="stringFormat" value="%.1f"/>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Battery"/>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
-                                </userDefinedRuntimeAttributes>
-                            </view>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uwy-4B-god" userLabel="Button Battery Amps">
-                                <rect key="frame" x="206" y="632" width="149" height="146"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
-                            </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EUz-bh-9xV">
-                                <rect key="frame" x="48" y="582" width="278" height="35"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                <state key="normal" title="Stage">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                            </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xfa-kW-PZG" userLabel="Center Button">
-                                <rect key="frame" x="192" y="369" width="0.0" height="212"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            </button>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="05d-yK-ZtH" userLabel="Gauge View Power Center" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
-                                <rect key="frame" x="32" y="251" width="311" height="311"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <subviews>
-                                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ground_fault" translatesAutoresizingMaskIntoConstraints="NO" id="VQF-Gn-e24">
-                                        <rect key="frame" x="181" y="205" width="31" height="28"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Power"/>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
-                                </userDefinedRuntimeAttributes>
-                            </view>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="0RX-sr-BRw"/>
-                        <color key="backgroundColor" red="0.12165830280000001" green="0.12915611269999999" blue="0.1411797702" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Classic 250" id="ZaD-C1-l2y"/>
-                    <connections>
-                        <outlet property="buttonDeviceDescription" destination="q99-PG-VX1" id="s5y-tB-Hbf"/>
-                        <outlet property="gaugeConsumptionView" destination="05d-yK-ZtH" id="fiP-5K-QhG"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="sXT-oj-pnr" sceneMemberID="firstResponder"/>
-                <exit id="tMZ-po-sWK" userLabel="Exit" sceneMemberID="exit"/>
-            </objects>
-            <point key="canvasLocation" x="3417" y="-750"/>
-        </scene>
         <!--Page View ControllerModbus-->
         <scene sceneID="TKx-lt-Ieo">
             <objects>
@@ -873,6 +789,595 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dtj-s8-Sta" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1177" y="-44"/>
+        </scene>
+        <!--Classic Consumption Mqtt-->
+        <scene sceneID="RDF-wy-LWu">
+            <objects>
+                <viewController storyboardIdentifier="ConsumptionViewControllerMqtt" useStoryboardIdentifierAsRestorationIdentifier="YES" id="hco-1Z-DaQ" userLabel="Classic Consumption Mqtt" customClass="ConsumptionViewControllerMqtt" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="BCK-32-X1Z">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FUP-oE-tS5" userLabel="Top View">
+                                <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W2B-nj-lG6" userLabel="Button Return">
+                                        <rect key="frame" x="20" y="0.0" width="21" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="Tf9-Bx-SmB"/>
+                                        </constraints>
+                                        <state key="normal" image="back-3">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="aEa-ES-wud" kind="unwind" unwindAction="unwindFromPresentedViewControllerWithSegue:" id="AcV-uk-emf"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AIH-T4-Z4m">
+                                        <rect key="frame" x="141.66666666666666" y="7" width="92" height="30"/>
+                                        <state key="normal" title="Consumption">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="W2B-nj-lG6" secondAttribute="bottom" id="ivi-bM-LRn"/>
+                                    <constraint firstAttribute="height" constant="44" id="lfa-4d-ki4"/>
+                                    <constraint firstItem="AIH-T4-Z4m" firstAttribute="centerX" secondItem="FUP-oE-tS5" secondAttribute="centerX" id="pQa-CS-ujz"/>
+                                    <constraint firstItem="W2B-nj-lG6" firstAttribute="leading" secondItem="FUP-oE-tS5" secondAttribute="leading" constant="20" id="qzO-Pe-Tc1"/>
+                                    <constraint firstItem="W2B-nj-lG6" firstAttribute="top" secondItem="FUP-oE-tS5" secondAttribute="top" id="tIG-iG-d5A"/>
+                                    <constraint firstItem="AIH-T4-Z4m" firstAttribute="centerY" secondItem="FUP-oE-tS5" secondAttribute="centerY" id="zFU-rk-3Uu"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3DQ-Pn-Nhm" userLabel="Top Gauges">
+                                <rect key="frame" x="0.0" y="87.999999999999986" width="375" height="149.66666666666663"/>
+                                <subviews>
+                                    <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rji-XX-vKR" userLabel="Gauge View Energy" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="0.0" width="148.66666666666666" height="148.66666666666666"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Rji-XX-vKR" secondAttribute="height" multiplier="1:1" id="TYc-qe-xAX"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="stringFormat" value="%.1f"/>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Energy"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xS0-Sr-dzH" userLabel="Button Energy">
+                                        <rect key="frame" x="20" y="0.0" width="149.66666666666666" height="149.66666666666666"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="xS0-Sr-dzH" secondAttribute="height" multiplier="1:1" id="dBt-iw-STD"/>
+                                        </constraints>
+                                    </button>
+                                    <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7le-LO-OBQ" userLabel="Gauge View Battery Volts" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
+                                        <rect key="frame" x="207.33333333333331" y="0.0" width="146.33333333333331" height="148.66666666666666"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="7le-LO-OBQ" secondAttribute="height" multiplier="1:1" constant="-2" id="GqA-Rp-Lff"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="stringFormat" value="%.1f"/>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Battery"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NCn-Vp-gqG" userLabel="Button Battery">
+                                        <rect key="frame" x="206.33333333333331" y="0.0" width="147.33333333333331" height="149.66666666666666"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="NCn-Vp-gqG" secondAttribute="height" multiplier="1:1" constant="-2" id="F7e-xJ-RWz"/>
+                                        </constraints>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Rji-XX-vKR" firstAttribute="leading" secondItem="3DQ-Pn-Nhm" secondAttribute="leading" constant="20" symbolic="YES" id="0NO-CX-gGB"/>
+                                    <constraint firstAttribute="bottom" secondItem="Rji-XX-vKR" secondAttribute="bottom" constant="1" id="0rY-Qh-WNP"/>
+                                    <constraint firstAttribute="bottom" secondItem="xS0-Sr-dzH" secondAttribute="bottom" id="B0F-5x-R3M"/>
+                                    <constraint firstItem="Rji-XX-vKR" firstAttribute="top" secondItem="3DQ-Pn-Nhm" secondAttribute="top" id="CM3-tz-TN2"/>
+                                    <constraint firstItem="7le-LO-OBQ" firstAttribute="top" secondItem="3DQ-Pn-Nhm" secondAttribute="top" id="Ojr-4Y-xhU"/>
+                                    <constraint firstAttribute="bottom" secondItem="7le-LO-OBQ" secondAttribute="bottom" constant="1" id="RyC-c6-PD5"/>
+                                    <constraint firstItem="xS0-Sr-dzH" firstAttribute="leading" secondItem="3DQ-Pn-Nhm" secondAttribute="leading" constant="20" symbolic="YES" id="Z3W-xN-KwS"/>
+                                    <constraint firstItem="xS0-Sr-dzH" firstAttribute="top" secondItem="3DQ-Pn-Nhm" secondAttribute="top" id="fe2-pY-Qr1"/>
+                                    <constraint firstAttribute="bottom" secondItem="NCn-Vp-gqG" secondAttribute="bottom" id="iwl-6g-Yuu"/>
+                                    <constraint firstAttribute="trailing" secondItem="7le-LO-OBQ" secondAttribute="trailing" constant="21.333333333333371" id="p3c-oM-x60"/>
+                                    <constraint firstItem="NCn-Vp-gqG" firstAttribute="top" secondItem="3DQ-Pn-Nhm" secondAttribute="top" id="p8N-xd-1SG"/>
+                                    <constraint firstAttribute="trailing" secondItem="NCn-Vp-gqG" secondAttribute="trailing" constant="21.333333333333371" id="r7D-ks-6YQ"/>
+                                </constraints>
+                            </view>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JRv-Bn-hrH" userLabel="Gauge View Power Center" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
+                                <rect key="frame" x="20" y="238.66666666666663" width="335" height="335"/>
+                                <subviews>
+                                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ground_fault" translatesAutoresizingMaskIntoConstraints="NO" id="qpI-et-KIX">
+                                        <rect key="frame" x="198" y="223" width="30" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="JRv-Bn-hrH" secondAttribute="height" multiplier="1:1" id="4Sg-EH-5lH"/>
+                                    <constraint firstAttribute="height" constant="335" id="LBt-gb-w3z"/>
+                                    <constraint firstAttribute="width" constant="335" id="hjc-zS-t9x"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Power"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ngT-hi-5jv" userLabel="Center Button">
+                                <rect key="frame" x="20" y="238.66666666666663" width="335" height="335"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="ngT-hi-5jv" secondAttribute="height" multiplier="1:1" id="6SG-l9-DKR"/>
+                                    <constraint firstAttribute="width" constant="335" id="72I-5B-9EJ"/>
+                                    <constraint firstAttribute="height" constant="335" id="CRw-qT-K17"/>
+                                </constraints>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GVS-QA-HwP" userLabel="Bottom View">
+                                <rect key="frame" x="0.0" y="574.66666666666663" width="375" height="203.33333333333337"/>
+                                <subviews>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u2g-bq-20T">
+                                        <rect key="frame" x="20" y="8" width="335" height="36"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="36" id="TZ5-Ug-020"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                        <state key="normal" title="Stage">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z05-B9-iuK" userLabel="View Gauges">
+                                        <rect key="frame" x="0.0" y="54.000000000000014" width="375" height="149.33333333333337"/>
+                                        <subviews>
+                                            <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Cs-2m-EQf" userLabel="Gauge View Input" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
+                                                <rect key="frame" x="20" y="0.0" width="149" height="149"/>
+                                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="0Cs-2m-EQf" secondAttribute="height" multiplier="1:1" id="h4r-xb-akb"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Input"/>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j85-1s-xLM" userLabel="Button Input">
+                                                <rect key="frame" x="20" y="0.0" width="149" height="149"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="j85-1s-xLM" secondAttribute="height" multiplier="1:1" id="HdH-5i-S9A"/>
+                                                </constraints>
+                                            </button>
+                                            <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TVg-KN-zMt" userLabel="Gauge View Battery Amps" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
+                                                <rect key="frame" x="206" y="0.0" width="149" height="149"/>
+                                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="TVg-KN-zMt" secondAttribute="height" multiplier="1:1" id="P6B-cw-vov"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="stringFormat" value="%.1f"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Battery"/>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8NG-Ff-k58" userLabel="Button Battery Amps">
+                                                <rect key="frame" x="206" y="0.0" width="149" height="149"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="8NG-Ff-k58" secondAttribute="height" multiplier="1:1" id="NgW-NN-lmj"/>
+                                                </constraints>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="0Cs-2m-EQf" firstAttribute="leading" secondItem="z05-B9-iuK" secondAttribute="leading" constant="20" id="3JY-le-dLP"/>
+                                            <constraint firstAttribute="trailing" secondItem="8NG-Ff-k58" secondAttribute="trailing" constant="20" id="6A1-sq-U0O"/>
+                                            <constraint firstItem="TVg-KN-zMt" firstAttribute="top" secondItem="z05-B9-iuK" secondAttribute="top" id="9SF-cp-881"/>
+                                            <constraint firstAttribute="bottom" secondItem="8NG-Ff-k58" secondAttribute="bottom" constant="0.33000000000000002" id="AoC-G1-rDS"/>
+                                            <constraint firstAttribute="bottom" secondItem="0Cs-2m-EQf" secondAttribute="bottom" constant="0.33000000000000002" id="BTW-D9-bOb"/>
+                                            <constraint firstItem="j85-1s-xLM" firstAttribute="leading" secondItem="z05-B9-iuK" secondAttribute="leading" constant="20" id="L3K-dg-je7"/>
+                                            <constraint firstItem="8NG-Ff-k58" firstAttribute="top" secondItem="z05-B9-iuK" secondAttribute="top" id="T24-BB-nXe"/>
+                                            <constraint firstAttribute="trailing" secondItem="TVg-KN-zMt" secondAttribute="trailing" constant="20" id="ZL3-f3-D0A"/>
+                                            <constraint firstAttribute="bottom" secondItem="j85-1s-xLM" secondAttribute="bottom" constant="0.33000000000000002" id="bsR-HU-ChY"/>
+                                            <constraint firstItem="0Cs-2m-EQf" firstAttribute="top" secondItem="z05-B9-iuK" secondAttribute="top" id="fQW-Jr-8q5"/>
+                                            <constraint firstAttribute="bottom" secondItem="TVg-KN-zMt" secondAttribute="bottom" constant="0.33000000000000002" id="gWP-K6-Nhh"/>
+                                            <constraint firstItem="j85-1s-xLM" firstAttribute="top" secondItem="z05-B9-iuK" secondAttribute="top" id="hrr-Sn-2yj"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="u2g-bq-20T" firstAttribute="top" secondItem="GVS-QA-HwP" secondAttribute="top" constant="8.3300000000000001" id="5dG-a9-LAJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="u2g-bq-20T" secondAttribute="trailing" constant="20" id="EPO-2y-XMw"/>
+                                    <constraint firstItem="u2g-bq-20T" firstAttribute="leading" secondItem="GVS-QA-HwP" secondAttribute="leading" constant="20" id="EhY-H8-eMA"/>
+                                    <constraint firstAttribute="bottom" secondItem="z05-B9-iuK" secondAttribute="bottom" id="Hcg-cy-yaB"/>
+                                    <constraint firstAttribute="trailing" secondItem="z05-B9-iuK" secondAttribute="trailing" id="dgd-kL-AOB"/>
+                                    <constraint firstItem="z05-B9-iuK" firstAttribute="top" secondItem="u2g-bq-20T" secondAttribute="bottom" constant="10" id="fgP-cm-4lt"/>
+                                    <constraint firstItem="z05-B9-iuK" firstAttribute="leading" secondItem="GVS-QA-HwP" secondAttribute="leading" id="pS5-Gy-XRC"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="r26-Me-OgU"/>
+                        <color key="backgroundColor" red="0.12165830280000001" green="0.12915611269999999" blue="0.1411797702" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="3DQ-Pn-Nhm" firstAttribute="top" secondItem="FUP-oE-tS5" secondAttribute="bottom" id="0gP-Mt-6dk"/>
+                            <constraint firstItem="ngT-hi-5jv" firstAttribute="centerY" secondItem="BCK-32-X1Z" secondAttribute="centerY" id="1nD-Jk-FSJ"/>
+                            <constraint firstItem="GVS-QA-HwP" firstAttribute="bottom" secondItem="r26-Me-OgU" secondAttribute="bottom" id="2pH-Xu-Aqi"/>
+                            <constraint firstItem="GVS-QA-HwP" firstAttribute="leading" secondItem="r26-Me-OgU" secondAttribute="leading" id="3mB-Dt-NIh"/>
+                            <constraint firstItem="FUP-oE-tS5" firstAttribute="leading" secondItem="r26-Me-OgU" secondAttribute="leading" id="Dpj-xc-dxx"/>
+                            <constraint firstItem="JRv-Bn-hrH" firstAttribute="top" secondItem="3DQ-Pn-Nhm" secondAttribute="bottom" constant="1" id="RHA-Ln-8cS"/>
+                            <constraint firstItem="3DQ-Pn-Nhm" firstAttribute="top" secondItem="FUP-oE-tS5" secondAttribute="bottom" id="RYD-eN-Rxp"/>
+                            <constraint firstItem="JRv-Bn-hrH" firstAttribute="centerX" secondItem="BCK-32-X1Z" secondAttribute="centerX" id="WjA-8n-JPt"/>
+                            <constraint firstItem="3DQ-Pn-Nhm" firstAttribute="leading" secondItem="r26-Me-OgU" secondAttribute="leading" id="XIy-va-cbY"/>
+                            <constraint firstItem="GVS-QA-HwP" firstAttribute="top" secondItem="JRv-Bn-hrH" secondAttribute="bottom" constant="1" id="XKa-KV-crq"/>
+                            <constraint firstItem="FUP-oE-tS5" firstAttribute="trailing" secondItem="r26-Me-OgU" secondAttribute="trailing" id="Z9A-cm-fdJ"/>
+                            <constraint firstItem="GVS-QA-HwP" firstAttribute="trailing" secondItem="r26-Me-OgU" secondAttribute="trailing" id="ZZe-Tm-vje"/>
+                            <constraint firstItem="FUP-oE-tS5" firstAttribute="top" secondItem="r26-Me-OgU" secondAttribute="top" id="bDW-79-zOf"/>
+                            <constraint firstItem="ngT-hi-5jv" firstAttribute="centerX" secondItem="BCK-32-X1Z" secondAttribute="centerX" id="fL2-Em-6WG"/>
+                            <constraint firstItem="3DQ-Pn-Nhm" firstAttribute="trailing" secondItem="r26-Me-OgU" secondAttribute="trailing" id="oTe-XK-GYA"/>
+                            <constraint firstItem="JRv-Bn-hrH" firstAttribute="centerY" secondItem="BCK-32-X1Z" secondAttribute="centerY" id="qYW-aI-fdv"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Classic 250" id="3dN-Zr-PNv"/>
+                    <connections>
+                        <outlet property="buttonDeviceDescription" destination="AIH-T4-Z4m" id="hqg-P9-IFq"/>
+                        <outlet property="centerButtonHeightConstraint" destination="CRw-qT-K17" id="me3-nF-qsm"/>
+                        <outlet property="centerButtonWidthConstraint" destination="72I-5B-9EJ" id="KuQ-qX-mPC"/>
+                        <outlet property="centerGaugeHeightConstraint" destination="LBt-gb-w3z" id="wqb-aH-54b"/>
+                        <outlet property="centerGaugeWidthConstraint" destination="hjc-zS-t9x" id="eEA-Us-LPq"/>
+                        <outlet property="gaugeConsumptionView" destination="JRv-Bn-hrH" id="vaI-xK-uE6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3ZI-Bg-Uyg" sceneMemberID="firstResponder"/>
+                <exit id="aEa-ES-wud" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="3374" y="-750"/>
+        </scene>
+        <!--Classic Consumption Modbus-->
+        <scene sceneID="P3o-7h-i2g">
+            <objects>
+                <viewController storyboardIdentifier="ConsumptionViewControllerModbus" useStoryboardIdentifierAsRestorationIdentifier="YES" id="nqo-9Q-3XD" userLabel="Classic Consumption Modbus" customClass="ConsumptionViewControllerModbus" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="eXI-kv-Tx6">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tjf-Yj-Ma8" userLabel="Top View">
+                                <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j97-Rz-124" userLabel="Button Return">
+                                        <rect key="frame" x="20" y="0.0" width="21" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="Nob-2Z-T0n"/>
+                                        </constraints>
+                                        <state key="normal" image="back-3">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="M60-aJ-42x" kind="unwind" unwindAction="unwindFromPresentedViewControllerWithSegue:" id="hyT-G8-gOL"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CVC-Vu-OcF">
+                                        <rect key="frame" x="141.66666666666666" y="7" width="92" height="30"/>
+                                        <state key="normal" title="Consumption">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="j97-Rz-124" firstAttribute="top" secondItem="tjf-Yj-Ma8" secondAttribute="top" id="8wh-yq-tAl"/>
+                                    <constraint firstAttribute="bottom" secondItem="j97-Rz-124" secondAttribute="bottom" id="NnC-el-m8E"/>
+                                    <constraint firstAttribute="height" constant="44" id="Q39-P8-OaX"/>
+                                    <constraint firstItem="CVC-Vu-OcF" firstAttribute="centerX" secondItem="tjf-Yj-Ma8" secondAttribute="centerX" id="i7U-eN-sfP"/>
+                                    <constraint firstItem="CVC-Vu-OcF" firstAttribute="centerY" secondItem="tjf-Yj-Ma8" secondAttribute="centerY" id="rpO-AR-9wc"/>
+                                    <constraint firstItem="j97-Rz-124" firstAttribute="leading" secondItem="tjf-Yj-Ma8" secondAttribute="leading" constant="20" id="sQN-il-6Cu"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t8v-Ki-0lP" userLabel="Top Gauges">
+                                <rect key="frame" x="0.0" y="87.999999999999986" width="375" height="149.66666666666663"/>
+                                <subviews>
+                                    <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2sA-9R-wu8" userLabel="Gauge View Energy" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
+                                        <rect key="frame" x="20" y="0.0" width="148.66666666666666" height="148.66666666666666"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="2sA-9R-wu8" secondAttribute="height" multiplier="1:1" id="1Rv-an-H45"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="stringFormat" value="%.1f"/>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Energy"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mVx-NM-FSt" userLabel="Button Energy">
+                                        <rect key="frame" x="20" y="0.0" width="149.66666666666666" height="149.66666666666666"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="mVx-NM-FSt" secondAttribute="height" multiplier="1:1" id="lAr-4S-sid"/>
+                                        </constraints>
+                                    </button>
+                                    <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="klV-zr-ACn" userLabel="Gauge View Battery Volts" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
+                                        <rect key="frame" x="207.33333333333331" y="0.0" width="146.33333333333331" height="148.66666666666666"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="klV-zr-ACn" secondAttribute="height" multiplier="1:1" constant="-2" id="5LB-DZ-dUm"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="stringFormat" value="%.1f"/>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Battery"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DRk-HQ-fQH" userLabel="Button Battery">
+                                        <rect key="frame" x="206.33333333333331" y="0.0" width="147.33333333333331" height="149.66666666666666"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="DRk-HQ-fQH" secondAttribute="height" multiplier="1:1" constant="-2" id="Xdl-7h-lrE"/>
+                                        </constraints>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="DRk-HQ-fQH" firstAttribute="top" secondItem="t8v-Ki-0lP" secondAttribute="top" id="02C-cg-ugi"/>
+                                    <constraint firstAttribute="bottom" secondItem="2sA-9R-wu8" secondAttribute="bottom" constant="1" id="5CK-6U-wf9"/>
+                                    <constraint firstItem="2sA-9R-wu8" firstAttribute="leading" secondItem="t8v-Ki-0lP" secondAttribute="leading" constant="20" symbolic="YES" id="CNX-p6-8Ic"/>
+                                    <constraint firstItem="mVx-NM-FSt" firstAttribute="leading" secondItem="t8v-Ki-0lP" secondAttribute="leading" constant="20" symbolic="YES" id="DXG-56-qZx"/>
+                                    <constraint firstAttribute="trailing" secondItem="DRk-HQ-fQH" secondAttribute="trailing" constant="21.333333333333371" id="Gze-5h-I1F"/>
+                                    <constraint firstAttribute="bottom" secondItem="DRk-HQ-fQH" secondAttribute="bottom" id="O1Z-gy-JyY"/>
+                                    <constraint firstAttribute="trailing" secondItem="klV-zr-ACn" secondAttribute="trailing" constant="21.333333333333371" id="RBU-da-Cah"/>
+                                    <constraint firstItem="klV-zr-ACn" firstAttribute="top" secondItem="t8v-Ki-0lP" secondAttribute="top" id="ZWy-ZH-dfd"/>
+                                    <constraint firstItem="2sA-9R-wu8" firstAttribute="top" secondItem="t8v-Ki-0lP" secondAttribute="top" id="p5Z-DA-ZIE"/>
+                                    <constraint firstAttribute="bottom" secondItem="mVx-NM-FSt" secondAttribute="bottom" id="sNl-Q7-JxI"/>
+                                    <constraint firstItem="mVx-NM-FSt" firstAttribute="top" secondItem="t8v-Ki-0lP" secondAttribute="top" id="sY2-I3-m8b"/>
+                                    <constraint firstAttribute="bottom" secondItem="klV-zr-ACn" secondAttribute="bottom" constant="1" id="x7B-cQ-KBD"/>
+                                </constraints>
+                            </view>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bia-fM-2mf" userLabel="Gauge View Power Center" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
+                                <rect key="frame" x="20" y="238.66666666666663" width="335" height="335"/>
+                                <subviews>
+                                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="ground_fault" translatesAutoresizingMaskIntoConstraints="NO" id="oqc-6H-V3w">
+                                        <rect key="frame" x="198" y="223" width="30" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="335" id="5Jr-K3-C5s"/>
+                                    <constraint firstAttribute="width" constant="335" id="9sg-og-buZ"/>
+                                    <constraint firstAttribute="width" secondItem="Bia-fM-2mf" secondAttribute="height" multiplier="1:1" id="RVv-cP-ksG"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Power"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pkP-RF-FAZ" userLabel="Center Button">
+                                <rect key="frame" x="20" y="238.66666666666663" width="335" height="335"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="335" id="2yE-IK-ZXe"/>
+                                    <constraint firstAttribute="height" constant="335" id="EhK-AG-G3x"/>
+                                    <constraint firstAttribute="width" secondItem="pkP-RF-FAZ" secondAttribute="height" multiplier="1:1" id="HsV-7l-Fpu"/>
+                                </constraints>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sqw-Cl-aif" userLabel="Bottom View">
+                                <rect key="frame" x="0.0" y="574.66666666666663" width="375" height="203.33333333333337"/>
+                                <subviews>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xWe-0z-U2c">
+                                        <rect key="frame" x="20" y="8" width="335" height="36"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="36" id="GjX-4G-jCo"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                        <state key="normal" title="Stage">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dws-Ng-A22" userLabel="View Gauges">
+                                        <rect key="frame" x="0.0" y="54.000000000000014" width="375" height="149.33333333333337"/>
+                                        <subviews>
+                                            <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2AV-83-phr" userLabel="Gauge View Input" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
+                                                <rect key="frame" x="20" y="0.0" width="149" height="149"/>
+                                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="2AV-83-phr" secondAttribute="height" multiplier="1:1" id="gtL-KO-o4L"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Input"/>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w3k-oi-p3X" userLabel="Button Input">
+                                                <rect key="frame" x="20" y="0.0" width="149" height="149"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="w3k-oi-p3X" secondAttribute="height" multiplier="1:1" id="JHr-iE-1bJ"/>
+                                                </constraints>
+                                            </button>
+                                            <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zG8-Qn-loX" userLabel="Gauge View Battery Amps" customClass="GaugeView" customModule="Classic_Monitor" customModuleProvider="target">
+                                                <rect key="frame" x="206" y="0.0" width="149" height="149"/>
+                                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="zG8-Qn-loX" secondAttribute="height" multiplier="1:1" id="07Q-TN-p8x"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="stringFormat" value="%.1f"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Battery"/>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
+                                                </userDefinedRuntimeAttributes>
+                                            </view>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gCB-K6-B7i" userLabel="Button Battery Amps">
+                                                <rect key="frame" x="206" y="0.0" width="149" height="149"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="gCB-K6-B7i" secondAttribute="height" multiplier="1:1" id="5l6-zn-BWC"/>
+                                                </constraints>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="zG8-Qn-loX" firstAttribute="top" secondItem="Dws-Ng-A22" secondAttribute="top" id="Auj-l0-JXr"/>
+                                            <constraint firstAttribute="trailing" secondItem="zG8-Qn-loX" secondAttribute="trailing" constant="20" id="B9j-w7-w33"/>
+                                            <constraint firstAttribute="bottom" secondItem="zG8-Qn-loX" secondAttribute="bottom" constant="0.33000000000000002" id="BaF-Mk-icc"/>
+                                            <constraint firstAttribute="bottom" secondItem="w3k-oi-p3X" secondAttribute="bottom" constant="0.33000000000000002" id="Bnr-QO-3gr"/>
+                                            <constraint firstAttribute="bottom" secondItem="2AV-83-phr" secondAttribute="bottom" constant="0.33000000000000002" id="CGk-nA-4LY"/>
+                                            <constraint firstAttribute="trailing" secondItem="gCB-K6-B7i" secondAttribute="trailing" constant="20" id="F6h-1N-skK"/>
+                                            <constraint firstItem="w3k-oi-p3X" firstAttribute="leading" secondItem="Dws-Ng-A22" secondAttribute="leading" constant="20" id="SC5-cK-Hye"/>
+                                            <constraint firstAttribute="bottom" secondItem="gCB-K6-B7i" secondAttribute="bottom" constant="0.33000000000000002" id="Sal-Mg-eux"/>
+                                            <constraint firstItem="2AV-83-phr" firstAttribute="top" secondItem="Dws-Ng-A22" secondAttribute="top" id="gB4-sE-zB4"/>
+                                            <constraint firstItem="2AV-83-phr" firstAttribute="leading" secondItem="Dws-Ng-A22" secondAttribute="leading" constant="20" id="hMt-hE-jFM"/>
+                                            <constraint firstItem="gCB-K6-B7i" firstAttribute="top" secondItem="Dws-Ng-A22" secondAttribute="top" id="jOe-gb-h0C"/>
+                                            <constraint firstItem="w3k-oi-p3X" firstAttribute="top" secondItem="Dws-Ng-A22" secondAttribute="top" id="xvb-Jn-5TY"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="xWe-0z-U2c" firstAttribute="top" secondItem="sqw-Cl-aif" secondAttribute="top" constant="8.3300000000000001" id="87B-TW-Dhe"/>
+                                    <constraint firstItem="Dws-Ng-A22" firstAttribute="top" secondItem="xWe-0z-U2c" secondAttribute="bottom" constant="10" id="BvX-xj-7sM"/>
+                                    <constraint firstAttribute="trailing" secondItem="Dws-Ng-A22" secondAttribute="trailing" id="GJ8-bj-d8v"/>
+                                    <constraint firstAttribute="bottom" secondItem="Dws-Ng-A22" secondAttribute="bottom" id="Mpz-w1-38m"/>
+                                    <constraint firstItem="Dws-Ng-A22" firstAttribute="leading" secondItem="sqw-Cl-aif" secondAttribute="leading" id="crC-D4-URj"/>
+                                    <constraint firstItem="xWe-0z-U2c" firstAttribute="leading" secondItem="sqw-Cl-aif" secondAttribute="leading" constant="20" id="e9h-K1-URX"/>
+                                    <constraint firstAttribute="trailing" secondItem="xWe-0z-U2c" secondAttribute="trailing" constant="20" id="opQ-oI-VHo"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="wzl-Vg-vxy"/>
+                        <color key="backgroundColor" red="0.12165830280000001" green="0.12915611269999999" blue="0.1411797702" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="tjf-Yj-Ma8" firstAttribute="leading" secondItem="wzl-Vg-vxy" secondAttribute="leading" id="12Q-5M-bb5"/>
+                            <constraint firstItem="sqw-Cl-aif" firstAttribute="bottom" secondItem="wzl-Vg-vxy" secondAttribute="bottom" id="8mF-bS-qYM"/>
+                            <constraint firstItem="t8v-Ki-0lP" firstAttribute="trailing" secondItem="wzl-Vg-vxy" secondAttribute="trailing" id="Cuk-ay-gQc"/>
+                            <constraint firstItem="tjf-Yj-Ma8" firstAttribute="trailing" secondItem="wzl-Vg-vxy" secondAttribute="trailing" id="DrI-g4-VAg"/>
+                            <constraint firstItem="sqw-Cl-aif" firstAttribute="top" secondItem="Bia-fM-2mf" secondAttribute="bottom" constant="1" id="He6-HH-Zgp"/>
+                            <constraint firstItem="Bia-fM-2mf" firstAttribute="centerX" secondItem="eXI-kv-Tx6" secondAttribute="centerX" id="IXF-ph-66E"/>
+                            <constraint firstItem="pkP-RF-FAZ" firstAttribute="centerY" secondItem="eXI-kv-Tx6" secondAttribute="centerY" id="KnQ-Cc-zAa"/>
+                            <constraint firstItem="Bia-fM-2mf" firstAttribute="top" secondItem="t8v-Ki-0lP" secondAttribute="bottom" constant="1" id="Pb4-QO-P5n"/>
+                            <constraint firstItem="sqw-Cl-aif" firstAttribute="trailing" secondItem="wzl-Vg-vxy" secondAttribute="trailing" id="RdT-CB-6s3"/>
+                            <constraint firstItem="pkP-RF-FAZ" firstAttribute="centerX" secondItem="eXI-kv-Tx6" secondAttribute="centerX" id="UZ5-No-2vU"/>
+                            <constraint firstItem="sqw-Cl-aif" firstAttribute="leading" secondItem="wzl-Vg-vxy" secondAttribute="leading" id="dMc-Gz-fe7"/>
+                            <constraint firstItem="t8v-Ki-0lP" firstAttribute="top" secondItem="tjf-Yj-Ma8" secondAttribute="bottom" id="h8y-c9-YqH"/>
+                            <constraint firstItem="t8v-Ki-0lP" firstAttribute="leading" secondItem="wzl-Vg-vxy" secondAttribute="leading" id="iEu-7q-ehQ"/>
+                            <constraint firstItem="tjf-Yj-Ma8" firstAttribute="top" secondItem="wzl-Vg-vxy" secondAttribute="top" id="j4C-Tz-imH"/>
+                            <constraint firstItem="Bia-fM-2mf" firstAttribute="centerY" secondItem="eXI-kv-Tx6" secondAttribute="centerY" id="o5R-MH-bZc"/>
+                            <constraint firstItem="t8v-Ki-0lP" firstAttribute="top" secondItem="tjf-Yj-Ma8" secondAttribute="bottom" id="rC9-7d-LHQ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Classic 250" id="nkz-Xs-MhG"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qiS-z4-bvF" sceneMemberID="firstResponder"/>
+                <exit id="M60-aJ-42x" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="3374" y="-44"/>
+        </scene>
+        <!--WizbangJR Readings Mqtt-->
+        <scene sceneID="6Eo-Uv-UFU">
+            <objects>
+                <viewController storyboardIdentifier="WizbangJRViewControllerModbus" id="lId-n0-bJN" userLabel="WizbangJR Readings Mqtt" customClass="WizbangJRViewControllerModbus" customModule="Classic_Monitor" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="5uC-pB-c1t">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="61y-e3-DJ7" userLabel="Top View">
+                                <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GSH-sR-Zbw">
+                                        <rect key="frame" x="20" y="0.0" width="21" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="5QG-zH-DNI"/>
+                                        </constraints>
+                                        <state key="normal" image="back-3"/>
+                                        <connections>
+                                            <segue destination="HbT-Sd-saB" kind="unwind" unwindAction="unwindFromPresentedViewControllerWithSegue:" id="C8Y-xZ-Hvb"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BrU-He-VWl">
+                                        <rect key="frame" x="133.66666666666666" y="7" width="108" height="30"/>
+                                        <state key="normal" title="State of Charge">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="BrU-He-VWl" firstAttribute="centerY" secondItem="61y-e3-DJ7" secondAttribute="centerY" id="HHW-Io-N5m"/>
+                                    <constraint firstItem="GSH-sR-Zbw" firstAttribute="leading" secondItem="61y-e3-DJ7" secondAttribute="leading" constant="20" id="L4G-hT-0Gp"/>
+                                    <constraint firstAttribute="height" constant="44" id="MMR-Cn-ngx"/>
+                                    <constraint firstItem="BrU-He-VWl" firstAttribute="centerX" secondItem="61y-e3-DJ7" secondAttribute="centerX" id="bgC-8E-L9r"/>
+                                    <constraint firstAttribute="bottom" secondItem="GSH-sR-Zbw" secondAttribute="bottom" id="ouW-Mc-VGd"/>
+                                    <constraint firstItem="GSH-sR-Zbw" firstAttribute="top" secondItem="61y-e3-DJ7" secondAttribute="top" id="qf3-8c-D7c"/>
+                                </constraints>
+                            </view>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ziW-IK-hQX" customClass="GaugeCenterView" customModule="Classic_Monitor" customModuleProvider="target">
+                                <rect key="frame" x="20" y="113.66666666666669" width="335" height="335"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="ziW-IK-hQX" secondAttribute="height" multiplier="1:1" id="VVW-gW-zCM"/>
+                                    <constraint firstAttribute="width" constant="335" id="WR5-th-VoJ"/>
+                                    <constraint firstAttribute="height" constant="335" id="fd3-b7-aKC"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="valueTextColor">
+                                        <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="stringFormat" value="%.1f"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="unitOfMeasurement" value="Amps"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="ringThickness">
+                                        <real key="value" value="7"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Power"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EDm-mh-6KC" userLabel="Bottom View">
+                                <rect key="frame" x="0.0" y="456.66666666666674" width="375" height="321.33333333333326"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xNr-1U-Xwp" customClass="BatteryView" customModule="Classic_Monitor" customModuleProvider="target">
+                                        <rect key="frame" x="42" y="95.999999999999943" width="291" height="128"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isVertical" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="level">
+                                                <integer key="value" value="0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="lowThreshold">
+                                                <integer key="value" value="40"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="gradientThreshold">
+                                                <integer key="value" value="60"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="highLevelColor">
+                                                <color key="value" systemColor="systemGreenColor"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="lowLevelColor">
+                                                <color key="value" systemColor="systemRedColor"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="noLevelColor">
+                                                <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="7"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="???" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ADt-rG-RHR">
+                                        <rect key="frame" x="168" y="144.99999999999994" width="39" height="31.333333333333343"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="xNr-1U-Xwp" secondAttribute="trailing" constant="42" id="B9B-L3-2lx"/>
+                                    <constraint firstItem="xNr-1U-Xwp" firstAttribute="top" secondItem="EDm-mh-6KC" secondAttribute="top" constant="96" id="BLl-xD-kjr"/>
+                                    <constraint firstItem="ADt-rG-RHR" firstAttribute="centerY" secondItem="EDm-mh-6KC" secondAttribute="centerY" id="GDJ-AA-gu7"/>
+                                    <constraint firstItem="ADt-rG-RHR" firstAttribute="centerX" secondItem="EDm-mh-6KC" secondAttribute="centerX" id="Mvf-2e-aNG"/>
+                                    <constraint firstAttribute="bottom" secondItem="xNr-1U-Xwp" secondAttribute="bottom" constant="97.329999999999998" id="R7D-eD-eeo"/>
+                                    <constraint firstItem="xNr-1U-Xwp" firstAttribute="leading" secondItem="EDm-mh-6KC" secondAttribute="leading" constant="42" id="ZQ4-dj-ZRD"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="9Lr-AJ-ATF"/>
+                        <color key="backgroundColor" red="0.12165830280000001" green="0.12915611269999999" blue="0.1411797702" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="EDm-mh-6KC" firstAttribute="leading" secondItem="9Lr-AJ-ATF" secondAttribute="leading" id="6dY-qy-PZx"/>
+                            <constraint firstItem="ziW-IK-hQX" firstAttribute="centerX" secondItem="5uC-pB-c1t" secondAttribute="centerX" id="FH5-F2-G37"/>
+                            <constraint firstItem="ziW-IK-hQX" firstAttribute="centerY" secondItem="5uC-pB-c1t" secondAttribute="centerY" constant="-125" id="FU8-jm-Elu"/>
+                            <constraint firstItem="EDm-mh-6KC" firstAttribute="bottom" secondItem="9Lr-AJ-ATF" secondAttribute="bottom" id="GZS-6Z-UXD"/>
+                            <constraint firstItem="EDm-mh-6KC" firstAttribute="top" secondItem="ziW-IK-hQX" secondAttribute="bottom" constant="8" id="MR6-fq-xCb"/>
+                            <constraint firstItem="61y-e3-DJ7" firstAttribute="top" secondItem="9Lr-AJ-ATF" secondAttribute="top" id="Pzm-gX-zJz"/>
+                            <constraint firstItem="61y-e3-DJ7" firstAttribute="leading" secondItem="9Lr-AJ-ATF" secondAttribute="leading" id="cqk-3u-1wW"/>
+                            <constraint firstItem="EDm-mh-6KC" firstAttribute="trailing" secondItem="9Lr-AJ-ATF" secondAttribute="trailing" id="mmu-9l-wOJ"/>
+                            <constraint firstItem="61y-e3-DJ7" firstAttribute="trailing" secondItem="9Lr-AJ-ATF" secondAttribute="trailing" id="tXR-fn-MmU"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7z7-Ea-Mgi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="HbT-Sd-saB" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="2657" y="-44"/>
         </scene>
     </scenes>
     <resources>
