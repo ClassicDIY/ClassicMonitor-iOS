@@ -16,7 +16,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, GaugeViewDelegate {
+class ModbusViewController: UIViewController, GaugeViewDelegate {
     
     @IBOutlet weak var gaugePowerView:          GaugeView!
     @IBOutlet weak var gaugeEnergyView:         GaugeView!
@@ -26,6 +26,15 @@ class ViewController: UIViewController, GaugeViewDelegate {
     @IBOutlet weak var buttonDeviceDescription: UIButton!
     @IBOutlet weak var buttonReturn:            UIButton!
     @IBOutlet weak var stageButton:             UIButton!
+    
+    @IBOutlet weak var centerButtonHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var centerButtonWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var centerGaugeWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var centerGaugeHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var leftUpperGaugeAspect: NSLayoutConstraint!
+    @IBOutlet weak var letfUpperButtonAspect: NSLayoutConstraint!
+    
     
     //MARK: Demo variables
     var velocity: Double        = 0
@@ -40,6 +49,8 @@ class ViewController: UIViewController, GaugeViewDelegate {
     
     var reachability: Reachability?
     
+    var selectedCurve: UIView.AnimationCurve = .easeInOut
+    
     //MARK: To store and retrieve connect values
     let defaults          = UserDefaults.standard
     struct defaultsKeys {
@@ -53,27 +64,115 @@ class ViewController: UIViewController, GaugeViewDelegate {
     
     deinit {
         stopNotifier()
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        optimizeForDeviceSize()
+        //print("Constraints \(centerGaugeWidthConstraint) \(centerButtonWidthConstraint)")
         if kDebugLog { print("Recived Parameter: \(classicURL) - \(classicPort)") }
         // Do any additional setup after loading the view.
-
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        if UIDevice.current.orientation.isLandscape {
-            print("Landscape")
-        } else {
-            print("Portrait")
+    func optimizeForDeviceSize() {
+        // Adjust album size to fit iPhone 4s, 6s & 6s+
+        let deviceHeight = self.view.bounds.height
+        print("Device Height \(deviceHeight)")
+        print("Aspect: \(leftUpperGaugeAspect.constant)")
+        if deviceHeight == 480 { //iPhone 4
+            centerGaugeWidthConstraint.constant     = 180
+            centerGaugeHeightConstraint.constant    = 180
+            centerButtonWidthConstraint.constant    = 180
+            centerButtonHeightConstraint.constant   = 180
+            view.updateConstraints()
         }
+        else if deviceHeight == 568 { //MARK: iPhone 5
+            centerGaugeWidthConstraint.constant     = 200
+            centerGaugeHeightConstraint.constant    = 200
+            centerButtonWidthConstraint.constant    = 200
+            centerButtonHeightConstraint.constant   = 200
+            view.updateConstraints()
+        }
+        else if deviceHeight == 667 {
+            centerGaugeWidthConstraint.constant     = 260
+            centerGaugeHeightConstraint.constant    = 260
+            centerButtonWidthConstraint.constant    = 260
+            centerButtonHeightConstraint.constant   = 260
+            view.updateConstraints()
+        }
+        else if deviceHeight == 896 { //MARK: iPhone 11 Pro
+            centerGaugeWidthConstraint.constant     = 370
+            centerGaugeHeightConstraint.constant    = 370
+            centerButtonWidthConstraint.constant    = 370
+            centerButtonHeightConstraint.constant   = 370
+            view.updateConstraints()
+        }
+        else if deviceHeight == 1024 { //MARK: iPhone 11 Pro
+            centerGaugeWidthConstraint.constant     = 430
+            centerGaugeHeightConstraint.constant    = 430
+            centerButtonWidthConstraint.constant    = 430
+            centerButtonHeightConstraint.constant   = 430
+            view.updateConstraints()
+        }
+        //else if deviceHeight > 667 {
+        //    view.updateConstraints()
+        //}
     }
     
     @objc func appMovedToBackground() {
         if kDebugLog{ print("appMovedToBackground") }
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func rotated() {
+        switch UIDevice.current.orientation {
+        case .unknown:
+            print("unknown")
+        case .portrait:
+            print("Portrait")
+            gaugePowerView.rotateCustom(rotation: CGFloat.pi*2, duration: 1.0, options: selectedCurve.animationOption)
+            gaugeEnergyView.rotateCustom(rotation: CGFloat.pi*2, duration: 1.0, options: selectedCurve.animationOption)
+            gaugeInputView.rotateCustom(rotation: CGFloat.pi*2, duration: 1.0, options: selectedCurve.animationOption)
+            gaugeBatteryAmpsView.rotateCustom(rotation: CGFloat.pi*2, duration: 1.0, options: selectedCurve.animationOption)
+            gaugeBatteryVoltsView.rotateCustom(rotation: CGFloat.pi*2, duration: 1.0, options: selectedCurve.animationOption)
+            stageButton.rotateCustom(rotation: CGFloat.pi*2, duration: 1.0, options: selectedCurve.animationOption)
+        case .portraitUpsideDown:
+            print("Upside Down")
+            gaugePowerView.rotateCustom(rotation: CGFloat.pi, duration: 1.0, options: selectedCurve.animationOption)
+            gaugeEnergyView.rotateCustom(rotation: CGFloat.pi, duration: 1.0, options: selectedCurve.animationOption)
+            gaugeInputView.rotateCustom(rotation: CGFloat.pi, duration: 1.0, options: selectedCurve.animationOption)
+            gaugeBatteryAmpsView.rotateCustom(rotation: CGFloat.pi, duration: 1.0, options: selectedCurve.animationOption)
+            gaugeBatteryVoltsView.rotateCustom(rotation: CGFloat.pi, duration: 1.0, options: selectedCurve.animationOption)
+            stageButton.rotateCustom(rotation: CGFloat.pi, duration: 1.0, options: selectedCurve.animationOption)
+        case .landscapeLeft:
+            print("Landscape MqttViewController")
+            //gaugePowerView.rotate(value: CGFloat.pi/2)
+            gaugePowerView.rotateCustom(rotation: CGFloat.pi/2, duration: 1.0, options: selectedCurve.animationOption)
+            gaugeEnergyView.rotateCustom(rotation: CGFloat.pi/2, duration: 1.0, options: selectedCurve.animationOption)
+            gaugeInputView.rotateCustom(rotation: CGFloat.pi/2, duration: 1.0, options: selectedCurve.animationOption)
+            gaugeBatteryAmpsView.rotateCustom(rotation: CGFloat.pi/2, duration: 1.0, options: selectedCurve.animationOption)
+            gaugeBatteryVoltsView.rotateCustom(rotation: CGFloat.pi/2, duration: 1.0, options: selectedCurve.animationOption)
+            stageButton.rotateCustom(rotation: CGFloat.pi/2, duration: 1.0, options: selectedCurve.animationOption)
+            return
+        case .landscapeRight:
+            print("Landscape MqttViewController")
+            gaugePowerView.rotateCustom(rotation: CGFloat.pi*3/2, duration: 1.0, options: selectedCurve.animationOption)
+            gaugeEnergyView.rotateCustom(rotation: CGFloat.pi*3/2, duration: 1.0, options: selectedCurve.animationOption)
+            gaugeInputView.rotateCustom(rotation: CGFloat.pi*3/2, duration: 1.0, options: selectedCurve.animationOption)
+            gaugeBatteryAmpsView.rotateCustom(rotation: CGFloat.pi*3/2, duration: 1.0, options: selectedCurve.animationOption)
+            gaugeBatteryVoltsView.rotateCustom(rotation: CGFloat.pi*3/2, duration: 1.0, options: selectedCurve.animationOption)
+            stageButton.rotateCustom(rotation: CGFloat.pi*3/2, duration: 1.0, options: selectedCurve.animationOption)
+        case .faceUp:
+            print("Face Up")
+        case .faceDown:
+            print("Face Down")
+        @unknown default:
+            return
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -222,19 +321,22 @@ class ViewController: UIViewController, GaugeViewDelegate {
     }
     
     func configureGaugeViews() {
+        print("MODBUS PAGE GAUGE VIEWS CONFIGURE")
         view.backgroundColor = UIColor(white: 0.1, alpha: 1)
+        //MARK: Configure Buttons
+        buttonDeviceDescription.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 20) ?? UIFont.systemFont(ofSize: 20)
+        buttonDeviceDescription.setTitleColor(UIColor(white: 0.7, alpha: 1), for: .normal)
+        
         //MARK: Power
         gaugePowerView.ringBackgroundColor = .black
         gaugePowerView.valueTextColor = .white
         gaugePowerView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
         gaugePowerView.setNeedsDisplay()
-        
         //MARK: Energy
         gaugeEnergyView.ringBackgroundColor = .black
         gaugeEnergyView.valueTextColor = .white
         gaugeEnergyView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
         gaugeEnergyView.setNeedsDisplay()
-        
         //MARK: Battery Volts
         gaugeBatteryVoltsView.ringBackgroundColor = .black
         gaugeBatteryVoltsView.valueTextColor = .white
@@ -250,99 +352,107 @@ class ViewController: UIViewController, GaugeViewDelegate {
         //MARK: Input Volts
         gaugeInputView.ringBackgroundColor = .black
         gaugeInputView.valueTextColor = .white
-        gaugeInputView.unitOfMeasurementTextColor = UIColor(white: 0.7, alpha: 1)
+        gaugeInputView.unitOfMeasurementTextColor   = UIColor(white: 0.7, alpha: 1)
         gaugeInputView.setNeedsDisplay()
+        
         //MARK: Configure Buttons
-        buttonDeviceDescription.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 20) ?? UIFont.systemFont(ofSize: 20)
+        buttonDeviceDescription.titleLabel?.font    = UIFont(name: GaugeView.defaultFontName, size: 20) ?? UIFont.systemFont(ofSize: 20)
         buttonDeviceDescription.setTitleColor(UIColor(white: 0.7, alpha: 1), for: .normal)
         
-        stageButton.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 24) ?? UIFont.systemFont(ofSize: 24)
+        stageButton.titleLabel?.font                = UIFont(name: GaugeView.defaultFontName, size: 24) ?? UIFont.systemFont(ofSize: 24)
         stageButton.setTitleColor(UIColor(white: 0.7, alpha: 1), for: .normal)
         
-        buttonReturn.titleLabel?.font =  UIFont(name: GaugeView.defaultFontName, size: 20) ?? UIFont.systemFont(ofSize: 20)
+        buttonReturn.titleLabel?.font               = UIFont(name: GaugeView.defaultFontName, size: 20) ?? UIFont.systemFont(ofSize: 20)
         buttonReturn.setTitleColor(UIColor(white: 0.7, alpha: 1), for: .normal)
-        buttonReturn.tintColor = UIColor(white: 0.7, alpha: 1)
+        buttonReturn.tintColor                      = UIColor(white: 0.7, alpha: 1)
         
         // Configure gauge view
         //MARK: Gauge Power View
-        let screenMinSize = min(UIScreen.main.bounds.size.width, UIScreen.main.bounds.size.height)
-        let ratio = Double(screenMinSize)/320
-        gaugePowerView.divisionsRadius          = 1.25 * ratio
-        gaugePowerView.subDivisionsRadius       = (1.25 - 0.5) * ratio
-        gaugePowerView.ringThickness            = 6 * ratio
+        let screenMinSize                           = min(UIScreen.main.bounds.size.width, UIScreen.main.bounds.size.height)
+        let ratio                                   = Double(screenMinSize)/320
+        gaugePowerView.divisionsRadius              = 1.25 * ratio
+        gaugePowerView.subDivisionsRadius           = (1.25 - 0.5) * ratio
+        gaugePowerView.ringThickness                = 6 * ratio
         //print("RING THICKNESS: \(6 * ratio)")
-        gaugePowerView.valueFont                = UIFont(name: GaugeView.defaultFontName, size: CGFloat(80 * ratio))!
-        gaugePowerView.unitOfMeasurementFont    = UIFont(name: GaugeView.defaultFontName, size: CGFloat(12 * ratio))!
-        gaugePowerView.minMaxValueFont          = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(12 * ratio))!
-        gaugePowerView.upperTextFont            = UIFont(name: GaugeView.defaultFontName, size: CGFloat(24 * ratio))!
+        gaugePowerView.valueFont                    = UIFont(name: GaugeView.defaultFontName, size: CGFloat(80 * ratio))!
+        gaugePowerView.unitOfMeasurementFont        = UIFont(name: GaugeView.defaultFontName, size: CGFloat(12 * ratio))!
+        gaugePowerView.minMaxValueFont              = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(12 * ratio))!
+        gaugePowerView.upperTextFont                = UIFont(name: GaugeView.defaultFontName, size: CGFloat(14 * ratio))!
         //powerLabel.font = UIFont(name: GaugeView.defaultFontName, size: CGFloat(24 * ratio))!
         //powerLabel.textColor = UIColor(white: 0.7, alpha: 1)
         // Update gauge view
-        gaugePowerView.minValue = 0
-        gaugePowerView.maxValue = 3500
-        gaugePowerView.limitValue = 0
-        gaugePowerView.unitOfMeasurement = "Watts"
+        gaugePowerView.minValue                     = 0
+        gaugePowerView.maxValue                     = 3500
+        gaugePowerView.limitValue                   = 0
+        gaugePowerView.unitOfMeasurement            = "Watts"
         
         //MARK: Gauge Energy View
-        gaugeEnergyView.divisionsRadius = 1.25 * ratio
-        gaugeEnergyView.subDivisionsRadius = (1.25 - 0.5) * ratio
-        gaugeEnergyView.ringThickness = 4 * ratio
-        gaugeEnergyView.valueFont = UIFont(name: GaugeView.defaultFontName, size: CGFloat(30 * ratio))!
-        gaugeEnergyView.unitOfMeasurementFont = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
-        gaugeEnergyView.minMaxValueFont = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(8 * ratio))!
+        gaugeEnergyView.divisionsRadius             = 1.25 * ratio
+        gaugeEnergyView.subDivisionsRadius          = (1.25 - 0.5) * ratio
+        gaugeEnergyView.ringThickness               = 4 * ratio
+        gaugeEnergyView.valueFont                   = UIFont(name: GaugeView.defaultFontName, size: CGFloat(30 * ratio))!
+        gaugeEnergyView.unitOfMeasurementFont       = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
+        gaugeEnergyView.minMaxValueFont             = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(8 * ratio))!
+        gaugeEnergyView.upperTextFont               = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
+
         //energyLabel.font = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
         //energyLabel.textColor = UIColor(white: 0.7, alpha: 1)
         // Update gauge view
-        gaugeEnergyView.minValue = 0
-        gaugeEnergyView.maxValue = 10
-        gaugeEnergyView.limitValue = 0
-        gaugeEnergyView.unitOfMeasurement = "kWh"
+        gaugeEnergyView.minValue                    = 0
+        gaugeEnergyView.maxValue                    = 10
+        gaugeEnergyView.limitValue                  = 0
+        gaugeEnergyView.unitOfMeasurement           = "kWh"
         
         //MARK: Battery Volts
-        gaugeBatteryVoltsView.divisionsRadius = 1.25 * ratio
-        gaugeBatteryVoltsView.subDivisionsRadius = (1.25 - 0.5) * ratio
-        gaugeBatteryVoltsView.ringThickness = 4 * ratio
-        gaugeBatteryVoltsView.valueFont = UIFont(name: GaugeView.defaultFontName, size: CGFloat(30 * ratio))!
+        gaugeBatteryVoltsView.divisionsRadius       = 1.25 * ratio
+        gaugeBatteryVoltsView.subDivisionsRadius    = (1.25 - 0.5) * ratio
+        gaugeBatteryVoltsView.ringThickness         = 4 * ratio
+        gaugeBatteryVoltsView.valueFont             = UIFont(name: GaugeView.defaultFontName, size: CGFloat(30 * ratio))!
         gaugeBatteryVoltsView.unitOfMeasurementFont = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
-        gaugeBatteryVoltsView.minMaxValueFont = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(8 * ratio))!
+        gaugeBatteryVoltsView.minMaxValueFont       = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(8 * ratio))!
+        gaugeBatteryVoltsView.upperTextFont         = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
+
         //voltsLabel.font = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
         //voltsLabel.textColor = UIColor(white: 0.7, alpha: 1)
         // Update gauge view
-        gaugeBatteryVoltsView.minValue = 0.0
-        gaugeBatteryVoltsView.maxValue = 67.0
-        gaugeBatteryVoltsView.limitValue = 0.0
-        gaugeBatteryVoltsView.unitOfMeasurement = "Volts"
+        gaugeBatteryVoltsView.minValue              = 0.0
+        gaugeBatteryVoltsView.maxValue              = 67.0
+        gaugeBatteryVoltsView.limitValue            = 0.0
+        gaugeBatteryVoltsView.unitOfMeasurement     = "Volts"
         
         //MARK: Battery Amps
-        gaugeBatteryAmpsView.divisionsRadius = 1.25 * ratio
-        gaugeBatteryAmpsView.subDivisionsRadius = (1.25 - 0.5) * ratio
-        gaugeBatteryAmpsView.ringThickness = 4 * ratio
-        gaugeBatteryAmpsView.valueFont = UIFont(name: GaugeView.defaultFontName, size: CGFloat(30 * ratio))!
-        gaugeBatteryAmpsView.unitOfMeasurementFont = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
-        gaugeBatteryAmpsView.minMaxValueFont = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(8 * ratio))!
+        gaugeBatteryAmpsView.divisionsRadius        = 1.25 * ratio
+        gaugeBatteryAmpsView.subDivisionsRadius     = (1.25 - 0.5) * ratio
+        gaugeBatteryAmpsView.ringThickness          = 4 * ratio
+        gaugeBatteryAmpsView.valueFont              = UIFont(name: GaugeView.defaultFontName, size: CGFloat(30 * ratio))!
+        gaugeBatteryAmpsView.unitOfMeasurementFont  = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
+        gaugeBatteryAmpsView.minMaxValueFont        = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(8 * ratio))!
+        gaugeBatteryAmpsView.upperTextFont          = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
+
         //batAmpsLabel.font = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
         //batAmpsLabel.textColor = UIColor(white: 0.7, alpha: 1)
         // Update gauge view
-        gaugeBatteryAmpsView.minValue = 0.0
-        gaugeBatteryAmpsView.maxValue = 55.0
-        gaugeBatteryAmpsView.limitValue = 0.0
-        gaugeBatteryAmpsView.unitOfMeasurement = "Amps"
+        gaugeBatteryAmpsView.minValue               = 0.0
+        gaugeBatteryAmpsView.maxValue               = 55.0
+        gaugeBatteryAmpsView.limitValue             = 0.0
+        gaugeBatteryAmpsView.unitOfMeasurement      = "Amps"
         
         //MARK: Input Volts
-        gaugeInputView.divisionsRadius = 1.25 * ratio
-        gaugeInputView.subDivisionsRadius = (1.25 - 0.5) * ratio
-        gaugeInputView.ringThickness = 4 * ratio
-        gaugeInputView.valueFont = UIFont(name: GaugeView.defaultFontName, size: CGFloat(30 * ratio))!
-        gaugeInputView.unitOfMeasurementFont = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
-        gaugeInputView.minMaxValueFont = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(8 * ratio))!
+        gaugeInputView.divisionsRadius              = 1.25 * ratio
+        gaugeInputView.subDivisionsRadius           = (1.25 - 0.5) * ratio
+        gaugeInputView.ringThickness                = 4 * ratio
+        gaugeInputView.valueFont                    = UIFont(name: GaugeView.defaultFontName, size: CGFloat(30 * ratio))!
+        gaugeInputView.unitOfMeasurementFont        = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
+        gaugeInputView.minMaxValueFont              = UIFont(name: GaugeView.defaultMinMaxValueFont, size: CGFloat(8 * ratio))!
+        gaugeInputView.upperTextFont                = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
+
         //inputLabel.font = UIFont(name: GaugeView.defaultFontName, size: CGFloat(10 * ratio))!
         //inputLabel.textColor = UIColor(white: 0.7, alpha: 1)
         // Update gauge view
-        gaugeInputView.minValue = 0
-        gaugeInputView.maxValue = 250
-        gaugeInputView.limitValue = 0
-        gaugeInputView.unitOfMeasurement = "Volts"
-        
+        gaugeInputView.minValue                     = 0
+        gaugeInputView.maxValue                     = 250
+        gaugeInputView.limitValue                   = 0
+        gaugeInputView.unitOfMeasurement            = "Volts"
         //getChargerConnectValues()
     }
     

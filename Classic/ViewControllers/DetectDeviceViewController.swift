@@ -20,6 +20,8 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
     @IBOutlet weak var headerLabel:         UILabel!
     @IBOutlet weak var addButton:           UIButton!
     
+    var selectedCurve: UIView.AnimationCurve = .easeInOut
+    
     var searchActive: Bool  = false
     let IP                  = "255.255.255.255"
     let PORT: UInt16        = 4626
@@ -50,6 +52,10 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
     var refreshControl: UIRefreshControl = {
         return UIRefreshControl()
     }()
+    
+    convenience init() {
+        self.init()
+    }
     
     deinit {
         // Be a good citizen.
@@ -90,14 +96,27 @@ class DetectDeviceViewController: UIViewController, GCDAsyncUdpSocketDelegate, U
         //MARK: Load Core Data
         loadCoreData()
         NotificationCenter.default.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
-
     }
     
     @objc func rotated() {
-        if UIDevice.current.orientation.isLandscape {
-            print("Landscape")
-        } else {
+        switch UIDevice.current.orientation {
+        case .unknown:
+            print("unknown")
+        case .portrait:
             print("Portrait")
+        case .portraitUpsideDown:
+            print("Upside Down")
+        case .landscapeLeft:
+            print("Landscape MqttViewController")
+            return
+        case .landscapeRight:
+            print("Landscape MqttViewController")
+        case .faceUp:
+            print("Face Up")
+        case .faceDown:
+            print("Face Down")
+        @unknown default:
+            return
         }
     }
     
@@ -693,7 +712,7 @@ extension DetectDeviceViewController: UITableViewDelegate {
             viewController.classicURL   = classicUrl!
             viewController.classicPort  = classicPort!
         } else if (segue.identifier == "SelectedSegueMQTT") {
-            let mqttViewController          = segue.destination as! PageViewControllerMQTT
+            let mqttViewController          = segue.destination as! PageViewControllerMqtt
             mqttViewController.classicURL   = classicUrl!
             mqttViewController.classicPort  = classicPort!
             mqttViewController.mqttUser     = mqttUser!

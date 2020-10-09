@@ -9,7 +9,7 @@
 import UIKit
 import MQTTClient
 
-class WizbangJRViewController: UIViewController, GaugeCenterViewDelegate {
+class WizbangJRViewControllerMqtt: UIViewController, GaugeCenterViewDelegate {
 
     @IBOutlet weak var gaugeWizbangJR:              GaugeCenterView!
     @IBOutlet var battery:                          BatteryView!
@@ -33,10 +33,59 @@ class WizbangJRViewController: UIViewController, GaugeCenterViewDelegate {
     
     var timeDelta: Double       = 10.0/24 //MARK: For the timer to read
     var timer: Timer?           = nil
+    
+    var selectedCurve: UIView.AnimationCurve = .easeInOut
+    
+    convenience init() {
+        self.init()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+    
+    @objc func appMovedToBackground() {
+        if kDebugLog{ print("appMovedToBackground") }
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func rotated() {
+        switch UIDevice.current.orientation {
+        case .unknown:
+            print("unknown")
+        case .portrait:
+            print("Portrait")
+            gaugeWizbangJR.rotateCustom(rotation: CGFloat.pi*2, duration: 1.0, options: selectedCurve.animationOption)
+            battery.rotateCustom(rotation: CGFloat.pi*2, duration: 1.0, options: selectedCurve.animationOption)
+        case .portraitUpsideDown:
+            print("Upside Down")
+            gaugeWizbangJR.rotateCustom(rotation: CGFloat.pi, duration: 1.0, options: selectedCurve.animationOption)
+            battery.rotateCustom(rotation: CGFloat.pi, duration: 1.0, options: selectedCurve.animationOption)
+        case .landscapeLeft:
+            print("Landscape MqttViewController")
+            //gaugePowerView.rotate(value: CGFloat.pi/2)
+            gaugeWizbangJR.rotateCustom(rotation: CGFloat.pi/2, duration: 1.0, options: selectedCurve.animationOption)
+            battery.rotateCustom(rotation: CGFloat.pi/2, duration: 1.0, options: selectedCurve.animationOption)
+            return
+        case .landscapeRight:
+            print("Landscape MqttViewController")
+            gaugeWizbangJR.rotateCustom(rotation: CGFloat.pi*3/2, duration: 1.0, options: selectedCurve.animationOption)
+            battery.rotateCustom(rotation: CGFloat.pi*3/2, duration: 1.0, options: selectedCurve.animationOption)
+        case .faceUp:
+            print("Face Up")
+        case .faceDown:
+            print("Face Down")
+        @unknown default:
+            return
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -103,7 +152,7 @@ class WizbangJRViewController: UIViewController, GaugeCenterViewDelegate {
     }
 }
 
-extension WizbangJRViewController: MQTTSessionDelegate {
+extension WizbangJRViewControllerMqtt: MQTTSessionDelegate {
     func handleEvent(_ session: MQTTSession!, event eventCode: MQTTSessionEvent, error: Error!) {
         switch eventCode {
         case .connected:

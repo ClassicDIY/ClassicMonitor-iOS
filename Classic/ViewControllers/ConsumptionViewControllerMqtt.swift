@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import MQTTClient
 
-class ConsumptionViewController: UIViewController, GaugeViewDelegate, MQTTSessionDelegate {
+class ConsumptionViewControllerMqtt: UIViewController, GaugeViewDelegate, MQTTSessionDelegate {
     
     @IBOutlet weak var gaugeConsumptionView:        GaugeView!
     @IBOutlet weak var buttonDeviceDescription:     UIButton!
@@ -30,16 +30,55 @@ class ConsumptionViewController: UIViewController, GaugeViewDelegate, MQTTSessio
     private var session = MQTTSession()!
     private var subscribed = false
     
+    var selectedCurve: UIView.AnimationCurve = .easeInOut
+    
     convenience init() {
         self.init()
     }
     
     deinit {
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("VIEW DID LOAD ConsumptionViewController")
+        //MARK: To check if app goes to background
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+    
+    @objc func appMovedToBackground() {
+        if kDebugLog{ print("appMovedToBackground") }
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func rotated() {
+        switch UIDevice.current.orientation {
+        case .unknown:
+            print("unknown")
+        case .portrait:
+            print("Portrait")
+            gaugeConsumptionView.rotateCustom(rotation: CGFloat.pi*2, duration: 1.0, options: selectedCurve.animationOption)
+        case .portraitUpsideDown:
+            print("Upside Down")
+            gaugeConsumptionView.rotateCustom(rotation: CGFloat.pi, duration: 1.0, options: selectedCurve.animationOption)
+        case .landscapeLeft:
+            print("Landscape MqttViewController")
+            //gaugePowerView.rotate(value: CGFloat.pi/2)
+            gaugeConsumptionView.rotateCustom(rotation: CGFloat.pi/2, duration: 1.0, options: selectedCurve.animationOption)
+            return
+        case .landscapeRight:
+            print("Landscape MqttViewController")
+            gaugeConsumptionView.rotateCustom(rotation: CGFloat.pi*3/2, duration: 1.0, options: selectedCurve.animationOption)
+        case .faceUp:
+            print("Face Up")
+        case .faceDown:
+            print("Face Down")
+        @unknown default:
+            return
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

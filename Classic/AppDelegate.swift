@@ -121,16 +121,3 @@ extension UIViewController {
         view.endEditing(true)
     }
 }
-
-
-//https://stackoverflow.com/questions/31478630/animate-rotation-uiimageview-in-swift/50157504
-extension UIView{
-    func rotate(value: CGFloat) {
-        let rotation : CABasicAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
-        rotation.toValue        = value//NSNumber(value: value)
-        rotation.duration       = 1
-        rotation.isCumulative   = false
-        rotation.repeatCount    = Float.nan
-        self.layer.add(rotation, forKey: "rotationAnimation")
-    }
-}

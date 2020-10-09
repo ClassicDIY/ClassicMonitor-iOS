@@ -49,7 +49,7 @@ class PageViewControllerModbus: UIPageViewController {
         dataSource              = self
         delegate                = self
         
-        let firstVC             = storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+        let firstVC             = storyboard?.instantiateViewController(withIdentifier: "ModbusViewController") as! ModbusViewController
         //let secondVC            = storyboard?.instantiateViewController(withIdentifier: "WizbangJRViewController") as! WizbangJRViewController
         //let thirdVC             = storyboard?.instantiateViewController(withIdentifier: "ConsumptionViewController") as! ConsumptionViewController
         
