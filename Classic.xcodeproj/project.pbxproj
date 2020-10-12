@@ -223,15 +223,15 @@
 			isa = PBXGroup;
 			children = (
 				658EC242250C8F4000F1ACAF /* DetectDeviceViewController.swift */,
-				657A8D392506AE4B006B2BD0 /* ModbusViewController.swift */,
 				654E3383252E836800C3BA9D /* PageViewControllerModbus.swift */,
 				6513E8A2251AE0DF00C77214 /* PageViewControllerMqtt.swift */,
-				65307384251E6BB4005949E2 /* WizbangJRViewControllerMqtt.swift */,
-				65528B3C25254D8F004CA8DB /* MqttViewController.swift */,
-				65BFE304252BABDE00F108AA /* ConsumptionViewControllerMqtt.swift */,
-				65B060C4252CD70800D76442 /* TabViewController.swift */,
+				657A8D392506AE4B006B2BD0 /* ModbusViewController.swift */,
 				65049F3F252FF79F00B38B59 /* WizbangJRViewControllerModbus.swift */,
 				65049F42252FF7BA00B38B59 /* ConsumptionViewControllerModbus.swift */,
+				65528B3C25254D8F004CA8DB /* MqttViewController.swift */,
+				65307384251E6BB4005949E2 /* WizbangJRViewControllerMqtt.swift */,
+				65BFE304252BABDE00F108AA /* ConsumptionViewControllerMqtt.swift */,
+				65B060C4252CD70800D76442 /* TabViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -571,7 +571,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Classic/Classic.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = 648XC4D3FH;
 				INFOPLIST_FILE = Classic/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
@@ -597,7 +597,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Classic/Classic.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = 648XC4D3FH;
 				INFOPLIST_FILE = Classic/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;

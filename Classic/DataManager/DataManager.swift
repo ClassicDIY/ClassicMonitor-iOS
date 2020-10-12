@@ -15,7 +15,6 @@ struct DataManager {
         let swiftLibModbus = SwiftLibModbus(ipAddress: classicURL, port: classicPort, device: device)
         swiftLibModbus.readRegistersFrom(startAddress: startAddress, count: count, success: { (array: [AnyObject]) -> Void in
             if kDebugLog { print("Received Data 1: \(array)") }
-            print("Received Data 1: \(array)") 
             swiftLibModbus.disconnect()
             completion(array, nil)
             return

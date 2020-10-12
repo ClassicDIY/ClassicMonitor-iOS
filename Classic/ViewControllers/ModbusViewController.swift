@@ -191,24 +191,24 @@ class ModbusViewController: UIViewController, GaugeViewDelegate {
         super.viewWillDisappear(animated)
         if kDebugLog{ print("viewWillDisappear") }
         disconnectFromDevice()
+        stopNotifier()
         //self.dismiss(animated: true, completion: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         if kDebugLog{ print("viewDidDisappear") }
+        disconnectFromDevice()
+        stopNotifier()
+        print("viewDidDisappear  XXXXXXXXXXXXXXXXX")
     }
-    
-    override var preferredStatusBarStyle : UIStatusBarStyle {
-        print("Prefered Barstatus Style")
-        return .lightContent
-    }
+
     
     func createTimer() {
         // 1
         if timer == nil {
             // 2
-            timer = Timer.scheduledTimer(timeInterval: 1.0,
+            timer = Timer.scheduledTimer(timeInterval: 2.0,
                                          target: self,
                                          selector: #selector(readValues),
                                          userInfo: nil,

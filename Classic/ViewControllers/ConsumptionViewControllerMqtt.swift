@@ -47,7 +47,7 @@ class ConsumptionViewControllerMqtt: UIViewController, GaugeViewDelegate, MQTTSe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("VIEW DID LOAD ConsumptionViewController")
+        print("VIEW DID LOAD ConsumptionViewControllerMqtt")
         optimizeForDeviceSize()
         //MARK: To check if app goes to background
         let notificationCenter = NotificationCenter.default

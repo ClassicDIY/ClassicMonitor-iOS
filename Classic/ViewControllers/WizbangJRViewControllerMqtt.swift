@@ -16,6 +16,13 @@ class WizbangJRViewControllerMqtt: UIViewController, GaugeCenterViewDelegate {
     @IBOutlet weak var batterySOC:                  UILabel!
     @IBOutlet weak var buttonDeviceDescription:     UIButton!
 
+    //@IBOutlet weak var centerButtonHeightConstraint: NSLayoutConstraint!
+    //@IBOutlet weak var centerButtonWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var centerGaugeWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var centerGaugeHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var batteryWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var batteryHeightConstraint: NSLayoutConstraint!
+    
     
     var classicURL: String      = ""
     var classicPort: Int32      = 1883
@@ -46,10 +53,49 @@ class WizbangJRViewControllerMqtt: UIViewController, GaugeCenterViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        optimizeForDeviceSize()
         // Do any additional setup after loading the view.
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.willResignActiveNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+    
+    func optimizeForDeviceSize() {
+        // Adjust album size to fit iPhone 4s, 6s & 6s+
+        let deviceHeight = self.view.bounds.height
+        print("Device Height \(deviceHeight)")
+        if deviceHeight == 480 { //iPhone 4
+            centerGaugeWidthConstraint.constant     = 180
+            centerGaugeHeightConstraint.constant    = 180
+            batteryWidthConstraint.constant         = batteryWidthConstraint.constant * 0.75
+            batteryHeightConstraint.constant        = batteryHeightConstraint.constant * 0.75
+            view.updateConstraints()
+        }
+        else if deviceHeight == 568 { //MARK: iPhone 5
+            centerGaugeWidthConstraint.constant     = 200
+            centerGaugeHeightConstraint.constant    = 200
+            batteryWidthConstraint.constant         = batteryWidthConstraint.constant * 0.80
+            batteryHeightConstraint.constant        = batteryHeightConstraint.constant * 0.80
+            view.updateConstraints()
+        }
+        else if deviceHeight == 667 {
+            centerGaugeWidthConstraint.constant     = 260
+            centerGaugeHeightConstraint.constant    = 260
+            view.updateConstraints()
+        }
+        else if deviceHeight == 896 { //MARK: iPhone 11 Pro
+            centerGaugeWidthConstraint.constant     = 370
+            centerGaugeHeightConstraint.constant    = 370
+            view.updateConstraints()
+        }
+        else if deviceHeight == 1024 { //MARK: iPhone 11 Pro
+            centerGaugeWidthConstraint.constant     = 430
+            centerGaugeHeightConstraint.constant    = 430
+            view.updateConstraints()
+        }
+        //else if deviceHeight > 667 {
+        //    view.updateConstraints()
+        //}
     }
     
     @objc func appMovedToBackground() {
@@ -294,9 +340,9 @@ extension WizbangJRViewControllerMqtt: MQTTSessionDelegate {
     
     func setValues(readings: MQTTDataReading) {
         print("SET VALUES TO GAUGE \(readings)")
-        let batteryCurrent  = readings.WhizbangBatCurrent
-        //let batteryVolts    = readings.BatVoltage
-        //self.gaugeWizbangJR.value   = Double(batteryCurrent!) * Double(batteryVolts!)
+        let batteryCurrent          = readings.WhizbangBatCurrent
+        //let batteryVolts           = readings.BatVoltage
+        //self.gaugeWizbangJR.value  = Double(batteryCurrent!) * Double(batteryVolts!)
         self.gaugeWizbangJR.value   = Double(batteryCurrent!)
         self.battery.level          = readings.SOC!
         self.batterySOC.text        = "\(readings.SOC ?? 0)%"

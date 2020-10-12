@@ -58,20 +58,12 @@ class PageViewControllerModbus: UIPageViewController {
         firstVC.classicPort     = self.classicPort
         
         //MARK: Parameters set here to child view
-        /*secondVC.classicURL     = self.classicURL
+        secondVC.classicURL     = self.classicURL as NSString
         secondVC.classicPort    = self.classicPort
-        secondVC.mqttUser       = self.mqttUser
-        secondVC.mqttPassword   = self.mqttPassword
-        secondVC.mqttTopic      = self.mqttTopic
-        secondVC.classicName    = self.classicName
 
         //MARK: Parameters set here to child view
-        thirdVC.classicURL     = self.classicURL
+        thirdVC.classicURL     = self.classicURL as NSString
         thirdVC.classicPort    = self.classicPort
-        thirdVC.mqttUser       = self.mqttUser
-        thirdVC.mqttPassword   = self.mqttPassword
-        thirdVC.mqttTopic      = self.mqttTopic
-        thirdVC.classicName    = self.classicName*/
         
         orderedViewControllers.append(firstVC)
         orderedViewControllers.append(secondVC)

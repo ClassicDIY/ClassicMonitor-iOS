@@ -227,7 +227,11 @@
                                 <rect key="frame" x="0.0" y="456.66666666666674" width="375" height="321.33333333333326"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="svE-c4-lus" customClass="BatteryView" customModule="Classic_Monitor" customModuleProvider="target">
-                                        <rect key="frame" x="42" y="95.999999999999943" width="291" height="128"/>
+                                        <rect key="frame" x="42" y="96.666666666666686" width="291" height="128"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="291" id="0AF-PT-PgP"/>
+                                            <constraint firstAttribute="height" constant="128" id="dSa-re-RJB"/>
+                                        </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="isVertical" value="NO"/>
                                             <userDefinedRuntimeAttribute type="number" keyPath="level">
@@ -261,12 +265,10 @@
                                     </label>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="svE-c4-lus" firstAttribute="top" secondItem="M1y-m1-Ifr" secondAttribute="top" constant="96" id="IfU-Fc-UIA"/>
-                                    <constraint firstAttribute="bottom" secondItem="svE-c4-lus" secondAttribute="bottom" constant="97.329999999999998" id="KSP-iT-1Tj"/>
-                                    <constraint firstItem="WvC-rJ-KmE" firstAttribute="centerY" secondItem="M1y-m1-Ifr" secondAttribute="centerY" id="a9x-ko-RCk"/>
-                                    <constraint firstAttribute="trailing" secondItem="svE-c4-lus" secondAttribute="trailing" constant="42" id="f9t-Ii-aSz"/>
-                                    <constraint firstItem="WvC-rJ-KmE" firstAttribute="centerX" secondItem="M1y-m1-Ifr" secondAttribute="centerX" id="oD7-8i-fNn"/>
-                                    <constraint firstItem="svE-c4-lus" firstAttribute="leading" secondItem="M1y-m1-Ifr" secondAttribute="leading" constant="42" id="sQz-QQ-D8w"/>
+                                    <constraint firstItem="WvC-rJ-KmE" firstAttribute="centerX" secondItem="M1y-m1-Ifr" secondAttribute="centerX" id="0kA-iz-kYp"/>
+                                    <constraint firstItem="svE-c4-lus" firstAttribute="centerX" secondItem="M1y-m1-Ifr" secondAttribute="centerX" id="Li8-QP-GLU"/>
+                                    <constraint firstItem="svE-c4-lus" firstAttribute="centerY" secondItem="M1y-m1-Ifr" secondAttribute="centerY" id="YsA-hb-dbv"/>
+                                    <constraint firstItem="WvC-rJ-KmE" firstAttribute="centerY" secondItem="M1y-m1-Ifr" secondAttribute="centerY" id="key-BD-mtI"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -286,8 +288,12 @@
                     </view>
                     <connections>
                         <outlet property="battery" destination="svE-c4-lus" id="qv2-zr-fAT"/>
+                        <outlet property="batteryHeightConstraint" destination="dSa-re-RJB" id="fxw-Ep-ORC"/>
                         <outlet property="batterySOC" destination="WvC-rJ-KmE" id="voM-jD-61V"/>
+                        <outlet property="batteryWidthConstraint" destination="0AF-PT-PgP" id="j3p-zc-Vlz"/>
                         <outlet property="buttonDeviceDescription" destination="B7M-eX-D1g" id="HXG-Bp-Hf4"/>
+                        <outlet property="centerGaugeHeightConstraint" destination="cAS-iK-1H7" id="ddh-p4-SPE"/>
+                        <outlet property="centerGaugeWidthConstraint" destination="WYS-j4-vTv" id="9h8-gZ-A7b"/>
                         <outlet property="gaugeWizbangJR" destination="YTv-AY-uh2" id="9Ag-Ex-gdZ"/>
                     </connections>
                 </viewController>
@@ -346,7 +352,7 @@
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="string" keyPath="stringFormat" value="%.1f"/>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Energy"/>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Energy Today"/>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
                                         </userDefinedRuntimeAttributes>
                                     </view>
@@ -364,7 +370,7 @@
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="string" keyPath="stringFormat" value="%.1f"/>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Battery"/>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Battery Volts"/>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
                                         </userDefinedRuntimeAttributes>
                                     </view>
@@ -440,8 +446,9 @@
                                                     <constraint firstAttribute="width" secondItem="uqa-gK-rF4" secondAttribute="height" multiplier="1:1" id="J8e-we-qTi"/>
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Input"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Input Volts"/>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="stringFormat" value="%.1f"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jEy-bl-4iI" userLabel="Button Input">
@@ -458,7 +465,7 @@
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="string" keyPath="stringFormat" value="%.1f"/>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Battery"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Battery Current"/>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
@@ -590,7 +597,7 @@
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="string" keyPath="stringFormat" value="%.1f"/>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Energy"/>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Energy Today"/>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
                                         </userDefinedRuntimeAttributes>
                                     </view>
@@ -608,7 +615,7 @@
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="string" keyPath="stringFormat" value="%.1f"/>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Battery"/>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Battery Volts"/>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
                                         </userDefinedRuntimeAttributes>
                                     </view>
@@ -684,8 +691,9 @@
                                                     <constraint firstAttribute="width" secondItem="XEw-ZT-8QG" secondAttribute="height" multiplier="1:1" id="8Nh-pN-wrw"/>
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Input"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Input Volts"/>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="stringFormat" value="%.1f"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IGm-N8-IZB" userLabel="Button Input">
@@ -702,7 +710,7 @@
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="string" keyPath="stringFormat" value="%.1f"/>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Battery"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="upperText" value="Battery Current"/>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="showLimitDot" value="NO"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
@@ -1248,6 +1256,14 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Classic 250" id="nkz-Xs-MhG"/>
+                    <connections>
+                        <outlet property="buttonDeviceDescription" destination="CVC-Vu-OcF" id="2gD-OI-MIH"/>
+                        <outlet property="centerButtonHeightConstraint" destination="EhK-AG-G3x" id="Cp5-bK-IFq"/>
+                        <outlet property="centerButtonWidthConstraint" destination="2yE-IK-ZXe" id="DU8-NO-fA3"/>
+                        <outlet property="centerGaugeHeightConstraint" destination="5Jr-K3-C5s" id="fRA-7B-IpM"/>
+                        <outlet property="centerGaugeWidthConstraint" destination="9sg-og-buZ" id="KUr-VP-1CI"/>
+                        <outlet property="gaugeConsumptionView" destination="Bia-fM-2mf" id="jCr-Pp-f5e"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qiS-z4-bvF" sceneMemberID="firstResponder"/>
                 <exit id="M60-aJ-42x" userLabel="Exit" sceneMemberID="exit"/>
@@ -1316,7 +1332,11 @@
                                 <rect key="frame" x="0.0" y="456.66666666666674" width="375" height="321.33333333333326"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xNr-1U-Xwp" customClass="BatteryView" customModule="Classic_Monitor" customModuleProvider="target">
-                                        <rect key="frame" x="42" y="95.999999999999943" width="291" height="128"/>
+                                        <rect key="frame" x="42" y="96.666666666666686" width="291" height="128"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="128" id="gBs-Yj-qE8"/>
+                                            <constraint firstAttribute="width" constant="291" id="vUV-yw-DLZ"/>
+                                        </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="isVertical" value="NO"/>
                                             <userDefinedRuntimeAttribute type="number" keyPath="level">
@@ -1350,12 +1370,10 @@
                                     </label>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="xNr-1U-Xwp" secondAttribute="trailing" constant="42" id="B9B-L3-2lx"/>
-                                    <constraint firstItem="xNr-1U-Xwp" firstAttribute="top" secondItem="EDm-mh-6KC" secondAttribute="top" constant="96" id="BLl-xD-kjr"/>
-                                    <constraint firstItem="ADt-rG-RHR" firstAttribute="centerY" secondItem="EDm-mh-6KC" secondAttribute="centerY" id="GDJ-AA-gu7"/>
-                                    <constraint firstItem="ADt-rG-RHR" firstAttribute="centerX" secondItem="EDm-mh-6KC" secondAttribute="centerX" id="Mvf-2e-aNG"/>
-                                    <constraint firstAttribute="bottom" secondItem="xNr-1U-Xwp" secondAttribute="bottom" constant="97.329999999999998" id="R7D-eD-eeo"/>
-                                    <constraint firstItem="xNr-1U-Xwp" firstAttribute="leading" secondItem="EDm-mh-6KC" secondAttribute="leading" constant="42" id="ZQ4-dj-ZRD"/>
+                                    <constraint firstItem="ADt-rG-RHR" firstAttribute="centerY" secondItem="EDm-mh-6KC" secondAttribute="centerY" id="8pS-9Z-b5b"/>
+                                    <constraint firstItem="ADt-rG-RHR" firstAttribute="centerX" secondItem="EDm-mh-6KC" secondAttribute="centerX" id="Bwl-Vt-5fc"/>
+                                    <constraint firstItem="xNr-1U-Xwp" firstAttribute="centerY" secondItem="EDm-mh-6KC" secondAttribute="centerY" id="cww-lj-UWt"/>
+                                    <constraint firstItem="xNr-1U-Xwp" firstAttribute="centerX" secondItem="EDm-mh-6KC" secondAttribute="centerX" id="qId-dx-2BK"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -1373,6 +1391,16 @@
                             <constraint firstItem="61y-e3-DJ7" firstAttribute="trailing" secondItem="9Lr-AJ-ATF" secondAttribute="trailing" id="tXR-fn-MmU"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="battery" destination="xNr-1U-Xwp" id="JfA-nH-IeH"/>
+                        <outlet property="batteryHeightConstraint" destination="gBs-Yj-qE8" id="GxY-eM-NBk"/>
+                        <outlet property="batterySOC" destination="ADt-rG-RHR" id="RTc-TW-Lxo"/>
+                        <outlet property="batteryWidthConstraint" destination="vUV-yw-DLZ" id="96f-wc-QAf"/>
+                        <outlet property="buttonDeviceDescription" destination="BrU-He-VWl" id="f1u-Rm-ePe"/>
+                        <outlet property="centerGaugeHeightConstraint" destination="fd3-b7-aKC" id="cHt-0h-6cR"/>
+                        <outlet property="centerGaugeWidthConstraint" destination="WR5-th-VoJ" id="gaM-UK-7K7"/>
+                        <outlet property="gaugeWizbangJR" destination="ziW-IK-hQX" id="AdT-5e-4mw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7z7-Ea-Mgi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="HbT-Sd-saB" userLabel="Exit" sceneMemberID="exit"/>

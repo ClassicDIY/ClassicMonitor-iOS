@@ -1210,8 +1210,7 @@ int modbus_read_registers(modbus_t *ctx, int addr, int nb, uint16_t *dest)
 }
 
 /* Reads the input registers of remote device and put the data into an array */
-int modbus_read_input_registers(modbus_t *ctx, int addr, int nb,
-                                uint16_t *dest)
+int modbus_read_input_registers(modbus_t *ctx, int addr, int nb, uint16_t *dest)
 {
     int status;
 
