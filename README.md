@@ -9,7 +9,15 @@ Classic Monitor is NOT a product of Midnite solar, nor do they support this appl
 </p>
 <p>
 If the app detects a Whizbang Junior current monitor, the State Of Charge will display along with a bi-directional current gauge.
+</p>
 
+<p>
+If want to test a build, please install Test Flight from the App Store</br>
+<a href='https://apps.apple.com/us/app/testflight/id899247664'>Test Flight</a>
+
+
+Then visit the following URL to install the Beta Version</br>
+<a href='https://testflight.apple.com/join/YCC4MtdW'>Classic Monitor</a>
 </p>
 
 ## License
