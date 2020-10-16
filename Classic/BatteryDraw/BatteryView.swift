@@ -94,7 +94,6 @@ extension Int {
     }
     
     // MARK: - Overrides
-    
     open override var backgroundColor: UIColor? { didSet { layoutFillColor() } }
     
     public override init(frame: CGRect) {
@@ -114,7 +113,6 @@ extension Int {
     }
     
     // MARK: - Subviews & Sublayers
-    
     public let noLevelLabel = UILabel()
     private let bodyOutline = CALayer()
     private let terminalOutline = CALayer()
@@ -155,9 +153,7 @@ extension Int {
         // layout terminal
         let parallelInsetRatio = (1 - terminalWidthRatio) / 2
         let perpendicularInset = bodyOutline.borderWidth
-        var (dx, dy) = isVertical
-            ? (parallelInsetRatio * bounds.width, -perpendicularInset)
-            : (-perpendicularInset, parallelInsetRatio * bounds.height)
+        var (dx, dy) = isVertical ? (parallelInsetRatio * bounds.width, -perpendicularInset) : (-perpendicularInset, parallelInsetRatio * bounds.height)
         terminalFrame = terminalFrame.insetBy(dx: dx, dy: dy)
         (_, terminalFrame) = terminalFrame.divided(atDistance: perpendicularInset, from: direction)
         terminalOutline.frame = terminalFrame

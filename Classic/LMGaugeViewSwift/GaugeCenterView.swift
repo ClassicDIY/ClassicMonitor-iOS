@@ -368,8 +368,9 @@ open class GaugeCenterView: UIView {
     
     public func strokeGauge() {
         // Set progress for ring layer
-        var progress: Double = 0
-        progress = maxValue != 0 ? (value - minValue)/(maxValue - minValue) : 0
+        //let progress = maxValue != 0 ? (abs(value) - minValue)/(maxValue - minValue) : 0
+        let progress = maxValue != 0 ? (abs(value))/(maxValue) : 0
+
         print("Stroke Progress: \(progress)")
         progressLayer.strokeEnd = CGFloat(progress)
         
