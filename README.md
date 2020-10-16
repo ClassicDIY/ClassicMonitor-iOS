@@ -15,7 +15,7 @@ If the app detects a Whizbang Junior current monitor, the State Of Charge will d
 ## License
 ```
 
- Copyright (c) 2020. ClassicDIY
+ Copyright (c) 2020.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
