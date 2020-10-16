@@ -1,9 +1,37 @@
-# Classic-Monitor
-Classic Monitor
 
-An iOS App for the Midnite Solar Charge Controller
+<h1>Classic Monitor</h1>
+<h2>An iOS App for the Midnite Solar Charge Controller</h2>
 
-Inspired by the work of Graham22 with his version of Android to monitor de Midnite Classic over the network.
+<p>
+Classic Monitor is a free status monitor for Midnite solar 's, Classic 150, 200, 250 Charge Controller (www.midniteSolar.com). It is a Read Only Program, it does not write to the Classic.
+The software is provided "AS IS", WITHOUT WARRANTY OF ANY KIND, express or implied.
+Classic Monitor is NOT a product of Midnite solar, nor do they support this application!
+</p>
+<p>
+If the app detects a Whizbang Junior current monitor, the State Of Charge will display along with a bi-directional current gauge.
 
-If you wanto check his project, go to 
-https://github.com/ClassicDIY/Classic
+</p>
+
+## License
+```
+
+ Copyright (c) 2020. ClassicDIY
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+```
+Release notes:
+version 1.0
+<ul>
+<li>Initial Beta Release</li>
+</ul>
