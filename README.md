@@ -3,7 +3,7 @@
 <h2>An iOS App for the Midnite Solar Charge Controller</h2>
 
 <p>
-Classic Monitor is a free status monitor for Midnite solar 's, Classic 150, 200, 250 Charge Controller (www.midniteSolar.com). It is a Read Only Program, it does not write to the Classic.
+Classic Monitor is a free status monitor for Midnite solar 's, Classic 150, 200, 250 Charge Controller (www.midnitesolar.com). It is a Read Only Program, it does not write to the Classic.
 The software is provided "AS IS", WITHOUT WARRANTY OF ANY KIND, express or implied.
 Classic Monitor is NOT a product of Midnite solar, nor do they support this application!
 </p>
