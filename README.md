@@ -2,6 +2,8 @@
 <h1>Classic Monitor</h1>
 <h2>An iOS App for the Midnite Solar Charge Controller</h2>
 
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FClassicDIY%2FClassicMonitor-iOS&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
+
 <p>
 Classic Monitor is a free status monitor for Midnite solar 's, Classic 150, 200, 250 Charge Controller (www.midnitesolar.com). It is a Read Only Program, it does not write to the Classic.
 The software is provided "AS IS", WITHOUT WARRANTY OF ANY KIND, express or implied.
